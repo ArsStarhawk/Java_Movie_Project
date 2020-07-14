@@ -28,6 +28,7 @@ hs_err_pid*
 
 # Intellij Idea Folders
 .idea/
+.iml
 
 # Eclipse Environment setups
 *.prefs
