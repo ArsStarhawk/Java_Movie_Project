@@ -29,4 +29,10 @@ hs_err_pid*
 # Intellij Idea Folders
 .idea/
 
+# Eclipse Environment setups
+*.prefs
+.settings/
+.project/
+.classpath
+
 # End of https://www.toptal.com/developers/gitignore/api/java
