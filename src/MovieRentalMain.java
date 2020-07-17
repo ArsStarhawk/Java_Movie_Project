@@ -15,7 +15,7 @@ import javax.swing.*;
  * Date: Jul 14, 2020
  */
 
-public class MovieRentalMain extends JFrame
+public class MovieRentalMain
 {
 	public static void main(String[] args)
 	{
