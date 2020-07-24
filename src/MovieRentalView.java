@@ -1,3 +1,9 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 /**
  * Program Name: MovieRentalView.java
@@ -7,8 +13,10 @@ import javax.swing.*;
  */
 
 public class MovieRentalView extends JFrame {
-  MovieRentalView(){
 
+	JPanel addCustomer;
+	
+	MovieRentalView(){
     super("Movie Rental and Database");
     SetupJFrame();
     CreateTabbedForms();
@@ -35,12 +43,12 @@ public class MovieRentalView extends JFrame {
     tabbedPane.setBounds(0,0,575,575);
 
     //JPanels for the JTabbedPane
-    JPanel addCustomer = new JPanel();
+    addCustomer = new JPanel();
     JPanel addActor = new JPanel();
     JPanel addFilm = new JPanel();
     JPanel newRental = new JPanel();
     JPanel report = new JPanel();
-
+    
     //Adding the JPanels to the tabbedPane with appropriate titles
     tabbedPane.add("Add a new customer",addCustomer);
     tabbedPane.add("Add a new actor",addActor);
@@ -52,7 +60,82 @@ public class MovieRentalView extends JFrame {
   }
 
   private void CreateAddCustomerPane() {
-    // Scully's codes - this is a test
+  	
+  	addCustomer.setLayout(new GridLayout(12,2));
+  	
+  	// Firstname
+  	JLabel firstNameLabel = new JLabel("First Name: "); 
+  	JTextField firstNameField = new JTextField("");
+  	addCustomer.add(firstNameLabel);
+  	addCustomer.add(firstNameField);
+    
+    // Lastname
+  	JLabel lastNameLabel = new JLabel("Last Name: "); 
+  	JTextField lastNameField = new JTextField("");
+  	addCustomer.add(lastNameLabel);
+  	addCustomer.add(lastNameField);
+    
+    // Email
+  	JLabel emailLabel = new JLabel("Email: "); 
+  	JTextField emailField = new JTextField("");
+  	addCustomer.add(emailLabel);
+  	addCustomer.add(emailField);
+
+    // Address
+  	JLabel addressLabel_1 = new JLabel("Adress 1: "); 
+  	JTextField addressField_1 = new JTextField("");
+  	addCustomer.add(addressLabel_1);
+  	addCustomer.add(addressField_1);
+    
+  	// Address 2
+  	JLabel addressLabel_2 = new JLabel("Adress 2: "); 
+  	JTextField addressField_2 = new JTextField("");
+  	addCustomer.add(addressLabel_2);
+  	addCustomer.add(addressField_2);
+    
+  	// Postal
+  	JLabel postalLabel = new JLabel("Postal: "); 
+  	JTextField postalField = new JTextField("");
+  	addCustomer.add(postalLabel);
+  	addCustomer.add(postalField);
+    
+  	// Phone
+  	JLabel phoneLabel = new JLabel("Phone: "); 
+  	JTextField phoneField = new JTextField("");
+  	addCustomer.add(phoneLabel);
+  	addCustomer.add(phoneField);
+    
+  	// Empty cells
+  	JLabel  emptyCell_1 = new JLabel ("");
+  	JLabel  emptyCell_2 = new JLabel ("");
+  	JLabel  emptyCell_3 = new JLabel ("");
+  	addCustomer.add(emptyCell_1);
+  	addCustomer.add(emptyCell_2);
+  	addCustomer.add(emptyCell_3);
+  	
+  	// Add Customer Button
+    JButton addCustomerButton = new JButton("Add Customer");
+    addCustomer.add(addCustomerButton);
+    addCustomerButton.setVisible(true);
+
+    
+  	//String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" }; 
+  	//JComboBox petList = new JComboBox(petStrings);
+    
+  //petList.addActionListener((ActionListener) this);
+  	// Get customers name
+  	// Get last name
+  	// get email
+  	// get street adress 1
+  	// get street adress 2
+  	// get district
+  	// get city
+  	// get postal code
+  	// get phone
+  	// get location
+  	// set active
+  	// get date
+  	
   }
 
   private void CreateGenerateReportPane() {
