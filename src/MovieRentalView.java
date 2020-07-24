@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 /**
  * Program Name: MovieRentalView.java
  * Purpose:
@@ -9,19 +8,29 @@ import javax.swing.*;
 
 public class MovieRentalView extends JFrame {
   MovieRentalView(){
-    //pass title text in super class constructor call
-    super("Movie Rental and Database");
 
+    super("Movie Rental and Database");
+    SetupJFrame();
+    CreateTabbedForms();
+    CreateAddCustomerPane();
+    CreateAddNewFilmPane();
+    CreateAddNewRentalTransactionPane();
+    CreateGenerateReportPane();
+    this.setVisible(true);
+  }
+
+  public void SetupJFrame(){
     //boiler plate code
     //ensures window is closed when user exits
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(580,580);
     this.setLocationRelativeTo(null); //centers the frame in the screen
     this.setLayout(null);//This is to center the JTabbedPane
+  }
 
+  public void CreateTabbedForms(){
     //This JTabbedPane will have different forms and reports for the user to switch through
     JTabbedPane tabbedPane = new JTabbedPane();
-
     //setting the size of the tabbedPane 5px smaller than the size of the JFrame
     tabbedPane.setBounds(0,0,575,575);
 
@@ -38,11 +47,23 @@ public class MovieRentalView extends JFrame {
     tabbedPane.add("Add a new film",addFilm);
     tabbedPane.add("Rent a movie",newRental);
     tabbedPane.add("Generate report",report);
-
     //adding the tabbedPane to the JFrame
     this.add(tabbedPane);
+  }
 
-    //making the JFrame Visible
-    this.setVisible(true);
+  private void CreateAddCustomerPane() {
+    // Scully's codes - this is a test
+  }
+
+  private void CreateGenerateReportPane() {
+    // Sion's Codes
+  }
+
+  private void CreateAddNewRentalTransactionPane() {
+    //Evan's codes
+  }
+
+  private void CreateAddNewFilmPane() {
+    // Evan's codes
   }
 }
