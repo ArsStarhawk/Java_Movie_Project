@@ -15,13 +15,14 @@ import javax.swing.*;
 
 public class MovieRentalView extends JFrame {
 
-	JPanel addCustomer;
-
-	MovieRentalView(){
+	private JPanel addCustomer;
+	private JComboBox countryCombo;
+	
+	MovieRentalView(List<String> countries){
     super("Movie Rental and Database");
     SetupJFrame();
     CreateTabbedForms();
-    CreateAddCustomerPane();
+    CreateAddCustomerPane(countries);
     CreateAddNewFilmPane();
     CreateAddNewRentalTransactionPane();
     CreateGenerateReportPane();
@@ -60,7 +61,7 @@ public class MovieRentalView extends JFrame {
     this.add(tabbedPane);
   }
 
-  private void CreateAddCustomerPane() {
+  private void CreateAddCustomerPane(List<String> countries) {
   	
   	// Build UI
   	addCustomer.setLayout(new GridLayout(16,2));
@@ -108,19 +109,18 @@ public class MovieRentalView extends JFrame {
   	addCustomer.add(phoneField);
     
   	// Country
-    MovieRentalModel data = new MovieRentalModel();
-    List<String> countries = data.getAllCountries();
-    System.out.println(countries);
+    //MovieRentalModel data = new MovieRentalModel();
   	JLabel countryLabel = new JLabel("Country: ");
-  	JComboBox countryCombo = new JComboBox(countries.toArray(new String[0]));
+  	countryCombo = new JComboBox(countries.toArray(new String[0]));
   	addCustomer.add(countryLabel);
   	addCustomer.add(countryCombo);
   	
   	// City
   	// populate the cities based on what is currently selected
-  	String selectedCountry = countryCombo.getSelectedItem().toString();
-  	List<String> cities = data.getCitiesByCountry(selectedCountry);
-  	JComboBox cityCombo = new JComboBox(cities.toArray(new String[0]));
+  	//String selectedCountry = countryCombo.getSelectedItem().toString();
+  	//List<String> cities = data.getCitiesByCountry(selectedCountry);
+  	String[] emptyCities = {"-"};
+  	JComboBox cityCombo = new JComboBox(emptyCities);
   	JLabel cityLabel = new JLabel("City: ");
   	addCustomer.add(cityLabel);
   	addCustomer.add(cityCombo);
@@ -136,10 +136,13 @@ public class MovieRentalView extends JFrame {
   	// Add Customer Button
     JButton addCustomerButton = new JButton("Add Customer");
     addCustomer.add(addCustomerButton);	
-    
-
   }
-
+  
+  public void addCountryComboListener(ActionListener listener) {
+  	countryCombo.addActionListener(listener);
+  }
+  
+  
   private void CreateGenerateReportPane() {
     // Sion's Codes
   }

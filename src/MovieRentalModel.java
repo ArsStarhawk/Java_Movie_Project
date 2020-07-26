@@ -64,20 +64,17 @@ public class MovieRentalModel
 		{
 			myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sakila?useSSL=false", "root", "password");
 			myStmt = myConn.createStatement();
-			
-			String query = 	"select ci.city " + 
-											"from country c " + 
-											"inner join city ci " + 
-											"on c.country_id = ci.country_id " + 
-											"where c.country = \"" + country + "\"";
-			
+
+			String query = "select ci.city " + "from country c " + "inner join city ci " + "on c.country_id = ci.country_id "
+					+ "where c.country = \"" + country + "\"";
+
 			myRslt = myStmt.executeQuery(query);
 
 			while (myRslt.next())
 			{
 				cities.add(myRslt.getString("city"));
 			}
-			
+
 		} catch (Exception ex)
 		{
 			System.out.println("Exception caught, message is " + ex.getMessage());
