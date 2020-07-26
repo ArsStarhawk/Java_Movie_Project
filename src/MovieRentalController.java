@@ -13,10 +13,10 @@ public class MovieRentalController {
   private MovieRentalView theView;
   private MovieRentalModel theModel;
 
-  MovieRentalController(MovieRentalView view, MovieRentalModel model){
-    theView = view;
-    theModel = model;
-    view.addAddActorButtonListener(new addActorListener());
+  MovieRentalController(){
+    theView = new MovieRentalView();
+    theModel = new MovieRentalModel();
+    theView.addAddActorButtonListener(new addActorListener());
   }
 
   private class addActorListener implements ActionListener{
