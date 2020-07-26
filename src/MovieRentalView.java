@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 import javax.swing.*;
 /**
@@ -15,7 +16,7 @@ import javax.swing.*;
 public class MovieRentalView extends JFrame {
 
 	JPanel addCustomer;
-	
+
 	MovieRentalView(){
     super("Movie Rental and Database");
     SetupJFrame();
@@ -61,7 +62,8 @@ public class MovieRentalView extends JFrame {
 
   private void CreateAddCustomerPane() {
   	
-  	addCustomer.setLayout(new GridLayout(12,2));
+  	// Build UI
+  	addCustomer.setLayout(new GridLayout(16,2));
   	
   	// Firstname
   	JLabel firstNameLabel = new JLabel("First Name: "); 
@@ -98,13 +100,31 @@ public class MovieRentalView extends JFrame {
   	JTextField postalField = new JTextField("");
   	addCustomer.add(postalLabel);
   	addCustomer.add(postalField);
-    
+  	
   	// Phone
   	JLabel phoneLabel = new JLabel("Phone: "); 
   	JTextField phoneField = new JTextField("");
   	addCustomer.add(phoneLabel);
   	addCustomer.add(phoneField);
     
+  	// Country
+    MovieRentalModel data = new MovieRentalModel();
+    List<String> countries = data.getAllCountries();
+    System.out.println(countries);
+  	JLabel countryLabel = new JLabel("Country: ");
+  	JComboBox countryCombo = new JComboBox(countries.toArray(new String[0]));
+  	addCustomer.add(countryLabel);
+  	addCustomer.add(countryCombo);
+  	
+  	// City
+  	// populate the cities based on what is currently selected
+  	String selectedCountry = countryCombo.getSelectedItem().toString();
+  	List<String> cities = data.getCitiesByCountry(selectedCountry);
+  	JComboBox cityCombo = new JComboBox(cities.toArray(new String[0]));
+  	JLabel cityLabel = new JLabel("City: ");
+  	addCustomer.add(cityLabel);
+  	addCustomer.add(cityCombo);
+  	
   	// Empty cells
   	JLabel  emptyCell_1 = new JLabel ("");
   	JLabel  emptyCell_2 = new JLabel ("");
@@ -115,27 +135,9 @@ public class MovieRentalView extends JFrame {
   	
   	// Add Customer Button
     JButton addCustomerButton = new JButton("Add Customer");
-    addCustomer.add(addCustomerButton);
-    addCustomerButton.setVisible(true);
+    addCustomer.add(addCustomerButton);	
+    
 
-    
-  	//String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" }; 
-  	//JComboBox petList = new JComboBox(petStrings);
-    
-  //petList.addActionListener((ActionListener) this);
-  	// Get customers name
-  	// Get last name
-  	// get email
-  	// get street adress 1
-  	// get street adress 2
-  	// get district
-  	// get city
-  	// get postal code
-  	// get phone
-  	// get location
-  	// set active
-  	// get date
-  	
   }
 
   private void CreateGenerateReportPane() {
