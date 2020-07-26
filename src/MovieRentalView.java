@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Program Name: MovieRentalView.java
@@ -141,5 +142,9 @@ public class MovieRentalView extends JFrame {
   public void setGBCPosition(int x, int y){
     gbc.gridx = x;
     gbc.gridy = y;
+  }
+
+  public void addAddActorButtonListener(ActionListener listener){
+    btnAddActor.addActionListener(listener);
   }
 }

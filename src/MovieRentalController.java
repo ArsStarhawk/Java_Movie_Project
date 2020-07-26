@@ -8,18 +8,22 @@ import java.awt.event.ActionListener;
  * Date: Jul 14, 2020
  */
 
-public class MovieRentalController implements ActionListener {
+public class MovieRentalController {
 
-  MovieRentalView theView;
-  MovieRentalModel theModel;
+  private MovieRentalView theView;
+  private MovieRentalModel theModel;
 
-  MovieRentalController(){
-    theView = new MovieRentalView();
-    theModel = new MovieRentalModel();
+  MovieRentalController(MovieRentalView view, MovieRentalModel model){
+    theView = view;
+    theModel = model;
+    view.addAddActorButtonListener(new addActorListener());
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
+  private class addActorListener implements ActionListener{
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      System.out.println("Test");
+    }
   }
 }
