@@ -21,7 +21,8 @@ public class MovieRentalMain
 	public static void main(String[] args)
 	{
 		//running an instance of the main program JFrame
-		new MovieRentalView();
+		MovieRentalController controller = new MovieRentalController();
+
 	}
 
 }

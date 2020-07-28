@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+
 
 /**
  * Program Name: MovieRentalView.java
  * Purpose:
- * Coder: 
+ * Coder:
  * Date: Jul 14, 2020
  */
 
@@ -80,7 +82,7 @@ public class MovieRentalView extends JFrame {
     gbc = new GridBagConstraints();
     gbc.insets = new Insets(3,3,3,3);
     gbc.anchor = GridBagConstraints.CENTER;
-    
+
     setGBCPosition(1,0);
     addActor.add(lblAddNewActorTitle, gbc);
 
@@ -141,5 +143,9 @@ public class MovieRentalView extends JFrame {
   public void setGBCPosition(int x, int y){
     gbc.gridx = x;
     gbc.gridy = y;
+  }
+
+  public void addAddActorButtonListener(ActionListener listener){
+    btnAddActor.addActionListener(listener);
   }
 }
