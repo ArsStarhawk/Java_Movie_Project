@@ -2,6 +2,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JComboBox;
+
 /**
  * Program Name: MovieRentalController.java
  * Purpose:
@@ -18,20 +20,22 @@ public class MovieRentalController
 	// Constructor
 	public MovieRentalController(){
 		this.model = new MovieRentalModel();
-		this.view = new MovieRentalView(model.getAllCountries());
+		this.view = new MovieRentalView();
 		
-		// Add listeners
+		// Add customer updates
+		view.updateCountryList(model.getAllCountries());
 		view.addCountryComboListener(new CountryChangeListener());
+
 	}
 
-	 //Listner for the country combobox
   class CountryChangeListener implements ActionListener
   {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-			  //Call the method in model to load the ciphered file when the relevant button is clicked
-				System.out.println("THIS WAS CHANGED");
+			public void actionPerformed(ActionEvent event)
+			{		
+				JComboBox countryBox = (JComboBox) event.getSource();
+				List<String> selectedCities = model.getCitiesByCountry(countryBox.getSelectedItem().toString());
+				view.setCityComboBox(selectedCities);
 			}
   }
 }

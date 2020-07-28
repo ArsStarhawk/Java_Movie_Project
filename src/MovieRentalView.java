@@ -6,152 +6,242 @@ import java.awt.event.ActionListener;
 import java.util.*;
 
 import javax.swing.*;
+
 /**
- * Program Name: MovieRentalView.java
- * Purpose:
- * Coder: 
- * Date: Jul 14, 2020
+ * Program Name: MovieRentalView.java Purpose: Coder: Date: Jul 14, 2020
  */
 
-public class MovieRentalView extends JFrame {
+public class MovieRentalView extends JFrame
+{
+	JTabbedPane tabbedPane;
+	JPanel addCustomer;
 
-	private JPanel addCustomer;
-	private JComboBox countryCombo;
+	// Customer Properties
 	
-	MovieRentalView(List<String> countries){
-    super("Movie Rental and Database");
-    SetupJFrame();
-    CreateTabbedForms();
-    CreateAddCustomerPane(countries);
-    CreateAddNewFilmPane();
-    CreateAddNewRentalTransactionPane();
-    CreateGenerateReportPane();
-    this.setVisible(true);
-  }
+	// Customer Firstname
+	JLabel cust_lblFirstName;
+	JTextField cust_tflFirstName;
 
-  public void SetupJFrame(){
-    //boiler plate code
-    //ensures window is closed when user exits
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setSize(580,580);
-    this.setLocationRelativeTo(null); //centers the frame in the screen
-    this.setLayout(null);//This is to center the JTabbedPane
-  }
+	// Customer Lastname
+	JLabel cust_lblLastName;
+	JTextField cust_tflLastName;
 
-  public void CreateTabbedForms(){
-    //This JTabbedPane will have different forms and reports for the user to switch through
-    JTabbedPane tabbedPane = new JTabbedPane();
-    //setting the size of the tabbedPane 5px smaller than the size of the JFrame
-    tabbedPane.setBounds(0,0,575,575);
+	// Customer Email
+	JLabel cust_lblEmail;
+	JTextField cust_tflEmailField;
 
-    //JPanels for the JTabbedPane
-    addCustomer = new JPanel();
-    JPanel addActor = new JPanel();
-    JPanel addFilm = new JPanel();
-    JPanel newRental = new JPanel();
-    JPanel report = new JPanel();
-    
-    //Adding the JPanels to the tabbedPane with appropriate titles
-    tabbedPane.add("Add a new customer",addCustomer);
-    tabbedPane.add("Add a new actor",addActor);
-    tabbedPane.add("Add a new film",addFilm);
-    tabbedPane.add("Rent a movie",newRental);
-    tabbedPane.add("Generate report",report);
-    //adding the tabbedPane to the JFrame
-    this.add(tabbedPane);
-  }
+	// Customer Address
+	JLabel cust_lblAddress_1;
+	JTextField cust_tflAddress_1;
 
-  private void CreateAddCustomerPane(List<String> countries) {
-  	
-  	// Build UI
-  	addCustomer.setLayout(new GridLayout(16,2));
-  	
-  	// Firstname
-  	JLabel firstNameLabel = new JLabel("First Name: "); 
-  	JTextField firstNameField = new JTextField("");
-  	addCustomer.add(firstNameLabel);
-  	addCustomer.add(firstNameField);
-    
-    // Lastname
-  	JLabel lastNameLabel = new JLabel("Last Name: "); 
-  	JTextField lastNameField = new JTextField("");
-  	addCustomer.add(lastNameLabel);
-  	addCustomer.add(lastNameField);
-    
-    // Email
-  	JLabel emailLabel = new JLabel("Email: "); 
-  	JTextField emailField = new JTextField("");
-  	addCustomer.add(emailLabel);
-  	addCustomer.add(emailField);
+	// Customer Address 2
+	JLabel cust_lblAddressLabel_2;
+	JTextField cust_lblAddressField_2;
 
-    // Address
-  	JLabel addressLabel_1 = new JLabel("Adress 1: "); 
-  	JTextField addressField_1 = new JTextField("");
-  	addCustomer.add(addressLabel_1);
-  	addCustomer.add(addressField_1);
-    
-  	// Address 2
-  	JLabel addressLabel_2 = new JLabel("Adress 2: "); 
-  	JTextField addressField_2 = new JTextField("");
-  	addCustomer.add(addressLabel_2);
-  	addCustomer.add(addressField_2);
-    
-  	// Postal
-  	JLabel postalLabel = new JLabel("Postal: "); 
-  	JTextField postalField = new JTextField("");
-  	addCustomer.add(postalLabel);
-  	addCustomer.add(postalField);
-  	
-  	// Phone
-  	JLabel phoneLabel = new JLabel("Phone: "); 
-  	JTextField phoneField = new JTextField("");
-  	addCustomer.add(phoneLabel);
-  	addCustomer.add(phoneField);
-    
-  	// Country
-    //MovieRentalModel data = new MovieRentalModel();
-  	JLabel countryLabel = new JLabel("Country: ");
-  	countryCombo = new JComboBox(countries.toArray(new String[0]));
-  	addCustomer.add(countryLabel);
-  	addCustomer.add(countryCombo);
-  	
-  	// City
-  	// populate the cities based on what is currently selected
-  	//String selectedCountry = countryCombo.getSelectedItem().toString();
-  	//List<String> cities = data.getCitiesByCountry(selectedCountry);
-  	String[] emptyCities = {"-"};
-  	JComboBox cityCombo = new JComboBox(emptyCities);
-  	JLabel cityLabel = new JLabel("City: ");
-  	addCustomer.add(cityLabel);
-  	addCustomer.add(cityCombo);
-  	
-  	// Empty cells
-  	JLabel  emptyCell_1 = new JLabel ("");
-  	JLabel  emptyCell_2 = new JLabel ("");
-  	JLabel  emptyCell_3 = new JLabel ("");
-  	addCustomer.add(emptyCell_1);
-  	addCustomer.add(emptyCell_2);
-  	addCustomer.add(emptyCell_3);
-  	
-  	// Add Customer Button
-    JButton addCustomerButton = new JButton("Add Customer");
-    addCustomer.add(addCustomerButton);	
-  }
-  
+	// Customer Postal
+	JLabel cust_lblPostal;
+	JTextField cust_tflPostalField;
+
+	// Customer Phone
+	JLabel cust_lblPhoneLabel;
+	JTextField cust_tflPhoneField;
+
+	// Customer Country
+	JLabel cust_lblCountryLabel;
+	protected JComboBox<String> cust_cmbCountry;
+
+	// Customer City
+	JLabel cust_lblCity;
+	JComboBox<String> cust_cmbCity;
+
+	// Empty Cells
+	JLabel cust_lblEmptyCell_1;
+	JLabel cust_lblEmptyCell_2;
+	JLabel cust_lblEmptyCell_3;
+
+	// Customer Button
+	JButton cust_btnAddCustomer;
+
+	MovieRentalView()
+	{
+		super("Movie Rental and Database");
+		SetupJFrame();
+		CreateTabbedForms();
+		CreateAddCustomerPane();
+		CreateAddNewFilmPane();
+		CreateAddNewRentalTransactionPane();
+		CreateGenerateReportPane();
+		this.setVisible(true);
+	}
+
+	public void SetupJFrame()
+	{
+		// boiler plate code
+		// ensures window is closed when user exits
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(580, 580);
+		this.setLocationRelativeTo(null); // centers the frame in the screen
+		this.setLayout(null);// This is to center the JTabbedPane
+	}
+
+	public void CreateTabbedForms()
+	{
+		// This JTabbedPane will have different forms and reports for the user to switch
+		// through
+		JTabbedPane tabbedPane = new JTabbedPane();
+		// setting the size of the tabbedPane 5px smaller than the size of the JFrame
+		tabbedPane.setBounds(0, 0, 575, 575);
+
+		// JPanels for the JTabbedPane
+		addCustomer = new JPanel();
+		JPanel addActor = new JPanel();
+		JPanel addFilm = new JPanel();
+		JPanel newRental = new JPanel();
+		JPanel report = new JPanel();
+
+		// Adding the JPanels to the tabbedPane with appropriate titles
+		tabbedPane.add("Add a new customer", addCustomer);
+		tabbedPane.add("Add a new actor", addActor);
+		tabbedPane.add("Add a new film", addFilm);
+		tabbedPane.add("Rent a movie", newRental);
+		tabbedPane.add("Generate report", report);
+		// adding the tabbedPane to the JFrame
+		this.add(tabbedPane);
+	}
+
+	private void CreateAddCustomerPane()
+	{
+		// Build UI
+		instantiateJComponentsForCustomerPane();
+		addCustomer.setLayout(new GridLayout(16, 2));
+
+		// Firstname
+		addCustomer.add(cust_lblFirstName);
+		addCustomer.add(cust_tflFirstName);
+
+		// Lastname
+		addCustomer.add(cust_lblLastName);
+		addCustomer.add(cust_tflLastName);
+
+		// Email
+		addCustomer.add(cust_lblEmail);
+		addCustomer.add(cust_tflEmailField);
+
+		// Address
+		addCustomer.add(cust_lblAddress_1);
+		addCustomer.add(cust_tflAddress_1);
+
+		// Address 2
+		addCustomer.add(cust_lblAddressLabel_2);
+		addCustomer.add(cust_lblAddressField_2);
+
+		// Postal
+		addCustomer.add(cust_lblPostal);
+		addCustomer.add(cust_tflPostalField);
+
+		// Phone
+		addCustomer.add(cust_lblPhoneLabel);
+		addCustomer.add(cust_tflPhoneField);
+
+		// Country
+		addCustomer.add(cust_lblCountryLabel);
+		addCustomer.add(cust_cmbCountry);
+
+		// City
+		addCustomer.add(cust_lblCity);
+		addCustomer.add(cust_cmbCity);
+
+		// Empty cells
+		addCustomer.add(cust_lblEmptyCell_1);
+		addCustomer.add(cust_lblEmptyCell_2);
+		addCustomer.add(cust_lblEmptyCell_3);
+
+		// Add Customer Button
+		addCustomer.add(cust_btnAddCustomer);
+	}
+	
+	// Add listener to the comboBox and data
   public void addCountryComboListener(ActionListener listener) {
-  	countryCombo.addActionListener(listener);
+  	cust_cmbCountry.addActionListener(listener);
   }
   
+  // Update CountryList
+  public void updateCountryList(List<String> countries) {
+  	cust_cmbCountry.removeAllItems();
+  	for(int i = 0; i < countries.size(); ++i) {
+  		cust_cmbCountry.addItem(countries.get(i).toString());
+  	}
+  }
   
-  private void CreateGenerateReportPane() {
-    // Sion's Codes
+  public void setCityComboBox(List<String> cities ) {
+  	cust_cmbCity.removeAllItems();
+  	for(int i = 0; i < cities.size(); ++i) 
+  		cust_cmbCity.addItem(cities.get(i).toString());
   }
 
-  private void CreateAddNewRentalTransactionPane() {
-    //Evan's codes
-  }
+	private void CreateGenerateReportPane()
+	{
+		// Sion's Codes
+	}
 
-  private void CreateAddNewFilmPane() {
-    // Evan's codes
-  }
+	private void CreateAddNewRentalTransactionPane()
+	{
+		// Evan's codes
+	}
+
+	private void CreateAddNewFilmPane()
+	{
+		// Evan's codes
+	}
+
+	public void instantiateJComponentsForCustomerPane()
+	{
+
+		// Firstname
+		cust_lblFirstName = new JLabel("First Name: ");
+		cust_tflFirstName = new JTextField("");
+
+		// Lastname
+		cust_lblLastName = new JLabel("Last Name: ");
+		cust_tflLastName = new JTextField("");
+
+		// Email
+		cust_lblEmail = new JLabel("Email: ");
+		cust_tflEmailField = new JTextField("");
+
+		// Address
+		cust_lblAddress_1 = new JLabel("Adress 1: ");
+		cust_tflAddress_1 = new JTextField("");
+
+		// Address 2
+		cust_lblAddressLabel_2 = new JLabel("Adress 2: ");
+		cust_lblAddressField_2 = new JTextField("");
+
+		// Postal
+		cust_lblPostal = new JLabel("Postal: ");
+		cust_tflPostalField = new JTextField("");
+
+		// Phone
+		cust_lblPhoneLabel = new JLabel("Phone: ");
+		cust_tflPhoneField = new JTextField("");
+
+		// Country
+		String[] country = {"-"};
+		cust_lblCountryLabel = new JLabel("Country: ");
+		cust_cmbCountry = new JComboBox<String>(country);
+		//cust_cmbCountry.setSelectedIndex(0);
+
+		// City
+		cust_lblCity = new JLabel("City: ");
+		String[] city = {"-"};
+		cust_cmbCity = new JComboBox<String>(city);
+		
+		// Empty
+		cust_lblEmptyCell_1 = new JLabel("");
+		cust_lblEmptyCell_2 = new JLabel("");
+		cust_lblEmptyCell_3 = new JLabel("");
+
+		cust_btnAddCustomer = new JButton("Add Customer");
+	}
+
 }
