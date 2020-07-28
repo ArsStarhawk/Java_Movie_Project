@@ -22,7 +22,5 @@ public class MovieRentalMain
 	{
 		//running an instance of the main program JFrame
 		MovieRentalController controller = new MovieRentalController();
-
 	}
-
 }

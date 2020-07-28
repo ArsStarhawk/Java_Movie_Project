@@ -18,12 +18,10 @@ public class MovieRentalView extends JFrame {
   JPanel newRental;
   JPanel report;
 
-  JTextField tflFirstname;
-  JTextField tflLastname;
-  JTextField tflLastUpdate;
+  protected JTextField tflFirstname;
+  protected JTextField tflLastname;
   JLabel lblFirstname;
   JLabel lblLastname;
-  JLabel lblLastUpdate;
   JLabel lblAddNewActorTitle;
 
   JButton btnAddActor;
@@ -95,9 +93,6 @@ public class MovieRentalView extends JFrame {
     setGBCPosition(0,3);
     addActor.add(lblLastname, gbc);
 
-    setGBCPosition(0,4);
-    addActor.add(lblLastUpdate, gbc);
-
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.weightx = 0.8;
     setGBCPosition(1,2);
@@ -105,9 +100,6 @@ public class MovieRentalView extends JFrame {
 
     setGBCPosition(1,3);
     addActor.add(tflLastname, gbc);
-
-    setGBCPosition(1,4);
-    addActor.add(tflLastUpdate, gbc);
 
     gbc.weighty = 1;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -131,10 +123,8 @@ public class MovieRentalView extends JFrame {
     lblAddNewActorTitle = new JLabel("Add a New Actor to Database");
     lblFirstname = new JLabel("First Name:");
     lblLastname = new JLabel("Last Name:");
-    lblLastUpdate = new JLabel("First Name:");
     tflFirstname = new JTextField(20);
     tflLastname = new JTextField(20);
-    tflLastUpdate = new JTextField(20);
     btnAddActor = new JButton("Add Actor");
     addActor.setLayout(new GridBagLayout());
     lblAddNewActorTitle.setPreferredSize(new Dimension(250, 50));
@@ -148,4 +138,5 @@ public class MovieRentalView extends JFrame {
   public void addAddActorButtonListener(ActionListener listener){
     btnAddActor.addActionListener(listener);
   }
+
 }
