@@ -11,7 +11,8 @@ import javax.swing.*;
  * 							2. generate reports
  * 							3. perform a movie rental transaction on the database
  * 
- * Coder: James Kidd, Evan Somers
+ * Coder: James Kidd, Evan Somers, James Scully
+ * 
  * Date: Jul 14, 2020
  */
 
