@@ -18,11 +18,10 @@ public class MovieRentalView extends JFrame
   JPanel pnlNewRental;
   JPanel pnlGenerateReport;
 
-  JComboBox cbCategory;
-  JComboBox cbStore;
-  JComboBox cbFrom;
-  JComboBox cbTo;
-
+  protected JComboBox cbCategory;
+  protected JComboBox cbStore;
+  protected JComboBox cbFrom;
+  protected JComboBox cbTo;
 
   protected  JTextField tflFirstname;
   protected  JTextField tflLastname;
@@ -31,6 +30,7 @@ public class MovieRentalView extends JFrame
   JLabel lblLastname;
   JLabel lblAddNewActorTitle;
   JLabel lblGenerateReportTitle;
+  protected JLabel lblAddActorStatus;
 
   JButton btnAddActor;
   JButton btnClearGenerateReportView;
@@ -109,6 +109,7 @@ public class MovieRentalView extends JFrame
     tflFirstname = new JTextField(20);
     tflLastname = new JTextField(20);
     btnAddActor = new JButton("Add Actor");
+    lblAddActorStatus = new JLabel();
     gbc = new GridBagConstraints();
   }
 
@@ -131,6 +132,9 @@ public class MovieRentalView extends JFrame
 
     setGBCPosition(0,3);
     pnlAddActor.add(lblLastname, gbc);
+
+    setGBCPosition(0,6);
+    pnlAddActor.add(lblAddActorStatus, gbc);
   }
 
   public void setupAllJTextFieldForAddActor()

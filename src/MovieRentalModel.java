@@ -37,7 +37,25 @@ public class MovieRentalModel
       stmt.executeUpdate(statement);
     } catch (SQLException ex){
       System.out.println("Error: " + ex.getMessage());
-      ex.printStackTrace();
     }
+  }
+
+  public void getAllCategories() {
+    try{
+      stmt.executeQuery("SELECT Name FROM Category;");
+    }catch (SQLException ex ){
+      System.out.println("Error: " + ex.getMessage());
+    }
+  }
+
+  public void getAllStores() {
+    try{
+      stmt.executeQuery("SELECT Name FROM Category;");
+    }catch (SQLException ex ){
+      System.out.println("Error: " + ex.getMessage());
+    }
+  }
+
+  public void getUpdteDate() {
   }
 }
