@@ -1,7 +1,3 @@
-import java.awt.FlowLayout;
-import java.io.Console;
-import javax.swing.*;  
-
 /**
  * Program Name: MovieRentalMain.java
  * Purpose: Provide a GUI interface for users to access a movie rental database. 
@@ -20,7 +16,6 @@ public class MovieRentalMain
 {
 	public static void main(String[] args)
 	{
-		//running an instance of the main program JFrame
 		MovieRentalController controller = new MovieRentalController();
 	}
 }
