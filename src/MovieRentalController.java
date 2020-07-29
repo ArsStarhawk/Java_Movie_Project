@@ -26,6 +26,7 @@ public class MovieRentalController
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
+        System.out.println("abc");
         String fName = theView.tflFirstname.getText();
         String lName = theView.tflLastname.getText();
         String stmt = "INSERT INTO Actor (first_name, last_name) " +
