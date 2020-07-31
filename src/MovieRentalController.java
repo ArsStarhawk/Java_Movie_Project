@@ -25,7 +25,8 @@ public class MovieRentalController
 		// Add customer updates
 		view.updateCountryList(model.getAllCountries());
 		view.addCountryComboListener(new CountryChangeListener());
-
+		view.addCustomerButtonLIstener(new AddCustomerListener());
+		
 	}
 
   class CountryChangeListener implements ActionListener
@@ -34,8 +35,32 @@ public class MovieRentalController
 			public void actionPerformed(ActionEvent event)
 			{		
 				JComboBox countryBox = (JComboBox) event.getSource();
-				List<String> selectedCities = model.getCitiesByCountry(countryBox.getSelectedItem().toString());
+				List<String> selectedCities = model.getCitiesInCountry(countryBox.getSelectedItem().toString());
 				view.setCityComboBox(selectedCities);
+
 			}
   }
+  
+  class AddCustomerListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			System.out.println("ADD CUSTOMER CALLED");
+			Customer cust = new Customer();
+			cust.firstName = view.cust_tflFirstName.getText().toString();
+			cust.lastName = view.cust_tflLastName.getText().toString();
+			cust.email = view.cust_tflEmailField.getText().toString();
+			cust.address1 = view.cust_tflAddress_1.getText().toString();
+			cust.address2 = view.cust_tflAddress_2.getText().toString();
+			cust.postal = view.cust_tflPostal.getText().toString();
+			cust.phone = view.cust_tflPhone.getText().toString();
+			cust.country = view.cust_cmbCountry.getSelectedItem().toString();
+			cust.city = view.cust_cmbCity.getSelectedItem().toString();
+			//model.addCustomerAddress(cust);
+			model.addCustomer(cust);
+		}
+  	
+  }
+  
 }

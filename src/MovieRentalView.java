@@ -35,19 +35,19 @@ public class MovieRentalView extends JFrame
 	JTextField cust_tflAddress_1;
 
 	// Customer Address 2
-	JLabel cust_lblAddressLabel_2;
-	JTextField cust_lblAddressField_2;
+	JLabel cust_lblAddress_2;
+	JTextField cust_tflAddress_2;
 
 	// Customer Postal
 	JLabel cust_lblPostal;
-	JTextField cust_tflPostalField;
+	JTextField cust_tflPostal;
 
 	// Customer Phone
-	JLabel cust_lblPhoneLabel;
-	JTextField cust_tflPhoneField;
+	JLabel cust_lblPhone;
+	JTextField cust_tflPhone;
 
 	// Customer Country
-	JLabel cust_lblCountryLabel;
+	JLabel cust_lblCountry;
 	protected JComboBox<String> cust_cmbCountry;
 
 	// Customer City
@@ -113,51 +113,7 @@ public class MovieRentalView extends JFrame
 	{
 		// Build UI
 		instantiateJComponentsForCustomerPane();
-		addCustomer.setLayout(new GridLayout(16, 2));
-
-		// Firstname
-		addCustomer.add(cust_lblFirstName);
-		addCustomer.add(cust_tflFirstName);
-
-		// Lastname
-		addCustomer.add(cust_lblLastName);
-		addCustomer.add(cust_tflLastName);
-
-		// Email
-		addCustomer.add(cust_lblEmail);
-		addCustomer.add(cust_tflEmailField);
-
-		// Address
-		addCustomer.add(cust_lblAddress_1);
-		addCustomer.add(cust_tflAddress_1);
-
-		// Address 2
-		addCustomer.add(cust_lblAddressLabel_2);
-		addCustomer.add(cust_lblAddressField_2);
-
-		// Postal
-		addCustomer.add(cust_lblPostal);
-		addCustomer.add(cust_tflPostalField);
-
-		// Phone
-		addCustomer.add(cust_lblPhoneLabel);
-		addCustomer.add(cust_tflPhoneField);
-
-		// Country
-		addCustomer.add(cust_lblCountryLabel);
-		addCustomer.add(cust_cmbCountry);
-
-		// City
-		addCustomer.add(cust_lblCity);
-		addCustomer.add(cust_cmbCity);
-
-		// Empty cells
-		addCustomer.add(cust_lblEmptyCell_1);
-		addCustomer.add(cust_lblEmptyCell_2);
-		addCustomer.add(cust_lblEmptyCell_3);
-
-		// Add Customer Button
-		addCustomer.add(cust_btnAddCustomer);
+		addJComponentsToCustomerPanel();
 	}
 	
 	// Add listener to the comboBox and data
@@ -165,9 +121,14 @@ public class MovieRentalView extends JFrame
   	cust_cmbCountry.addActionListener(listener);
   }
   
+  public void addCustomerButtonLIstener(ActionListener listener) {
+  	cust_btnAddCustomer.addActionListener(listener);
+  }
+  
   // Update CountryList
   public void updateCountryList(List<String> countries) {
   	cust_cmbCountry.removeAllItems();
+  	cust_cmbCountry.addItem("-");
   	for(int i = 0; i < countries.size(); ++i) {
   		cust_cmbCountry.addItem(countries.get(i).toString());
   	}
@@ -214,22 +175,21 @@ public class MovieRentalView extends JFrame
 		cust_tflAddress_1 = new JTextField("");
 
 		// Address 2
-		cust_lblAddressLabel_2 = new JLabel("Adress 2: ");
-		cust_lblAddressField_2 = new JTextField("");
+		cust_lblAddress_2 = new JLabel("Adress 2: ");
+		cust_tflAddress_2 = new JTextField("");
 
 		// Postal
 		cust_lblPostal = new JLabel("Postal: ");
-		cust_tflPostalField = new JTextField("");
+		cust_tflPostal = new JTextField("");
 
 		// Phone
-		cust_lblPhoneLabel = new JLabel("Phone: ");
-		cust_tflPhoneField = new JTextField("");
+		cust_lblPhone = new JLabel("Phone: ");
+		cust_tflPhone = new JTextField("");
 
 		// Country
 		String[] country = {"-"};
-		cust_lblCountryLabel = new JLabel("Country: ");
+		cust_lblCountry = new JLabel("Country: ");
 		cust_cmbCountry = new JComboBox<String>(country);
-		//cust_cmbCountry.setSelectedIndex(0);
 
 		// City
 		cust_lblCity = new JLabel("City: ");
@@ -240,8 +200,58 @@ public class MovieRentalView extends JFrame
 		cust_lblEmptyCell_1 = new JLabel("");
 		cust_lblEmptyCell_2 = new JLabel("");
 		cust_lblEmptyCell_3 = new JLabel("");
-
+		
+		// Button
 		cust_btnAddCustomer = new JButton("Add Customer");
+	}
+	
+	public void addJComponentsToCustomerPanel() {
+		// Add JComponents to the addCustomer panel
+		addCustomer.setLayout(new GridLayout(16, 2));
+
+		// Firstname
+		addCustomer.add(cust_lblFirstName);
+		addCustomer.add(cust_tflFirstName);
+
+		// Lastname
+		addCustomer.add(cust_lblLastName);
+		addCustomer.add(cust_tflLastName);
+
+		// Email
+		addCustomer.add(cust_lblEmail);
+		addCustomer.add(cust_tflEmailField);
+
+		// Address
+		addCustomer.add(cust_lblAddress_1);
+		addCustomer.add(cust_tflAddress_1);
+
+		// Address 2
+		addCustomer.add(cust_lblAddress_2);
+		addCustomer.add(cust_tflAddress_2);
+
+		// Postal
+		addCustomer.add(cust_lblPostal);
+		addCustomer.add(cust_tflPostal);
+
+		// Phone
+		addCustomer.add(cust_lblPhone);
+		addCustomer.add(cust_tflPhone);
+
+		// Country
+		addCustomer.add(cust_lblCountry);
+		addCustomer.add(cust_cmbCountry);
+
+		// City
+		addCustomer.add(cust_lblCity);
+		addCustomer.add(cust_cmbCity);
+
+		// Empty cells
+		addCustomer.add(cust_lblEmptyCell_1);
+		addCustomer.add(cust_lblEmptyCell_2);
+		addCustomer.add(cust_lblEmptyCell_3);
+
+		// Add Customer Button
+		addCustomer.add(cust_btnAddCustomer);
 	}
 
 }
