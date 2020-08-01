@@ -1,17 +1,19 @@
+import com.mysql.cj.protocol.Resultset;
+
 import java.sql.*;
 
 /**
  * Program Name: MovieRentalModel.java
  * Purpose:
- * Coder: 
+ * Coder:
  * Date: Jul 14, 2020
  */
 
 public class MovieRentalModel
 {
-  private static Connection conn = null;
-  private static Statement  stmt = null;
-  private static ResultSet  rslt = null;
+  private Connection conn = null;
+  private Statement  stmt = null;
+  private ResultSet  rslt = null;
 
   public MovieRentalModel()
   {
@@ -37,7 +39,24 @@ public class MovieRentalModel
       stmt.executeUpdate(statement);
     } catch (SQLException ex){
       System.out.println("Error: " + ex.getMessage());
-      ex.printStackTrace();
     }
+  }
+
+  public ResultSet getAllCategories() {
+    try{
+      rslt = stmt.executeQuery("SELECT Name FROM Category");
+    }catch (SQLException ex ){
+      System.out.println("Error: " + ex.getMessage());
+    }
+    return rslt;
+  }
+
+  public ResultSet getAllStores() {
+    try{
+      rslt = stmt.executeQuery("SELECT store_id FROM Store;");
+    }catch (SQLException ex ){
+      System.out.println("Error: " + ex.getMessage());
+    }
+    return rslt;
   }
 }
