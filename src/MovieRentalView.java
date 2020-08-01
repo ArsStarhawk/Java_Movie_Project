@@ -123,7 +123,6 @@ public class MovieRentalView extends JFrame
 
   public void setupAllLabelsForAddActor()
   {
-
     gbc.anchor = GridBagConstraints.NORTHEAST;
     gbc.weightx = 0.01;
 
@@ -152,7 +151,6 @@ public class MovieRentalView extends JFrame
     setGBCPosition(1,5);
     pnlAddActor.add(btnAddActor, gbc);
   }
-
 
   private void CreateGenerateReportPane()
   {
@@ -195,10 +193,10 @@ public class MovieRentalView extends JFrame
     pnlGenerateReportNorth.add(new JLabel("Select Store"), gbc);
 
     setGBCPosition(2,2);
-    pnlGenerateReportNorth.add(new JLabel("From (yy/mm/dd)"), gbc);
+    pnlGenerateReportNorth.add(new JLabel("From (DD-MM-YYYY)"), gbc);
 
     setGBCPosition(2,3);
-    pnlGenerateReportNorth.add(new JLabel("To   (yy/mm/dd)"), gbc);
+    pnlGenerateReportNorth.add(new JLabel("To   (DD-MM-YYYY)"), gbc);
   }
 
   public void setUpAllJCompoboxesForGenerateReport()
@@ -244,5 +242,17 @@ public class MovieRentalView extends JFrame
   {
     gbc.gridx = x;
     gbc.gridy = y;
+  }
+
+  public void addGenerateReportLisenter(ActionListener listener) {
+    btnClearGenerateReportView.addActionListener(listener);
+    btnGenerateReport.addActionListener(listener);
+  }
+
+  public void clearGeneratereportInput() {
+    tflFrom.setText("");
+    tflTo.setText("");
+    cbCategory.setSelectedIndex(0);
+    cbStore.setSelectedIndex(0);
   }
 }
