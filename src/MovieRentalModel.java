@@ -40,8 +40,7 @@ public class MovieRentalModel
 		}
 	}
 
-	// Get all Countries
-	// Returns a list of every country in the database
+	// Gets a list of all countries in the database
 	public List<String> getAllCountries()
 	{
 		List<String> lstCountries = new ArrayList<String>();
@@ -60,11 +59,7 @@ public class MovieRentalModel
 		return lstCountries;
 	}
 
-	/*
-	 * getCitiesInCountry Returns a list of all cities specified by country Params:
-	 * The specified country Return: A list containing all cities located in
-	 * specified country that appear in the database
-	 **/
+	// Get a list of all cities in a country
 	public List<String> getCitiesInCountry(String country)
 	{
 		List<String> lstCities = new ArrayList<String>();
@@ -88,8 +83,8 @@ public class MovieRentalModel
 		return lstCities;
 	}
 
-	// A helper method to get a countries id
-	public String getCountryID(String country)
+	// Gets the id of a country
+	private String getCountryID(String country)
 	{
 		try
 		{
@@ -110,8 +105,9 @@ public class MovieRentalModel
 		return "";
 	}
 
-	// A helper method to get the cities id
-	public String getCityID(String city, String country)
+	// Gets the id of the city ( country is required to avoid things like "London,
+	// CA" and "London, UK" )
+	private String getCityID(String city, String country)
 	{
 		try
 		{
@@ -123,7 +119,6 @@ public class MovieRentalModel
 
 			while (rslt.next())
 			{
-				// System.out.println(rslt.getString("city_id"));
 				return rslt.getString("city_id");
 			}
 
@@ -135,29 +130,24 @@ public class MovieRentalModel
 		return "";
 	}
 
-	// Returns the adressId
-	public String addCustomerAddress(Customer cust) throws SQLException
+	// Adds a customers address to the database
+	private String addCustomerAddress(Customer cust) throws SQLException
 	{
 		try
 		{
-			System.out.println("about to start ");
 			String cityID = getCityID(cust.city, cust.country);
 			String countryID = getCountryID(cust.country);
-			String location = "POINT(" + cityID + " " + countryID + ")";
 
 			String q = "insert into address ( address, address2, district, city_id, postal_code, phone, location ) "
 					+ "values('" + cust.address1 + "', '" + cust.address2 + "', '" + cust.city + "', " + cityID + ", '"
 					+ cust.postal + "', '" + cust.phone + "', ST_GeomFromText('POINT(" + cityID + " " + countryID + ")'));";
-			System.out.println(q);
 			int i = stmt.executeUpdate(q);
-			System.out.println("UPDATED: " + i);
 			if (i == 1)
 			{
 				q = "select LAST_INSERT_ID()";
 				rslt = stmt.executeQuery(q);
 				while (rslt.next())
 				{
-					System.out.println("RETURN: " + rslt.getString("LAST_INSERT_ID()"));
 					return rslt.getString("LAST_INSERT_ID()");
 				}
 
@@ -175,43 +165,31 @@ public class MovieRentalModel
 		return "";
 	}
 
-	/*
-	 * addCustomer Adds a new customer to the database. Will not add duplicates.
-	 * Params: The query to add the customer
-	 **/
+	// Adds a customer to the database
 	public int addCustomer(Customer cust)
 	{
-		try // to add adress
+		try // add address
 		{
-			String addressID = addCustomerAddress(cust);
-		} catch (SQLException ex)
-		{
-			System.out.println("Error: " + ex.getMessage());
-			ex.printStackTrace();
-			return -1;	
-		}
-		try
-		{
-			String q = "insert into customer(store_id, first_name, last_name, email, address_id, active) " + "values (1, '"
-					+ cust.firstName + "', '" + cust.lastName + "', '" + cust.email + "', LAST_INSERT_ID(), 1 );";
-			System.out.println(q);
-			int i = stmt.executeUpdate(q);
-			System.out.println("UPDATED: " + i);
+			addCustomerAddress(cust);
 		} catch (SQLException ex)
 		{
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
 			return -1;
 		}
-		
+		try // add customer
+		{
+			String q = "insert into customer(store_id, first_name, last_name, email, address_id, active) " + "values (1, '"
+					+ cust.firstName + "', '" + cust.lastName + "', '" + cust.email + "', LAST_INSERT_ID(), 1 );";
+			int i = stmt.executeUpdate(q);
+		} catch (SQLException ex)
+		{
+			System.out.println("Error: " + ex.getMessage());
+			ex.printStackTrace();
+			;
+			return -1;
+		}
+
 		return 1;
-		// we need a rollback method here
-//		insert into customer(store_id, first_name, last_name, email, address_id, active)
-//		values (1, "James", "Scully", "js@gmail.com", LAST_INSERT_ID(), 1);
-//
-//		COMMIT 
-//		// will require multiple calls to the database?
-//		// will require muliple quieries
-//		
 	}
 }

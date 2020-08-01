@@ -105,7 +105,7 @@ public class MovieRentalView extends JFrame
 		tabbedPane.add("Add a new film", addFilm);
 		tabbedPane.add("Rent a movie", newRental);
 		tabbedPane.add("Generate report", report);
-		// adding the tabbedPane to the JFrame
+
 		this.add(tabbedPane);
 	}
 
@@ -252,6 +252,11 @@ public class MovieRentalView extends JFrame
 
 		// Add Customer Button
 		addCustomer.add(cust_btnAddCustomer);
+	}
+	
+	// Use to display messages
+	public void displayMessage(String msg) {
+    JOptionPane.showMessageDialog(this,msg);  
 	}
 
 }
