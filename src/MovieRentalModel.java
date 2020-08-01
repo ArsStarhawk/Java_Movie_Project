@@ -1,5 +1,7 @@
 import com.mysql.cj.protocol.Resultset;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.sql.*;
 
 /**
@@ -58,5 +60,33 @@ public class MovieRentalModel
       System.out.println("Error: " + ex.getMessage());
     }
     return rslt;
+  }
+
+  public TableModel generateReport(String s, DateStoreCategory dateStoreCategory)
+  {
+    TableModel model = new DefaultTableModel();
+    try
+    {
+      String sql = generateSqlConditionString(s, dateStoreCategory);
+      //PreparedStatement prepStmt = conn.prepareStatement(sql);
+      rslt = stmt.executeQuery(sql);
+      model = DbUtils.resultSetToTableModel(rslt);
+    } catch (SQLException ex){
+      System.out.println( ex.getMessage());
+    }
+    return model;
+  }
+
+  private String generateSqlConditionString(String s, DateStoreCategory dateStoreCategory) {
+    if(dateStoreCategory.store.equals("1")){
+      s += "store_id = 1 AND";
+    } else if (dateStoreCategory.store.equals("2")){
+      s += "store_id = 2 AND";
+    } else if(!dateStoreCategory.category.equals("*")){
+      s += "c.name = '" + dateStoreCategory.category + "' AND ";
+    }
+    s += "(payment_date > '" + dateStoreCategory.from + " 00:00:00'" + " AND ";
+    s += "payment_date < '" + dateStoreCategory.to + " 00:00:00')";
+    return s;
   }
 }
