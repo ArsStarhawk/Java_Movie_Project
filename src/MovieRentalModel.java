@@ -68,7 +68,6 @@ public class MovieRentalModel
     try
     {
       String sql = generateSqlConditionString(s, dateStoreCategory);
-      PreparedStatement prepStmt = conn.prepareStatement(sql);
       rslt = stmt.executeQuery(sql);
       model = DbUtils.resultSetToTableModel(rslt);
     } catch (SQLException ex){
