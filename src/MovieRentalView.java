@@ -17,11 +17,10 @@ public class MovieRentalView extends JFrame
   JPanel pnlAddFilm;
   JPanel pnlNewRental;
   JPanel pnlGenerateReport;
+  JPanel pnlGenerateReportNorth;
 
   JComboBox cbCategory;
   JComboBox cbStore;
-  JComboBox cbFrom;
-  JComboBox cbTo;
 
   JTextField tflFrom;
   JTextField tflTo;
@@ -158,87 +157,72 @@ public class MovieRentalView extends JFrame
   private void CreateGenerateReportPane()
   {
     InstantiateJComponentForGenerateReport();
-    setUpTitleForGenerateReport();
     setUpAllLablesForGenerateReport();
     setUpAllJCompoboxesForGenerateReport();
     setUpAllButtonsForGenerateReport();
-    setUpJTableForGenerateReport();
+    pnlGenerateReport.add(pnlGenerateReportNorth, BorderLayout.CENTER);
+    pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
   }
 
   private void InstantiateJComponentForGenerateReport()
   {
-      tblGenerateReport = new JTable();
-      scpGenerateReport = new JScrollPane(tblGenerateReport);
-      cbCategory = new JComboBox();
-      cbStore = new JComboBox();
-      tflFrom = new JTextField(20);
-      tflTo = new JTextField(20);
-      pnlGenerateReport.setLayout(new GridBagLayout());
-      lblGenerateReportTitle = new JLabel("Generate Report");
-      btnClearGenerateReportView = new JButton("Clear");
-      btnGenerateReport = new JButton("Generate Report");
-      lblGenerateReportTitle.setPreferredSize(new Dimension(100, 30));
-      gbc = new GridBagConstraints();
-  }
-
-  public void setUpTitleForGenerateReport()
-  {
-    gbc.insets = new Insets(3,3,3,3);
-    gbc.weighty = 0.001;
-    gbc.anchor = GridBagConstraints.CENTER;
-    setGBCPosition(1,0);
-    pnlGenerateReport.add(lblGenerateReportTitle, gbc);
+    tblGenerateReport = new JTable();
+    pnlGenerateReport.setLayout(new BorderLayout());
+    lblGenerateReportTitle = new JLabel("Generate Report", SwingConstants.CENTER);
+    pnlGenerateReport.add(lblGenerateReportTitle, BorderLayout.NORTH);
+    pnlGenerateReportNorth = new JPanel();
+    pnlGenerateReportNorth.setLayout(new GridBagLayout());
+    scpGenerateReport = new JScrollPane(tblGenerateReport);
+    cbCategory = new JComboBox();
+    cbCategory.setSize(30,15);
+    cbStore = new JComboBox();
+    cbStore.setSize(30,15);
+    tflFrom = new JTextField(20);
+    tflTo = new JTextField(20);
+    btnClearGenerateReportView = new JButton("Clear");
+    btnGenerateReport = new JButton("Generate Report");
+    gbc = new GridBagConstraints();
   }
 
   public void setUpAllLablesForGenerateReport()
   {
-    gbc.anchor = GridBagConstraints.LINE_START;
-    gbc.weightx = 0.01;
-
+    gbc.weightx = 0.1;
+    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     setGBCPosition(0,2);
-    pnlGenerateReport.add(new JLabel("Select by Category"), gbc);
+    pnlGenerateReportNorth.add(new JLabel("Select by Category"), gbc);
 
     setGBCPosition(0,3);
-    pnlGenerateReport.add(new JLabel("Select Store"), gbc);
+    pnlGenerateReportNorth.add(new JLabel("Select Store"), gbc);
 
     setGBCPosition(2,2);
-    pnlGenerateReport.add(new JLabel("From: "), gbc);
+    pnlGenerateReportNorth.add(new JLabel("From (yy/mm/dd)"), gbc);
 
     setGBCPosition(2,3);
-    pnlGenerateReport.add(new JLabel("To"), gbc);
+    pnlGenerateReportNorth.add(new JLabel("To   (yy/mm/dd)"), gbc);
   }
 
   public void setUpAllJCompoboxesForGenerateReport()
   {
-    gbc.weightx = 0.01;
     setGBCPosition(1,2);
-    pnlGenerateReport.add(cbCategory, gbc);
+    pnlGenerateReportNorth.add(cbCategory, gbc);
 
     setGBCPosition(1,3);
-    pnlGenerateReport.add(cbStore, gbc);
+    pnlGenerateReportNorth.add(cbStore, gbc);
 
     setGBCPosition(4,2);
-    pnlGenerateReport.add(tflFrom, gbc);
+    pnlGenerateReportNorth.add(tflFrom, gbc);
 
     setGBCPosition(4,3);
-    pnlGenerateReport.add(tflTo, gbc);
+    pnlGenerateReportNorth.add(tflTo, gbc);
   }
 
   public void setUpAllButtonsForGenerateReport()
   {
-    gbc.weighty = 0.5;
-    gbc.weightx = 0.01;
-    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     setGBCPosition(0,5);
-    pnlGenerateReport.add(btnGenerateReport, gbc);
-    setGBCPosition(1,5);
-    pnlGenerateReport.add(btnClearGenerateReportView, gbc);
-  }
+    pnlGenerateReportNorth.add(btnGenerateReport, gbc);
 
-  private void setUpJTableForGenerateReport()
-  {
-    setGBCPosition(0,6);
-    pnlGenerateReport.add(scpGenerateReport, gbc);
+    setGBCPosition(1,5);
+    pnlGenerateReportNorth.add(btnClearGenerateReportView, gbc);
   }
 
   private void CreateAddNewRentalTransactionPane()
