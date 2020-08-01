@@ -18,10 +18,13 @@ public class MovieRentalView extends JFrame
   JPanel pnlNewRental;
   JPanel pnlGenerateReport;
 
-  protected JComboBox cbCategory;
-  protected JComboBox cbStore;
-  protected JComboBox cbFrom;
-  protected JComboBox cbTo;
+  JComboBox cbCategory;
+  JComboBox cbStore;
+  JComboBox cbFrom;
+  JComboBox cbTo;
+
+  JTextField tflFrom;
+  JTextField tflTo;
 
   protected  JTextField tflFirstname;
   protected  JTextField tflLastname;
@@ -30,7 +33,6 @@ public class MovieRentalView extends JFrame
   JLabel lblLastname;
   JLabel lblAddNewActorTitle;
   JLabel lblGenerateReportTitle;
-  protected JLabel lblAddActorStatus;
 
   JButton btnAddActor;
   JButton btnClearGenerateReportView;
@@ -109,7 +111,6 @@ public class MovieRentalView extends JFrame
     tflFirstname = new JTextField(20);
     tflLastname = new JTextField(20);
     btnAddActor = new JButton("Add Actor");
-    lblAddActorStatus = new JLabel();
     gbc = new GridBagConstraints();
   }
 
@@ -132,9 +133,6 @@ public class MovieRentalView extends JFrame
 
     setGBCPosition(0,3);
     pnlAddActor.add(lblLastname, gbc);
-
-    setGBCPosition(0,6);
-    pnlAddActor.add(lblAddActorStatus, gbc);
   }
 
   public void setupAllJTextFieldForAddActor()
@@ -173,8 +171,8 @@ public class MovieRentalView extends JFrame
       scpGenerateReport = new JScrollPane(tblGenerateReport);
       cbCategory = new JComboBox();
       cbStore = new JComboBox();
-      cbFrom= new JComboBox();
-      cbTo = new JComboBox();
+      tflFrom = new JTextField(20);
+      tflTo = new JTextField(20);
       pnlGenerateReport.setLayout(new GridBagLayout());
       lblGenerateReportTitle = new JLabel("Generate Report");
       btnClearGenerateReportView = new JButton("Clear");
@@ -220,10 +218,10 @@ public class MovieRentalView extends JFrame
     pnlGenerateReport.add(cbStore, gbc);
 
     setGBCPosition(4,2);
-    pnlGenerateReport.add(cbFrom, gbc);
+    pnlGenerateReport.add(tflFrom, gbc);
 
     setGBCPosition(4,3);
-    pnlGenerateReport.add(cbTo, gbc);
+    pnlGenerateReport.add(tflTo, gbc);
   }
 
   public void setUpAllButtonsForGenerateReport()
