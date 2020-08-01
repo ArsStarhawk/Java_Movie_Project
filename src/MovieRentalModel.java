@@ -16,6 +16,7 @@ public class MovieRentalModel
   private Connection conn = null;
   private Statement  stmt = null;
   private ResultSet  rslt = null;
+  HelperMethods helperMethods;
 
   public MovieRentalModel()
   {
@@ -25,7 +26,7 @@ public class MovieRentalModel
           "jdbc:mysql://localhost:3306/sakila?useSSL=false&allowPublicKeyRetrieval=true",
           "root","password");
       stmt = conn.createStatement();
-
+      helperMethods = new HelperMethods();
     }
     catch(SQLException ex)
     {
@@ -44,7 +45,8 @@ public class MovieRentalModel
     }
   }
 
-  public ResultSet getAllCategories() {
+  public ResultSet getAllCategories()
+  {
     try{
       rslt = stmt.executeQuery("SELECT Name FROM Category");
     }catch (SQLException ex ){
@@ -53,7 +55,8 @@ public class MovieRentalModel
     return rslt;
   }
 
-  public ResultSet getAllStores() {
+  public ResultSet getAllStores()
+  {
     try{
       rslt = stmt.executeQuery("SELECT store_id FROM Store;");
     }catch (SQLException ex ){
@@ -67,30 +70,12 @@ public class MovieRentalModel
     TableModel model = new DefaultTableModel();
     try
     {
-      String sql = generateSqlConditionString(s, dateStoreCategory);
+      String sql = helperMethods.generateSqlConditionedString(s, dateStoreCategory);
       rslt = stmt.executeQuery(sql);
       model = DbUtils.resultSetToTableModel(rslt);
     } catch (SQLException ex){
       System.out.println( ex.getMessage());
     }
     return model;
-  }
-
-  private String generateSqlConditionString(String s, DateStoreCategory dateStoreCategory) {
-    if(dateStoreCategory.store.equals("1"))
-    {
-      s += "store_id = 1 AND ";
-    }
-    if (dateStoreCategory.store.equals("2"))
-    {
-      s += "store_id = 2 AND ";
-    }
-    if(!dateStoreCategory.category.equals("*"))
-    {
-      s += "c.name = '" + dateStoreCategory.category + "' AND ";
-    }
-    s += "(payment_date >= '" + dateStoreCategory.from + " 00:00:00'" + " AND ";
-    s += "payment_date <= '" + dateStoreCategory.to + " 23:59:59')";
-    return s;
   }
 }

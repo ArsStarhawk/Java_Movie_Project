@@ -12,7 +12,7 @@ public class MovieRentalController
 {
   private MovieRentalView theView;
   private MovieRentalModel theModel;
-  private GeneralHelper gHelper;
+  private HelperMethods helperMethods;
 
   MovieRentalController()
   {
@@ -20,7 +20,7 @@ public class MovieRentalController
     theModel = new MovieRentalModel();
     theView.addAddActorButtonListener(new AddActorListener(theView, theModel));
     theView.addGenerateReportLisenter(new GenerateReportListener(theView, theModel));
-    gHelper = new GeneralHelper();
+    helperMethods = new HelperMethods();
     populateCategoryDropdownForGenerateReportPane();
     populateStoreDropdownForGenerateReportPane();
   }
@@ -38,7 +38,7 @@ public class MovieRentalController
     }
     catch(SQLException ex)
     {
-      gHelper.createPopupDialog("Error", "Not able to load categories");
+      helperMethods.createPopupDialog("Error", "Not able to load categories");
       System.out.println(ex.getMessage());
     }
   }
@@ -55,7 +55,7 @@ public class MovieRentalController
         theView.cbStore.addItem(stores.getString("store_id"));
       }
     } catch(SQLException ex){
-      gHelper.createPopupDialog("Error", "Not able to load categories");
+      helperMethods.createPopupDialog("Error", "Not able to load categories");
       System.out.println(ex.getMessage());
     }
   }
