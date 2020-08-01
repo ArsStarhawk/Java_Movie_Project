@@ -68,7 +68,7 @@ public class MovieRentalModel
     try
     {
       String sql = generateSqlConditionString(s, dateStoreCategory);
-      //PreparedStatement prepStmt = conn.prepareStatement(sql);
+      PreparedStatement prepStmt = conn.prepareStatement(sql);
       rslt = stmt.executeQuery(sql);
       model = DbUtils.resultSetToTableModel(rslt);
     } catch (SQLException ex){
@@ -78,15 +78,20 @@ public class MovieRentalModel
   }
 
   private String generateSqlConditionString(String s, DateStoreCategory dateStoreCategory) {
-    if(dateStoreCategory.store.equals("1")){
-      s += "store_id = 1 AND";
-    } else if (dateStoreCategory.store.equals("2")){
-      s += "store_id = 2 AND";
-    } else if(!dateStoreCategory.category.equals("*")){
+    if(dateStoreCategory.store.equals("1"))
+    {
+      s += "store_id = 1 AND ";
+    }
+    if (dateStoreCategory.store.equals("2"))
+    {
+      s += "store_id = 2 AND ";
+    }
+    if(!dateStoreCategory.category.equals("*"))
+    {
       s += "c.name = '" + dateStoreCategory.category + "' AND ";
     }
-    s += "(payment_date > '" + dateStoreCategory.from + " 00:00:00'" + " AND ";
-    s += "payment_date < '" + dateStoreCategory.to + " 00:00:00')";
+    s += "(payment_date >= '" + dateStoreCategory.from + " 00:00:00'" + " AND ";
+    s += "payment_date <= '" + dateStoreCategory.to + " 23:59:59')";
     return s;
   }
 }
