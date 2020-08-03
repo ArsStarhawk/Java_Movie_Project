@@ -1,5 +1,7 @@
 import com.mysql.cj.protocol.Resultset;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.sql.*;
 
 /**
@@ -14,6 +16,7 @@ public class MovieRentalModel
   private Connection conn = null;
   private Statement  stmt = null;
   private ResultSet  rslt = null;
+  HelperMethods helperMethods;
 
   public MovieRentalModel()
   {
@@ -23,7 +26,7 @@ public class MovieRentalModel
           "jdbc:mysql://localhost:3306/sakila?useSSL=false&allowPublicKeyRetrieval=true",
           "root","password");
       stmt = conn.createStatement();
-
+      helperMethods = new HelperMethods();
     }
     catch(SQLException ex)
     {
@@ -42,7 +45,8 @@ public class MovieRentalModel
     }
   }
 
-  public ResultSet getAllCategories() {
+  public ResultSet getAllCategories()
+  {
     try{
       rslt = stmt.executeQuery("SELECT Name FROM Category");
     }catch (SQLException ex ){
@@ -51,12 +55,27 @@ public class MovieRentalModel
     return rslt;
   }
 
-  public ResultSet getAllStores() {
+  public ResultSet getAllStores()
+  {
     try{
       rslt = stmt.executeQuery("SELECT store_id FROM Store;");
     }catch (SQLException ex ){
       System.out.println("Error: " + ex.getMessage());
     }
     return rslt;
+  }
+
+  public TableModel generateReport(String s, DateStoreCategory dateStoreCategory)
+  {
+    TableModel model = new DefaultTableModel();
+    try
+    {
+      String sql = helperMethods.generateSqlConditionedString(s, dateStoreCategory);
+      rslt = stmt.executeQuery(sql);
+      model = DbUtils.resultSetToTableModel(rslt);
+    } catch (SQLException ex){
+      System.out.println( ex.getMessage());
+    }
+    return model;
   }
 }
