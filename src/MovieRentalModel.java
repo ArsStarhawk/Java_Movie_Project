@@ -1,15 +1,13 @@
-import com.mysql.cj.protocol.Resultset;
+/**
+ * Program Name: MovieRentalModel.java
+ * Purpose:
+ * Coder: James Kidd, James Scully, Evan Somers, Sion Young
+ * Date: Jul 14, 2020
+ */
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.sql.*;
-
-/**
- * Program Name: MovieRentalModel.java
- * Purpose:
- * Coder:
- * Date: Jul 14, 2020
- */
 
 public class MovieRentalModel
 {
@@ -35,7 +33,12 @@ public class MovieRentalModel
     }
   }
 
-  public void addActor(String statement) throws SQLException
+  /**
+   * Method: addActor
+   * Summary: Runs a SQL statement to add an actor to database
+   * @param statement An insert SQL statement to run
+   */
+  public void addActor(String statement)
   {
     try
     {
@@ -45,6 +48,11 @@ public class MovieRentalModel
     }
   }
 
+  /**
+   * Method: getAllCategories
+   * Summary: Gets all categorries from database
+   * @return  All categories as a ResultSet
+   */
   public ResultSet getAllCategories()
   {
     try{
@@ -55,6 +63,11 @@ public class MovieRentalModel
     return rslt;
   }
 
+  /**
+   * Method: getAllStores
+   * Summary: Gets all stores from database
+   * @return  All stores as a ResultSet
+   */
   public ResultSet getAllStores()
   {
     try{
@@ -65,6 +78,13 @@ public class MovieRentalModel
     return rslt;
   }
 
+  /**
+   * Method: generateReport
+   * Summary: Runs a select statement and return a TableModel to the controller
+   * @param s The SQL statement
+   * @param dateStoreCategory The date, store, category wrapped in a data structure
+   * @return the Data as TableModel
+   */
   public TableModel generateReport(String s, DateStoreCategory dateStoreCategory)
   {
     TableModel model = new DefaultTableModel();
@@ -74,6 +94,8 @@ public class MovieRentalModel
       rslt = stmt.executeQuery(sql);
       model = DbUtils.resultSetToTableModel(rslt);
     } catch (SQLException ex){
+      helperMethods.createPopupDialog("Database Error", "Problem loading table. " +
+          "Please contact IT support.");
       System.out.println( ex.getMessage());
     }
     return model;
