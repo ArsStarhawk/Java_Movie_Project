@@ -3,9 +3,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 
 /**
  * Program Name: MovieRentalView.java Purpose: Coder: Date: Jul 14, 2020
@@ -15,8 +18,6 @@ public class MovieRentalView extends JFrame
 {
 	JTabbedPane tabbedPane;
 	JPanel addCustomer;
-
-	// Customer Properties
 	
 	// Customer Firstname
 	JLabel cust_lblFirstName;
@@ -40,11 +41,11 @@ public class MovieRentalView extends JFrame
 
 	// Customer Postal
 	JLabel cust_lblPostal;
-	JTextField cust_tflPostal;
+	JFormattedTextField cust_tflPostal;
 
 	// Customer Phone
 	JLabel cust_lblPhone;
-	JTextField cust_tflPhone;
+	JFormattedTextField cust_tflPhone;
 
 	// Customer Country
 	JLabel cust_lblCountry;
@@ -58,9 +59,16 @@ public class MovieRentalView extends JFrame
 	JLabel cust_lblEmptyCell_1;
 	JLabel cust_lblEmptyCell_2;
 	JLabel cust_lblEmptyCell_3;
-
+	
+	// Clear Button
+	JButton cust_btnClear;
+	
 	// Customer Button
 	JButton cust_btnAddCustomer;
+	
+	// Error Cell
+	JLabel cust_lblError;
+	
 
 	MovieRentalView()
 	{
@@ -134,12 +142,16 @@ public class MovieRentalView extends JFrame
   	}
   }
   
+  // Updates the cityComboBox
   public void setCityComboBox(List<String> cities ) {
   	cust_cmbCity.removeAllItems();
   	for(int i = 0; i < cities.size(); ++i) 
   		cust_cmbCity.addItem(cities.get(i).toString());
   }
 
+
+  
+  
 	private void CreateGenerateReportPane()
 	{
 		// Sion's Codes
@@ -180,11 +192,26 @@ public class MovieRentalView extends JFrame
 
 		// Postal
 		cust_lblPostal = new JLabel("Postal: ");
-		cust_tflPostal = new JTextField("");
+    MaskFormatter postalMask = null;
+		try
+		{
+			postalMask = new MaskFormatter("U#U-#U#");
+		} catch (ParseException e)
+		{
+			e.printStackTrace();
+		}
+		cust_tflPostal = new JFormattedTextField(postalMask);
 
 		// Phone
 		cust_lblPhone = new JLabel("Phone: ");
-		cust_tflPhone = new JTextField("");
+    MaskFormatter phoneMask = null;
+		try
+		{
+			phoneMask = new MaskFormatter("(###) ###-####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		cust_tflPhone = new JFormattedTextField(phoneMask);
 
 		// Country
 		String[] country = {"-"};
@@ -199,10 +226,16 @@ public class MovieRentalView extends JFrame
 		// Empty
 		cust_lblEmptyCell_1 = new JLabel("");
 		cust_lblEmptyCell_2 = new JLabel("");
+
+		// Clear and Add Button
+		cust_btnClear = new JButton("Clear");
+		cust_btnAddCustomer = new JButton("Add Customer");
+		
+		// Empty
 		cust_lblEmptyCell_3 = new JLabel("");
 		
-		// Button
-		cust_btnAddCustomer = new JButton("Add Customer");
+		// Error
+		cust_lblError = new JLabel("");
 	}
 	
 	public void addJComponentsToCustomerPanel() {
@@ -248,11 +281,70 @@ public class MovieRentalView extends JFrame
 		// Empty cells
 		addCustomer.add(cust_lblEmptyCell_1);
 		addCustomer.add(cust_lblEmptyCell_2);
-		addCustomer.add(cust_lblEmptyCell_3);
-
-		// Add Customer Button
+		
+		// Clear, Add Buttons
+		addCustomer.add(cust_btnClear);
 		addCustomer.add(cust_btnAddCustomer);
+		
+		// Empty, Error
+		addCustomer.add(cust_lblEmptyCell_3);
+		addCustomer.add(cust_lblError);
+		
 	}
+	
+  // Validate the input
+  public boolean validateCustomer() {
+  	
+  	// Check if empty
+  	if(this.cust_tflFirstName.getText().equals("")) {
+  		this.cust_lblError.setText("Invalid firstname");
+  		return false;
+  	}
+  	if(this.cust_tflLastName.getText().equals("")) {
+  		this.cust_lblError.setText("Invalid lastname");
+  		return false;
+  	}
+  	// Get first address, no need to validate second address
+  	if(this.cust_lblAddress_1.getText().equals("")) {
+  		this.cust_lblError.setText("Invalid address: Requirest at least one");
+  		return false;
+  	}
+  	
+  	// validate email
+  	if (this.cust_tflEmailField.getText().equals("")) {
+  		this.cust_lblError.setText("Invalid email");
+  		return false;
+    }
+    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+        "[a-zA-Z0-9_+&*-]+)*@" + 
+        "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+        "A-Z]{2,7}$";          
+    Pattern pat = Pattern.compile(emailRegex);  
+    if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {
+    	this.cust_lblError.setText("Invalid email");
+    	return false;
+    } 
+    
+   // validate phone
+    String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          
+    Pattern phonePat = Pattern.compile(phoneRegex);  
+    if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {
+    	this.cust_lblError.setText("Invalid phone");
+    	return false;
+    } 
+     
+    if(this.cust_tflPhone.getText().equals("")) {
+    	this.cust_lblError.setText("Invalid phone");
+    	return false;
+    }
+    
+  	// only need to validate country
+    if(this.cust_cmbCountry.getSelectedItem().equals("-")){
+    	this.cust_lblError.setText("Invalid Country");
+    	return false;
+    }
+  	return true;
+  }
 	
 	// Use to display messages
 	public void displayMessage(String msg) {

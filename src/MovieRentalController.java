@@ -44,6 +44,13 @@ public class MovieRentalController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			// Validate the customer form
+			if(!view.validateCustomer()) {
+				System.out.println("Try again");
+				return;
+			}
+			
+			
 			Customer cust = new Customer();
 			cust.firstName = view.cust_tflFirstName.getText().toString();
 			cust.lastName = view.cust_tflLastName.getText().toString();
