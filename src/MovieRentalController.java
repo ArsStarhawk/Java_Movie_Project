@@ -1,12 +1,11 @@
-import java.sql.*;
-
-
 /**
  * Program Name: MovieRentalController.java
- * Purpose:
- * Coder: 
+ * Purpose: The Controller part of the MVC model.
+ * Coder: Evan Sommers, James Scully, James Kidd, Sion Young
  * Date: Jul 14, 2020
  */
+
+import java.sql.*;
 
 public class MovieRentalController
 {
@@ -25,6 +24,11 @@ public class MovieRentalController
     populateStoreDropdownForGenerateReportPane();
   }
 
+  /**
+   * Method: populateCategoryDropdownForGenerateReportPane
+   * Summary: Gets all categories from database and populate the drop-down list
+   *          in the generate report panel.
+   */
   private void populateCategoryDropdownForGenerateReportPane()
   {
     ResultSet categories = theModel.getAllCategories();
@@ -38,14 +42,19 @@ public class MovieRentalController
     }
     catch(SQLException ex)
     {
-      helperMethods.createPopupDialog("Error", "Not able to load categories");
+      helperMethods.createPopupDialog("Error", "Not able to load categories. " +
+          "Please contact IT support.");
       System.out.println(ex.getMessage());
     }
   }
 
+  /**
+   * Method: populateStoreDropdownForGenerateReportPane
+   * Summary: Gets all stores from database and populate the drop-down list
+   *          in the generate report panel.
+   */
   private void populateStoreDropdownForGenerateReportPane()
   {
-
     ResultSet stores = theModel.getAllStores();
     theView.cbStore.addItem("All Stores       ");
     try
@@ -55,7 +64,8 @@ public class MovieRentalController
         theView.cbStore.addItem(stores.getString("store_id"));
       }
     } catch(SQLException ex){
-      helperMethods.createPopupDialog("Error", "Not able to load categories");
+      helperMethods.createPopupDialog("Error", "Not able to load categories. " +
+          "Please Contact IT Support.");
       System.out.println(ex.getMessage());
     }
   }

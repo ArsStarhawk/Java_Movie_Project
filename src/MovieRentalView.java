@@ -1,7 +1,7 @@
 /**
  * Program Name: MovieRentalView.java
- * Purpose:
- * Coder:
+ * Purpose: The view part of the MVC model
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
  * Date: Jul 14, 2020
  */
 
@@ -45,17 +45,21 @@ public class MovieRentalView extends JFrame
   MovieRentalView()
   {
     super("Movie Rental and Database");
-    SetupJFrame();
-    CreateTabbedForms();
+    setupJFrame();
+    createTabbedForms();
     CreateAddCustomerPane();
-    CreateAddActorPane();
-    CreateAddNewFilmPane();
-    CreateAddNewRentalTransactionPane();
-    CreateGenerateReportPane();
+    createAddActorPane();
+    createAddNewFilmPane();
+    createAddNewRentalTransactionPane();
+    createGenerateReportPane();
     this.setVisible(true);
   }
 
-  public void SetupJFrame()
+  /**
+   * Method: SetupJFrame
+   * Summary: Initiate the JFrame for the app
+   */
+  public void setupJFrame()
   {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(580,580);
@@ -63,7 +67,11 @@ public class MovieRentalView extends JFrame
     this.setLayout(null);//This is to center the JTabbedPane
   }
 
-  public void CreateTabbedForms()
+  /**
+   * Method: createTabbedForms
+   * Summary: create 5 tabbed forms for the program
+   */
+  public void createTabbedForms()
   {
     //This JTabbedPane will have different forms and reports for the user to switch through
     tabbedPane = new JTabbedPane();
@@ -92,16 +100,24 @@ public class MovieRentalView extends JFrame
     // Scully's codes
   }
 
-  private void CreateAddActorPane()
+  /**
+   * Method: createAddActorPane
+   * Summary: Create add actor panel and its JComponents for the program
+   */
+  private void createAddActorPane()
   {
-    InstantiateJComponentForAddActor();
+    instantiateJComponentForAddActor();
     setupTitleForAddActor();
     setupAllLabelsForAddActor();
     setupAllJTextFieldForAddActor();
     setupButtonForAddActor();
   }
 
-  private void InstantiateJComponentForAddActor()
+  /**
+   * Method: instantiateJComponentForAddActor
+   * Summary: instantiate all the components for add actor panel
+   */
+  private void instantiateJComponentForAddActor()
   {
     lblAddNewActorTitle = new JLabel("Add a New Actor to Database");
     lblFirstname = new JLabel("First Name:");
@@ -115,6 +131,10 @@ public class MovieRentalView extends JFrame
     gbc = new GridBagConstraints();
   }
 
+  /**
+   * Method: setupTitleForAddActor
+   * Summary: Set up JLabel for the add actor panel
+   */
   public void setupTitleForAddActor()
   {
     gbc.insets = new Insets(3,3,3,3);
@@ -123,6 +143,10 @@ public class MovieRentalView extends JFrame
     pnlAddActor.add(lblAddNewActorTitle, gbc);
   }
 
+  /**
+   * Method: setupAllLabelsForAddActor
+   * Summary: set up all the labels on add actor panel and lay them out properly
+   */
   public void setupAllLabelsForAddActor()
   {
     gbc.anchor = GridBagConstraints.NORTHEAST;
@@ -135,6 +159,10 @@ public class MovieRentalView extends JFrame
     pnlAddActor.add(lblLastname, gbc);
   }
 
+  /**
+   * Method: setupAllJTextFieldForAddActor
+   * Purpose: Sets up all the JTextField for the add actor panel and lay them out properly
+   */
   public void setupAllJTextFieldForAddActor()
   {
     gbc.anchor = GridBagConstraints.LINE_START;
@@ -146,6 +174,10 @@ public class MovieRentalView extends JFrame
     pnlAddActor.add(tflLastname, gbc);
   }
 
+  /**
+   * Method: setupButtonForAddActor
+   * Purpose: Sets up all the JButton for add actor panel and lay them out properly
+   */
   public void setupButtonForAddActor()
   {
     gbc.weighty = 1;
@@ -160,9 +192,13 @@ public class MovieRentalView extends JFrame
     pnlAddActor.add(btnAddActor, gbc);
   }
 
-  private void CreateGenerateReportPane()
+  /**
+   * Method: createGenerateReportPane
+   * Summary: Create the generate report panel and add it the the JFrame;
+   */
+  private void createGenerateReportPane()
   {
-    InstantiateJComponentForGenerateReport();
+    instantiateJComponentForGenerateReport();
     setUpAllLablesForGenerateReport();
     setUpAllJCompoboxesForGenerateReport();
     setUpAllButtonsForGenerateReport();
@@ -170,7 +206,11 @@ public class MovieRentalView extends JFrame
     pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
   }
 
-  private void InstantiateJComponentForGenerateReport()
+  /**
+   * Method: instantiateJComponentForGenerateReport
+   * Summary: Instantiates all the components for generate report panel
+   */
+  private void instantiateJComponentForGenerateReport()
   {
     tblGenerateReport = new JTable();
     pnlGenerateReport.setLayout(new BorderLayout());
@@ -190,6 +230,10 @@ public class MovieRentalView extends JFrame
     gbc = new GridBagConstraints();
   }
 
+  /**
+   * Method: setUpAllLablesForGenerateReport
+   * Summary: Sets up all the labels for generate report panel and lay them out properly
+   */
   public void setUpAllLablesForGenerateReport()
   {
     gbc.weightx = 0.1;
@@ -207,6 +251,10 @@ public class MovieRentalView extends JFrame
     pnlGenerateReportNorth.add(new JLabel("To   (DD-MM-YYYY)"), gbc);
   }
 
+  /**
+   * Method: setUpAllJCompoboxesForGenerateReport
+   * Summary: Sets up all the JComboBox for generate report panel and lay them out properly
+   */
   public void setUpAllJCompoboxesForGenerateReport()
   {
     setGBCPosition(1,2);
@@ -222,6 +270,10 @@ public class MovieRentalView extends JFrame
     pnlGenerateReportNorth.add(tflTo, gbc);
   }
 
+  /**
+   * Method: setUpAllButtonsForGenerateReport
+   * Summary: Sets up all the JButtons for generate report panel and lay them out properly
+   */
   public void setUpAllButtonsForGenerateReport()
   {
     setGBCPosition(0,5);
@@ -231,33 +283,55 @@ public class MovieRentalView extends JFrame
     pnlGenerateReportNorth.add(btnClearGenerateReportView, gbc);
   }
 
-  private void CreateAddNewRentalTransactionPane()
+  private void createAddNewRentalTransactionPane()
   {
     //Evan's codes
   }
 
-  private void CreateAddNewFilmPane()
+  private void createAddNewFilmPane()
   {
     // Evan's codes
   }
 
+  /**
+   * Method: addAddActorButtonListener
+   * Summary: Add an action listener to the buttons for add actor panel
+   * @param listener An AddActorListener object
+   */
   public void addAddActorButtonListener(ActionListener listener)
   {
     btnAddActor.addActionListener(listener);
     btnCleanActor.addActionListener(listener);
   }
 
-  public void setGBCPosition(int x, int y)
-  {
-    gbc.gridx = x;
-    gbc.gridy = y;
-  }
-
+  /**
+   * Method: addGenerateReportLisenter
+   * Summary: Add an action listener to the buttons for generate report panel
+   * @param listener An GenerateReportListener object
+   */
   public void addGenerateReportLisenter(ActionListener listener) {
     btnClearGenerateReportView.addActionListener(listener);
     btnGenerateReport.addActionListener(listener);
   }
 
+
+
+  /**
+   * Method: setGBCPosition
+   * Summary: A helper method to set GridBagConstrains coordinates.
+   *          GridBagLayout is used in add actor and generate report panels.
+   * @param x x coordinate
+   * @param y y coordinate
+   */
+  public void setGBCPosition(int x, int y)
+  {
+    gbc.gridx = x;
+    gbc.gridy = y;
+  }
+  /**
+   * Method: clearGeneratereportInput
+   * Summary: Clear/reset inputs for generate report panel
+   */
   public void clearGeneratereportInput() {
     tflFrom.setText("");
     tflTo.setText("");
