@@ -304,6 +304,10 @@ public class MovieRentalView extends JFrame
 
   private void createAddNewRentalTransactionPane()
   {
+    filmList = new Vector<String>();
+    custList = new Vector<String>();
+
+
     pnlNewRental.setLayout(new BorderLayout());
       // instantiate components for view
       lblFilmCombo = new JLabel("Name of Film: ");
@@ -337,6 +341,10 @@ public class MovieRentalView extends JFrame
       AutoCompletion.enable(comboFilmList); // third party decorator class - By Thomas Bierhance (  // http://www.orbital-computer.de/JComboBox )
       comboCustList = new JComboBox<String>(custList);
       AutoCompletion.enable(comboCustList); // third party decorator class - By Thomas Bierhance ( // http://www.orbital-computer.de/JComboBox )
+
+      comboFilmList.setPreferredSize(new Dimension(200,30));
+      comboCustList.setPreferredSize(new Dimension(200,30));
+
 
       // make panels
       pnlInput = new JPanel(new BorderLayout());

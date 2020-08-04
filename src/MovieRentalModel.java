@@ -27,7 +27,7 @@ public class MovieRentalModel
           "jdbc:mysql://localhost:3306/sakila?useSSL=false&allowPublicKeyRetrieval=true",
           "root","password");
       stmt = conn.createStatement();
-      prepStmt = conn.prepareStatement("");
+      prepStmt = conn.prepareStatement(" ");
       helperMethods = new HelperMethods();
     }
     catch(SQLException ex)
@@ -159,7 +159,7 @@ public class MovieRentalModel
     String retVal = null;
     try
     {
-      stmt.executeQuery("SELECT rental_date FROM rental ORDER BY rental_id DESC LIMIT 1");
+      rslt = stmt.executeQuery("SELECT rental_date FROM rental ORDER BY rental_id DESC LIMIT 1");
       rslt.next();
       String rentalDate = rslt.getString(1);
 

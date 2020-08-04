@@ -5,6 +5,7 @@
  * Date: Jul 14, 2020
  */
 
+import java.awt.*;
 import java.sql.*;
 
 public class MovieRentalController
@@ -53,6 +54,8 @@ public class MovieRentalController
     {
       System.out.println("SQL Exception while loading films in class ctor, message is: " + e.getMessage());
     }
+    theView.comboFilmList.setSelectedIndex(0);
+
   }
 
 
@@ -77,6 +80,7 @@ public class MovieRentalController
     {
       System.out.println("SQL Exeption in LoadCustomerList(), message is: " + e.getMessage());
     }
+    theView.comboCustList.setSelectedIndex(0);
   }
 
   /**
