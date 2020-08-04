@@ -5,15 +5,17 @@
  * Date: Jul 14, 2020
  */
 
+import java.util.*;
+
+import java.text.ParseException;
+
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.List;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class MovieRentalView extends JFrame
 {
@@ -100,8 +102,18 @@ public class MovieRentalView extends JFrame
 
 	// Error Cell	
 	JLabel cust_lblError;
-  
-  
+
+  //James Kidd's mess of stuff
+  JComboBox<String> comboFilmList, comboCustList;
+  JLabel lblFilmCombo, lblCustCombo, lblStoreRadios;
+  JRadioButton radioStore1, radioStore2;
+  ButtonGroup radioGroup;
+  JPanel pnlInput, pnlOutput, pnlFilmCombo, pnlCustCombo, pnlStoreRadio, pnlBtnSubmit;
+  JTextPane txtOutput;
+  JButton btnSubmit;
+  Vector<String> custList;
+  Vector<String> filmList;
+
   MovieRentalView()
   {
     super("Movie Rental and Database");
@@ -165,7 +177,7 @@ public class MovieRentalView extends JFrame
 
   /**
    * Method: createAddActorPane
-   * Summary: Create add actor panel and its JComponents for the program
+   * Summary: Create add actor panel, its JComponents for the program, and lay them out properly
    */
   private void createAddActorPane()
   {
@@ -222,7 +234,7 @@ public class MovieRentalView extends JFrame
 
   /**
    * Method: createGenerateReportPane
-   * Summary: Create the generate report panel and add it the the JFrame;
+   * Summary: Create the generate report panel, add it  the the JFrame, and lay them out properly
    */
   private void createGenerateReportPane()
   {
@@ -284,8 +296,83 @@ public class MovieRentalView extends JFrame
 
   private void createAddNewRentalTransactionPane()
   {
-    //Evan's codes
-  }
+    filmList = new Vector<String>();
+    custList = new Vector<String>();
+
+
+    pnlNewRental.setLayout(new BorderLayout());
+      // instantiate components for view
+      lblFilmCombo = new JLabel("Name of Film: ");
+      lblCustCombo = new JLabel("Name of Customer: ");
+      lblStoreRadios = new JLabel("Store Location: ");
+
+      radioStore1 = new JRadioButton("1", true);
+      radioStore1.setActionCommand("1");
+
+      radioStore2 = new JRadioButton("2", false);
+      radioStore2.setActionCommand("2");
+
+      radioGroup = new ButtonGroup();
+      radioGroup.add(radioStore1);
+      radioGroup.add(radioStore2);
+
+      btnSubmit = new JButton("Submit");
+
+      txtOutput = new JTextPane();
+      txtOutput.setFont(new Font("Arial", Font.BOLD, 18));
+      txtOutput.setEditable(false);
+      txtOutput.setOpaque(false);
+      txtOutput.setBorder(new EmptyBorder(0, 0, 115, 0));
+
+      StyledDocument doc = txtOutput.getStyledDocument();
+      SimpleAttributeSet center = new SimpleAttributeSet();
+      StyleConstants.setAlignment(center,  StyleConstants.ALIGN_CENTER);
+      doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+      comboFilmList = new JComboBox<String>(filmList);
+      AutoCompletion.enable(comboFilmList); // third party decorator class - By Thomas Bierhance (  // http://www.orbital-computer.de/JComboBox )
+      comboCustList = new JComboBox<String>(custList);
+      AutoCompletion.enable(comboCustList); // third party decorator class - By Thomas Bierhance ( // http://www.orbital-computer.de/JComboBox )
+
+      comboFilmList.setPreferredSize(new Dimension(200,30));
+      comboCustList.setPreferredSize(new Dimension(200,30));
+
+
+      // make panels
+      pnlInput = new JPanel(new BorderLayout());
+      pnlFilmCombo = new JPanel(new GridLayout(2, 1));
+      pnlCustCombo = new JPanel(new GridLayout(2, 1));
+      pnlStoreRadio = new JPanel();
+      pnlOutput = new JPanel(new BorderLayout());
+      pnlBtnSubmit = new JPanel();
+
+      pnlStoreRadio.setBorder(new EmptyBorder(20, 10, 5, 10));
+      pnlFilmCombo.setBorder(new EmptyBorder(10, 50, 25, 10));
+      pnlCustCombo.setBorder(new EmptyBorder(10, 10, 25, 50));
+
+      pnlFilmCombo.add(lblFilmCombo);
+      pnlFilmCombo.add(comboFilmList);
+
+      pnlCustCombo.add(lblCustCombo);
+      pnlCustCombo.add(comboCustList);
+
+      pnlStoreRadio.add(lblStoreRadios);
+      pnlStoreRadio.add(radioStore1);
+      pnlStoreRadio.add(radioStore2);
+
+      pnlInput.add(pnlFilmCombo, BorderLayout.WEST);
+      pnlInput.add(pnlCustCombo, BorderLayout.EAST);
+      pnlInput.add(pnlStoreRadio, BorderLayout.NORTH);
+
+      pnlBtnSubmit.add(btnSubmit);
+
+      pnlOutput.add(txtOutput);
+
+      pnlNewRental.add(pnlInput, BorderLayout.NORTH);
+      pnlNewRental.add(pnlBtnSubmit, BorderLayout.CENTER);
+      pnlNewRental.add(pnlOutput, BorderLayout.SOUTH);
+
+  }//create method
 
   private void createAddNewFilmPane()
   {
@@ -325,6 +412,7 @@ public class MovieRentalView extends JFrame
     gbc.gridx = x;
     gbc.gridy = y;
   }
+
   /**
    * Method: clearGeneratereportInput
    * Summary: Clear/reset inputs for generate report panel
@@ -335,7 +423,6 @@ public class MovieRentalView extends JFrame
     cbCategory.setSelectedIndex(0);
     cbStore.setSelectedIndex(0);
   }
-  
   
   /**
    * Method: instantiateJComponentsForCustomerPane
@@ -557,5 +644,14 @@ public class MovieRentalView extends JFrame
   	cust_cmbCity.removeAllItems();	
   	for(int i = 0; i < cities.size(); ++i) 	
   		cust_cmbCity.addItem(cities.get(i).toString());	
+  }
+
+  public void addSubmitRentalListener(SubmitRentalListener listener){
+    btnSubmit.addActionListener(listener);
+  }
+
+  public void addStoreRadioListener(StoreRadioListener listener){
+    radioStore1.addItemListener(listener);
+    radioStore2.addItemListener(listener);
   }
 }
