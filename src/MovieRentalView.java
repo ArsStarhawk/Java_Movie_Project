@@ -102,7 +102,7 @@ public class MovieRentalView extends JFrame
 
   /**
    * Method: createAddActorPane
-   * Summary: Create add actor panel and its JComponents for the program
+   * Summary: Create add actor panel, its JComponents for the program, and lay them out properly
    */
   private void createAddActorPane()
   {
@@ -159,7 +159,7 @@ public class MovieRentalView extends JFrame
 
   /**
    * Method: createGenerateReportPane
-   * Summary: Create the generate report panel and add it the the JFrame;
+   * Summary: Create the generate report panel, add it  the the JFrame, and lay them out properly
    */
   private void createGenerateReportPane()
   {
