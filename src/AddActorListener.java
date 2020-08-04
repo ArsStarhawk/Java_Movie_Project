@@ -33,18 +33,18 @@ public class AddActorListener implements ActionListener
     else // add actor button hit
     {
 
-        String fName = theView.tflFirstname.getText();
-        String lName = theView.tflLastname.getText();
-        boolean isValidFirstLastName = isValidFirstLastName(fName,lName);
-        if(isValidFirstLastName)
-        {
-          String stmt = "INSERT INTO Actor (first_name, last_name) " +
-              "VALUES ( '" + fName + "', '" + lName + "');";
-          theModel.addActor(stmt);
-          helper.createPopupDialog("Database updated",
-              "Actor " + fName + " " + lName + " is added to the database.");
-          clearTextField();
-        }
+      String fName = theView.tflFirstname.getText();
+      String lName = theView.tflLastname.getText();
+      boolean isValidFirstLastName = isValidFirstLastName(fName,lName);
+      if(isValidFirstLastName)
+      {
+        String stmt = "INSERT INTO Actor (first_name, last_name) " +
+            "VALUES ( '" + fName + "', '" + lName + "');";
+        theModel.addActor(stmt);
+        helper.createPopupDialog("Database updated",
+            "Actor " + fName + " " + lName + " is added to the database.");
+        clearTextField();
+      }
     }
   }
 
