@@ -5,8 +5,14 @@
  * Date: Jul 14, 2020
  */
 
+//import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.*;
 import java.sql.*;
+import java.util.List;
+
+import javax.swing.JComboBox;
 
 public class MovieRentalController
 {
@@ -25,6 +31,11 @@ public class MovieRentalController
     helperMethods = new HelperMethods();
     populateCategoryDropdownForGenerateReportPane();
     populateStoreDropdownForGenerateReportPane();
+    
+		// Setup for addCustomer
+    theView.updateCountryList(theModel.getAllCountries());
+    theView.addCountryComboListener(new CountryChangeListener());
+    theView.addCustomerButtonLIstener(new AddCustomerListener());
     populateFilmDropdownForRentalPane();
     populateCustomerDropDownForRentalPant();
 
@@ -83,6 +94,48 @@ public class MovieRentalController
     theView.comboCustList.setSelectedIndex(0);
   }
 
+	// Listener for country combobox on addCustomer
+	class CountryChangeListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent event)
+		{
+			JComboBox countryBox = (JComboBox) event.getSource();
+			List<String> selectedCities = theModel.getCitiesInCountry(countryBox.getSelectedItem().toString());
+			theView.setCityComboBox(selectedCities);
+		}
+	}
+
+	 /**
+   * Method: AddCustomerListener
+   * Summary: Gets all the fiels from the customer table, 
+   * 					Validates them and builds a query for the model
+   */
+	class AddCustomerListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			Customer cust = new Customer();
+			cust.firstName = theView.cust_tflFirstName.getText().toString();
+			cust.lastName = theView.cust_tflLastName.getText().toString();
+			cust.email = theView.cust_tflEmailField.getText().toString();
+			cust.address1 = theView.cust_tflAddress_1.getText().toString();
+			cust.address2 = theView.cust_tflAddress_2.getText().toString();
+			cust.postal = theView.cust_tflPostal.getText().toString();
+			cust.phone = theView.cust_tflPhone.getText().toString();
+			cust.country = theView.cust_cmbCountry.getSelectedItem().toString();
+			cust.city = theView.cust_cmbCity.getSelectedItem().toString();
+			if (theModel.addCustomer(cust) > 0)
+			{
+				theView.displayMessage(cust.firstName + " " + cust.lastName + " has been added");
+			} else
+			{
+				theView.displayMessage("ERROR: Customer not added");
+			}
+		}
+	}
+  
   /**
    * Method: populateCategoryDropdownForGenerateReportPane
    * Summary: Gets all categories from database and populate the drop-down list

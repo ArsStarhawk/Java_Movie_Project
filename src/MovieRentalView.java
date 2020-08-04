@@ -5,20 +5,20 @@
  * Date: Jul 14, 2020
  */
 
+import java.util.*;
+
+import java.text.ParseException;
+
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
 
 public class MovieRentalView extends JFrame
 {
-  JTabbedPane tabbedPane;
   JPanel pnlAddCustomer;
   JPanel pnlAddActor;
   JPanel pnlAddFilm;
@@ -49,6 +49,59 @@ public class MovieRentalView extends JFrame
   JScrollPane scpGenerateReport;
   GridBagConstraints gbc;
 
+  // Add Customer Variables
+  JTabbedPane tabbedPane;	
+	JPanel addCustomer;	
+
+	// Customer Firstname	
+	JLabel cust_lblFirstName;	
+	JTextField cust_tflFirstName;	
+
+	// Customer Lastname	
+	JLabel cust_lblLastName;	
+	JTextField cust_tflLastName;	
+
+	// Customer Email	
+	JLabel cust_lblEmail;	
+	JTextField cust_tflEmailField;	
+
+	// Customer Address	
+	JLabel cust_lblAddress_1;	
+	JTextField cust_tflAddress_1;	
+
+	// Customer Address 2	
+	JLabel cust_lblAddress_2;	
+	JTextField cust_tflAddress_2;	
+
+	// Customer Postal	
+	JLabel cust_lblPostal;	
+	JFormattedTextField cust_tflPostal;	
+
+	// Customer Phone	
+	JLabel cust_lblPhone;	
+	JFormattedTextField cust_tflPhone;	
+
+	// Customer Country	
+	JLabel cust_lblCountry;	
+	protected JComboBox<String> cust_cmbCountry;	
+
+	// Customer City	
+	JLabel cust_lblCity;	
+	JComboBox<String> cust_cmbCity;	
+
+	// Empty Cells	
+	JLabel cust_lblEmptyCell_1;	
+	JLabel cust_lblEmptyCell_2;	
+	JLabel cust_lblEmptyCell_3;	
+
+	// Clear Button	
+	JButton cust_btnClear;	
+
+	// Customer Button	
+	JButton cust_btnAddCustomer;	
+
+	// Error Cell	
+	JLabel cust_lblError;
 
   //James Kidd's mess of stuff
   JComboBox<String> comboFilmList, comboCustList;
@@ -117,6 +170,9 @@ public class MovieRentalView extends JFrame
   private void CreateAddCustomerPane()
   {
     // Scully's codes
+		// Build UI	
+		instantiateJComponentsForCustomerPane();	
+		addJComponentsToCustomerPanel();
   }
 
   /**
@@ -367,6 +423,228 @@ public class MovieRentalView extends JFrame
     cbCategory.setSelectedIndex(0);
     cbStore.setSelectedIndex(0);
   }
+  
+  /**
+   * Method: instantiateJComponentsForCustomerPane
+   * Summary: Inits components for customer panel
+   */
+	public void instantiateJComponentsForCustomerPane()	
+	{	
+
+		// Firstname	
+		cust_lblFirstName = new JLabel("First Name: ");	
+		cust_tflFirstName = new JTextField("");	
+
+		// Lastname	
+		cust_lblLastName = new JLabel("Last Name: ");	
+		cust_tflLastName = new JTextField("");	
+
+		// Email	
+		cust_lblEmail = new JLabel("Email: ");	
+		cust_tflEmailField = new JTextField("");	
+
+		// Address	
+		cust_lblAddress_1 = new JLabel("Adress 1: ");	
+		cust_tflAddress_1 = new JTextField("");	
+
+		// Address 2	
+		cust_lblAddress_2 = new JLabel("Adress 2: ");	
+		cust_tflAddress_2 = new JTextField("");	
+
+		// Postal	
+		cust_lblPostal = new JLabel("Postal: ");	
+    MaskFormatter postalMask = null;	
+		try	
+		{	
+			postalMask = new MaskFormatter("U#U-#U#");	
+		} catch (ParseException e)	
+		{	
+			e.printStackTrace();	
+		}	
+		cust_tflPostal = new JFormattedTextField(postalMask);	
+
+		// Phone	
+		cust_lblPhone = new JLabel("Phone: ");	
+    MaskFormatter phoneMask = null;	
+		try	
+		{	
+			phoneMask = new MaskFormatter("(###) ###-####");	
+		} catch (ParseException e) {	
+			e.printStackTrace();	
+		}	
+		cust_tflPhone = new JFormattedTextField(phoneMask);	
+
+		// Country	
+		String[] country = {"-"};	
+		cust_lblCountry = new JLabel("Country: ");	
+		cust_cmbCountry = new JComboBox<String>(country);	
+
+		// City	
+		cust_lblCity = new JLabel("City: ");	
+		String[] city = {"-"};	
+		cust_cmbCity = new JComboBox<String>(city);	
+
+		// Empty	
+		cust_lblEmptyCell_1 = new JLabel("");	
+		cust_lblEmptyCell_2 = new JLabel("");	
+
+		// Clear and Add Button	
+		cust_btnClear = new JButton("Clear");	
+		cust_btnAddCustomer = new JButton("Add Customer");	
+
+		// Empty	
+		cust_lblEmptyCell_3 = new JLabel("");	
+
+		// Error	
+		cust_lblError = new JLabel("");	
+	}
+  
+  /**
+   * Method: addJComponentsToCustomerPanel
+   * Summary: Creates components for customer panel
+   */
+	public void addJComponentsToCustomerPanel() {	
+		// Add JComponents to the addCustomer panel	
+		pnlAddCustomer.setLayout(new GridLayout(16, 2));	
+
+		// Firstname	
+		pnlAddCustomer.add(cust_lblFirstName);	
+		pnlAddCustomer.add(cust_tflFirstName);	
+
+		// Lastname	
+		pnlAddCustomer.add(cust_lblLastName);	
+		pnlAddCustomer.add(cust_tflLastName);	
+
+		// Email	
+		pnlAddCustomer.add(cust_lblEmail);	
+		pnlAddCustomer.add(cust_tflEmailField);	
+
+		// Address	
+		pnlAddCustomer.add(cust_lblAddress_1);	
+		pnlAddCustomer.add(cust_tflAddress_1);	
+
+		// Address 2	
+		pnlAddCustomer.add(cust_lblAddress_2);	
+		pnlAddCustomer.add(cust_tflAddress_2);	
+
+		// Postal	
+		pnlAddCustomer.add(cust_lblPostal);	
+		pnlAddCustomer.add(cust_tflPostal);	
+
+		// Phone	
+		pnlAddCustomer.add(cust_lblPhone);	
+		pnlAddCustomer.add(cust_tflPhone);	
+
+		// Country	
+		pnlAddCustomer.add(cust_lblCountry);	
+		pnlAddCustomer.add(cust_cmbCountry);	
+
+		// City	
+		pnlAddCustomer.add(cust_lblCity);	
+		pnlAddCustomer.add(cust_cmbCity);	
+
+		// Empty cells	
+		pnlAddCustomer.add(cust_lblEmptyCell_1);	
+		pnlAddCustomer.add(cust_lblEmptyCell_2);	
+
+		// Clear, Add Buttons	
+		pnlAddCustomer.add(cust_btnClear);	
+		pnlAddCustomer.add(cust_btnAddCustomer);	
+
+		// Empty, Error	
+		pnlAddCustomer.add(cust_lblEmptyCell_3);	
+		pnlAddCustomer.add(cust_lblError);	
+
+	}
+	
+	 /**
+   * Method: validateCustomer
+   * Summary: validates customer input form
+   */
+ public boolean validateCustomer() {	
+
+ 	// Check if empty	
+ 	if(this.cust_tflFirstName.getText().equals("")) {	
+ 		this.cust_lblError.setText("Invalid firstname");	
+ 		return false;	
+ 	}	
+ 	if(this.cust_tflLastName.getText().equals("")) {	
+ 		this.cust_lblError.setText("Invalid lastname");	
+ 		return false;	
+ 	}	
+ 	// Get first address, no need to validate second address	
+ 	if(this.cust_lblAddress_1.getText().equals("")) {	
+ 		this.cust_lblError.setText("Invalid address: Requirest at least one");	
+ 		return false;	
+ 	}	
+
+/**
+  * Method: validatesEmail address
+  * Summary: validates customer input form
+  */
+ 	if (this.cust_tflEmailField.getText().equals("")) {	
+ 		this.cust_lblError.setText("Invalid email");	
+ 		return false;	
+   }	
+   String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 	
+       "[a-zA-Z0-9_+&*-]+)*@" + 	
+       "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 	
+       "A-Z]{2,7}$";          	
+   Pattern pat = Pattern.compile(emailRegex);  	
+   if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
+   	this.cust_lblError.setText("Invalid email");	
+   	return false;	
+   } 	
+
+  // validate phone	
+   String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          	
+   Pattern phonePat = Pattern.compile(phoneRegex);  	
+   if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {	
+   	this.cust_lblError.setText("Invalid phone");	
+   	return false;	
+   } 	
+
+   if(this.cust_tflPhone.getText().equals("")) {	
+   	this.cust_lblError.setText("Invalid phone");	
+   	return false;	
+   }	
+
+ 	// only need to validate country	
+   if(this.cust_cmbCountry.getSelectedItem().equals("-")){	
+   	this.cust_lblError.setText("Invalid Country");	
+   	return false;	
+   }	
+ 	return true;	
+ }	
+
+	// Use to display messages	
+	public void displayMessage(String msg) {	
+   JOptionPane.showMessageDialog(this,msg);  	
+	}
+	// Add listener to the comboBox and data	
+  public void addCountryComboListener(ActionListener listener) {	
+  	cust_cmbCountry.addActionListener(listener);	
+  }	
+
+  public void addCustomerButtonLIstener(ActionListener listener) {	
+  	cust_btnAddCustomer.addActionListener(listener);	
+  }	
+
+  // Update CountryList	
+  public void updateCountryList(List<String> countries) {	
+  	cust_cmbCountry.removeAllItems();	
+  	cust_cmbCountry.addItem("-");	
+  	for(int i = 0; i < countries.size(); ++i) {	
+  		cust_cmbCountry.addItem(countries.get(i).toString());	
+  	}	
+  }	
+
+  // Updates the cityComboBox	
+  public void setCityComboBox(List<String> cities ) {	
+  	cust_cmbCity.removeAllItems();	
+  	for(int i = 0; i < cities.size(); ++i) 	
+  		cust_cmbCity.addItem(cities.get(i).toString());	
+  }
 
   public void addSubmitRentalListener(SubmitRentalListener listener){
     btnSubmit.addActionListener(listener);
@@ -376,5 +654,4 @@ public class MovieRentalView extends JFrame
     radioStore1.addItemListener(listener);
     radioStore2.addItemListener(listener);
   }
-
 }
