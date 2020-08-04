@@ -28,6 +28,7 @@ public class MovieRentalController
     theView.addGenerateReportLisenter(new GenerateReportListener(theView, theModel));
     theView.addSubmitRentalListener(new SubmitRentalListener(theView, theModel));
     theView.addStoreRadioListener(new StoreRadioListener(theView, theModel, this));
+    theView.addFilmButton.addActionListener(new AddFilmListener(theView, theModel));
     helperMethods = new HelperMethods();
     populateCategoryDropdownForGenerateReportPane();
     populateStoreDropdownForGenerateReportPane();
