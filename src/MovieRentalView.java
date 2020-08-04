@@ -106,19 +106,7 @@ public class MovieRentalView extends JFrame
    */
   private void createAddActorPane()
   {
-    instantiateJComponentForAddActor();
-    setupTitleForAddActor();
-    setupAllLabelsForAddActor();
-    setupAllJTextFieldForAddActor();
-    setupButtonForAddActor();
-  }
-
-  /**
-   * Method: instantiateJComponentForAddActor
-   * Summary: instantiate all the components for add actor panel
-   */
-  private void instantiateJComponentForAddActor()
-  {
+    // instantiate JComponent For Add Actor;
     lblAddNewActorTitle = new JLabel("Add a New Actor to Database");
     lblFirstname = new JLabel("First Name:");
     lblLastname = new JLabel("Last Name:");
@@ -129,26 +117,14 @@ public class MovieRentalView extends JFrame
     btnAddActor = new JButton("Add Actor");
     btnCleanActor = new JButton("Clear");
     gbc = new GridBagConstraints();
-  }
 
-  /**
-   * Method: setupTitleForAddActor
-   * Summary: Set up JLabel for the add actor panel
-   */
-  public void setupTitleForAddActor()
-  {
+    // setupTitleForAddActor();
     gbc.insets = new Insets(3,3,3,3);
     gbc.anchor = GridBagConstraints.CENTER;
     setGBCPosition(1,0);
     pnlAddActor.add(lblAddNewActorTitle, gbc);
-  }
 
-  /**
-   * Method: setupAllLabelsForAddActor
-   * Summary: set up all the labels on add actor panel and lay them out properly
-   */
-  public void setupAllLabelsForAddActor()
-  {
+    //setupAllLabelsForAddActor();
     gbc.anchor = GridBagConstraints.NORTHEAST;
     gbc.weightx = 0.01;
 
@@ -157,14 +133,9 @@ public class MovieRentalView extends JFrame
 
     setGBCPosition(0,3);
     pnlAddActor.add(lblLastname, gbc);
-  }
 
-  /**
-   * Method: setupAllJTextFieldForAddActor
-   * Purpose: Sets up all the JTextField for the add actor panel and lay them out properly
-   */
-  public void setupAllJTextFieldForAddActor()
-  {
+
+    //setupAllJTextFieldForAddActor();
     gbc.anchor = GridBagConstraints.LINE_START;
     gbc.weightx = 0.8;
     setGBCPosition(1,2);
@@ -172,14 +143,8 @@ public class MovieRentalView extends JFrame
 
     setGBCPosition(1,3);
     pnlAddActor.add(tflLastname, gbc);
-  }
 
-  /**
-   * Method: setupButtonForAddActor
-   * Purpose: Sets up all the JButton for add actor panel and lay them out properly
-   */
-  public void setupButtonForAddActor()
-  {
+    //setupButtonForAddActor();
     gbc.weighty = 1;
     gbc.weightx = 0.01;
 
@@ -198,20 +163,7 @@ public class MovieRentalView extends JFrame
    */
   private void createGenerateReportPane()
   {
-    instantiateJComponentForGenerateReport();
-    setUpAllLablesForGenerateReport();
-    setUpAllJCompoboxesForGenerateReport();
-    setUpAllButtonsForGenerateReport();
-    pnlGenerateReport.add(pnlGenerateReportNorth, BorderLayout.CENTER);
-    pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
-  }
-
-  /**
-   * Method: instantiateJComponentForGenerateReport
-   * Summary: Instantiates all the components for generate report panel
-   */
-  private void instantiateJComponentForGenerateReport()
-  {
+    //setUpAllLablesForGenerateReport();
     tblGenerateReport = new JTable();
     pnlGenerateReport.setLayout(new BorderLayout());
     lblGenerateReportTitle = new JLabel("Generate Report", SwingConstants.CENTER);
@@ -228,14 +180,8 @@ public class MovieRentalView extends JFrame
     btnClearGenerateReportView = new JButton("Clear");
     btnGenerateReport = new JButton("Generate Report");
     gbc = new GridBagConstraints();
-  }
 
-  /**
-   * Method: setUpAllLablesForGenerateReport
-   * Summary: Sets up all the labels for generate report panel and lay them out properly
-   */
-  public void setUpAllLablesForGenerateReport()
-  {
+    //setUpAllJCompoboxesForGenerateReport();
     gbc.weightx = 0.1;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     setGBCPosition(0,2);
@@ -249,14 +195,7 @@ public class MovieRentalView extends JFrame
 
     setGBCPosition(2,3);
     pnlGenerateReportNorth.add(new JLabel("To   (DD-MM-YYYY)"), gbc);
-  }
 
-  /**
-   * Method: setUpAllJCompoboxesForGenerateReport
-   * Summary: Sets up all the JComboBox for generate report panel and lay them out properly
-   */
-  public void setUpAllJCompoboxesForGenerateReport()
-  {
     setGBCPosition(1,2);
     pnlGenerateReportNorth.add(cbCategory, gbc);
 
@@ -268,19 +207,16 @@ public class MovieRentalView extends JFrame
 
     setGBCPosition(4,3);
     pnlGenerateReportNorth.add(tflTo, gbc);
-  }
 
-  /**
-   * Method: setUpAllButtonsForGenerateReport
-   * Summary: Sets up all the JButtons for generate report panel and lay them out properly
-   */
-  public void setUpAllButtonsForGenerateReport()
-  {
+    //setUpAllButtonsForGenerateReport();
     setGBCPosition(0,5);
     pnlGenerateReportNorth.add(btnGenerateReport, gbc);
 
     setGBCPosition(1,5);
     pnlGenerateReportNorth.add(btnClearGenerateReportView, gbc);
+
+    pnlGenerateReport.add(pnlGenerateReportNorth, BorderLayout.CENTER);
+    pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
   }
 
   private void createAddNewRentalTransactionPane()
@@ -313,8 +249,6 @@ public class MovieRentalView extends JFrame
     btnClearGenerateReportView.addActionListener(listener);
     btnGenerateReport.addActionListener(listener);
   }
-
-
 
   /**
    * Method: setGBCPosition
