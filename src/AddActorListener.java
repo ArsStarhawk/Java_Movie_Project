@@ -32,8 +32,7 @@ public class AddActorListener implements ActionListener
     }
     else // add actor button hit
     {
-      try
-      {
+
         String fName = theView.tflFirstname.getText();
         String lName = theView.tflLastname.getText();
         boolean isValidFirstLastName = isValidFirstLastName(fName,lName);
@@ -46,13 +45,6 @@ public class AddActorListener implements ActionListener
               "Actor " + fName + " " + lName + " is added to the database.");
           clearTextField();
         }
-      }
-      catch(SQLException exception)
-      {
-        helper.createPopupDialog("Error",
-            "Unexpected error occured. Please contact IT Service.");
-        exception.printStackTrace();
-      }
     }
   }
 
