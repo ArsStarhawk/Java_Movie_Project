@@ -1,6 +1,6 @@
 /**
  * File Name: AddActorListener.java
- * Coder: Sion Young
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
  * Date: 8/1/2020
  * Description: Action Listener class for adding actor.
  */

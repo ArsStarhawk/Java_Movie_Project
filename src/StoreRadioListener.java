@@ -1,3 +1,10 @@
+/**
+ * Program Name: StoreRadioListener.java
+ * Purpose:
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
+ * Date: Jul 14, 2020
+ */
+
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

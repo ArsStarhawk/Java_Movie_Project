@@ -1,6 +1,6 @@
 /**
  * File Name: DateStoreCategory.java
- * Coder: Sion Young
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
  * Date: 8/1/2020
  * Description: A wrapper class to wrap up dates, category and store data for generate report panel
  */

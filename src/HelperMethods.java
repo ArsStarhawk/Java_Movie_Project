@@ -2,7 +2,7 @@ import javax.swing.*;
 
 /**
  * File Name: GeneralHelper.java
- * Coder: Sion Young
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
  * Date: 8/1/2020
  * Description: A helper class contains methods used across multiple class
  */

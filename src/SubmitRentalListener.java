@@ -1,3 +1,10 @@
+/**
+ * Program Name: SubmitRentalListener.java
+ * Purpose:
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
+ * Date: Jul 14, 2020
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

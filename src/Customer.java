@@ -3,7 +3,7 @@
  * Program Name: Customer.java 
  * Purpose: Stores customer data to be passed between 
  * 					the model and the controller; 
- * Coder:   James Scully 
+ * Coder:   Evan Somers, Sion Young, James Kidd, James Scully
  * Date: 		Jul 30, 2020
  */
   public class Customer{

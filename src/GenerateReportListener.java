@@ -1,6 +1,6 @@
 /**
  * File Name: GenerateReportListener.java
- * Coders: Sion Young
+ * Coders: Evan Somers, Sion Young, James Kidd, James Scully
  * Date: 8/1/2020
  * Description: Action Listener class for generate report panel
  */
