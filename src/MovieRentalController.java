@@ -5,6 +5,7 @@
  * Date: Jul 14, 2020
  */
 
+import java.awt.*;
 import java.sql.*;
 
 public class MovieRentalController
@@ -19,9 +20,67 @@ public class MovieRentalController
     theModel = new MovieRentalModel();
     theView.addAddActorButtonListener(new AddActorListener(theView, theModel));
     theView.addGenerateReportLisenter(new GenerateReportListener(theView, theModel));
+    theView.addSubmitRentalListener(new SubmitRentalListener(theView, theModel));
+    theView.addStoreRadioListener(new StoreRadioListener(theView, theModel, this));
     helperMethods = new HelperMethods();
     populateCategoryDropdownForGenerateReportPane();
     populateStoreDropdownForGenerateReportPane();
+    populateFilmDropdownForRentalPane();
+    populateCustomerDropDownForRentalPant();
+
+
+
+  }
+
+  /**
+   * <h1>Purpose:</h1>  Loads the Film JComboBox in the Rental Tab
+   * <h1>Accepts:</h1> -
+   * <h1>Returns:</h1> VOID
+   * <h1>Date:</h1> Aug 3, 2020
+   * <h1>Coder:</h1> James Kidd
+   */
+  private void populateFilmDropdownForRentalPane()
+  {
+    // load film list
+    theView.filmList.add("Start Typing to search...");
+    ResultSet filmResults = theModel.GetAllFilms();
+    try
+    {
+      while (filmResults.next())
+      {
+        theView.filmList.add(filmResults.getString("title"));
+      }
+    } catch (SQLException e)
+    {
+      System.out.println("SQL Exception while loading films in class ctor, message is: " + e.getMessage());
+    }
+    theView.comboFilmList.setSelectedIndex(0);
+
+  }
+
+
+  /**
+   * <h1>Purpose:</h1>  Loads the Customer JComboBox in the Rental Tab
+   * <h1>Accepts:</h1> String: Store ID
+   * <h1>Returns:</h1> VOID
+   * <h1>Date:</h1> Aug 3, 2020
+   * <h1>Coder:</h1> James Kidd
+   */
+  private void populateCustomerDropDownForRentalPant()
+  {
+    theView.custList.add("Start Typing to search...");
+    ResultSet custResults = theModel.GetAllCustomers("1");
+    try
+    {
+      while (custResults.next())
+      {
+        theView.custList.add(custResults.getString("first_name") + " " + custResults.getString("last_name"));
+      }
+    } catch (SQLException e)
+    {
+      System.out.println("SQL Exeption in LoadCustomerList(), message is: " + e.getMessage());
+    }
+    theView.comboCustList.setSelectedIndex(0);
   }
 
   /**

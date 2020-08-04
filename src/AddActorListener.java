@@ -32,6 +32,7 @@ public class AddActorListener implements ActionListener
     }
     else // add actor button hit
     {
+
       String fName = theView.tflFirstname.getText();
       String lName = theView.tflLastname.getText();
       boolean isValidFirstLastName = isValidFirstLastName(fName,lName);
