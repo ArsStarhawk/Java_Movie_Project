@@ -21,11 +21,11 @@ public class StoreRadioListener implements ItemListener {
         view.custList.add("Start Typing to search...");
         ResultSet custResults = null;
 
-        if(view.radioStore1.isSelected())
+        if(view.radioGroup.getSelection().getActionCommand().equals("1"))
         {
             custResults = model.GetAllCustomers("1");
         }
-        else if(view.radioStore2.isSelected())
+        else if(view.radioGroup.getSelection().getActionCommand().equals("2"))
         {
             custResults = model.GetAllCustomers("2");
         }
