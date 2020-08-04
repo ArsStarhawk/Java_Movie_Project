@@ -18,7 +18,6 @@ public class MovieRentalModel
   private PreparedStatement prepStmt = null;
   private CallableStatement callStmt = null;
   HelperMethods helperMethods;
-  private static PreparedStatement prepStmt = null;
 
   public MovieRentalModel()
   {
@@ -258,8 +257,6 @@ public class MovieRentalModel
 
 		return 1;
 	}
-}
-
   /**
    * <h1>Purpose:</h1>  Retrieves list of all films in Database
    * <h1>Accepts:</h1> -

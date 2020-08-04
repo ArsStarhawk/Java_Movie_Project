@@ -10,12 +10,19 @@ import java.util.*;
 import java.text.ParseException;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class MovieRentalView extends JFrame
 {
@@ -468,7 +475,7 @@ public class MovieRentalView extends JFrame
     MaskFormatter phoneMask = null;	
 		try	
 		{	
-			phoneMask = new MaskFormatter("(###) ###-####");	
+			phoneMask = new MaskFormatter("(###) ###-####");
 		} catch (ParseException e) {	
 			e.printStackTrace();	
 		}	
@@ -590,7 +597,7 @@ public class MovieRentalView extends JFrame
        "[a-zA-Z0-9_+&*-]+)*@" + 	
        "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 	
        "A-Z]{2,7}$";          	
-   Pattern pat = Pattern.compile(emailRegex);  	
+   Pattern pat = Pattern.compile(emailRegex);
    if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
    	this.cust_lblError.setText("Invalid email");	
    	return false;	
@@ -631,7 +638,7 @@ public class MovieRentalView extends JFrame
   }	
 
   // Update CountryList	
-  public void updateCountryList(List<String> countries) {	
+  public void updateCountryList(List<String> countries) {
   	cust_cmbCountry.removeAllItems();	
   	cust_cmbCountry.addItem("-");	
   	for(int i = 0; i < countries.size(); ++i) {	
