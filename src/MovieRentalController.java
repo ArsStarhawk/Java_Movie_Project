@@ -36,6 +36,7 @@ public class MovieRentalController
     theView.updateCountryList(theModel.getAllCountries());
     theView.addCountryComboListener(new CountryChangeListener());
     theView.addCustomerButtonLIstener(new AddCustomerListener());
+    theView.addClearCustomerButtonListener(new ClearCustomerListener());
     populateFilmDropdownForRentalPane();
     populateCustomerDropDownForRentalPant();
 
@@ -181,5 +182,28 @@ public class MovieRentalController
       System.out.println(ex.getMessage());
     }
   }
+  
+  /**
+   * Method: ClearCustomerListener
+   * Summary: Action listener to clear the add customer form.
+   */
+	public class ClearCustomerListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			
+			theView.cust_tflFirstName.setText("");
+			theView.cust_tflLastName.setText("");
+			theView.cust_tflEmailField.setText("");
+			theView.cust_tflAddress_1.setText("");
+			theView.cust_tflAddress_2.setText("");
+			theView.cust_tflPostal.setText("");
+			theView.cust_tflPhone.setText("");
+			theView.cust_cmbCountry.setSelectedIndex(0);
+			theView.cust_cmbCity.removeAll();
+			theView.cust_lblError.removeAll();
+		}
+	}
 }
 

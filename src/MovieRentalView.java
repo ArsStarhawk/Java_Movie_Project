@@ -451,11 +451,11 @@ public class MovieRentalView extends JFrame
 		cust_tflEmailField = new JTextField("");	
 
 		// Address	
-		cust_lblAddress_1 = new JLabel("Adress 1: ");	
+		cust_lblAddress_1 = new JLabel("Address 1: ");	
 		cust_tflAddress_1 = new JTextField("");	
 
 		// Address 2	
-		cust_lblAddress_2 = new JLabel("Adress 2: ");	
+		cust_lblAddress_2 = new JLabel("Address 2: ");	
 		cust_tflAddress_2 = new JTextField("");	
 
 		// Postal	
@@ -565,8 +565,8 @@ public class MovieRentalView extends JFrame
 	}
 	
 	 /**
-   * Method: validateCustomer
-   * Summary: validates customer input form
+   * Method: ValidateCustomer
+   * Summary: Validates customer input form
    */
  public boolean validateCustomer() {	
 
@@ -585,10 +585,7 @@ public class MovieRentalView extends JFrame
  		return false;	
  	}	
 
-/**
-  * Method: validatesEmail address
-  * Summary: validates customer input form
-  */
+ 	// validate email address
  	if (this.cust_tflEmailField.getText().equals("")) {	
  		this.cust_lblError.setText("Invalid email");	
  		return false;	
@@ -624,20 +621,47 @@ public class MovieRentalView extends JFrame
  	return true;	
  }	
 
-	// Use to display messages	
+ /**
+  * Method: 	displayMessage
+  * Summary: 	displays a message in an JOptionpane
+  * @param 	 	message to display
+  */
 	public void displayMessage(String msg) {	
    JOptionPane.showMessageDialog(this,msg);  	
 	}
-	// Add listener to the comboBox and data	
+
+	/**
+	  * Method: 	addCountryComboListener
+	  * Summary: 	A setter method for the country comobo box listener
+	  * @param 	 	The action listener to be added
+	  */
   public void addCountryComboListener(ActionListener listener) {	
   	cust_cmbCountry.addActionListener(listener);	
   }	
 
+	/**
+	 * Method: addCustomerButtonLIstener 
+	 * Summary: A setter method for the add customer button listener
+	 * @param The action listener to be added
+	 */
   public void addCustomerButtonLIstener(ActionListener listener) {	
   	cust_btnAddCustomer.addActionListener(listener);	
   }	
-
-  // Update CountryList	
+  
+	/**
+	 * Method: clearCustomerButtonListener 
+	 * Summary: A setter method for the clear customer button listener
+	 * @param The action listener to be added
+	 */
+  public void addClearCustomerButtonListener(ActionListener listener) {
+  	this.cust_btnClear.addActionListener(listener);
+  }
+  
+	/**
+	 * Method: updateCountryList 
+	 * Summary: Updates the customer country combobox with a list of countries
+	 * @param A list of the countries to be added
+	 */
   public void updateCountryList(List<String> countries) {
   	cust_cmbCountry.removeAllItems();	
   	cust_cmbCountry.addItem("-");	
@@ -646,12 +670,17 @@ public class MovieRentalView extends JFrame
   	}	
   }	
 
-  // Updates the cityComboBox	
+  /**
+	 * Method: setCityComboBox 
+	 * Summary: Updates the customers city combobox with a list of cities
+	 * @param A list of the cities to be added
+	 */	
   public void setCityComboBox(List<String> cities ) {	
   	cust_cmbCity.removeAllItems();	
   	for(int i = 0; i < cities.size(); ++i) 	
   		cust_cmbCity.addItem(cities.get(i).toString());	
   }
+  
 
   public void addSubmitRentalListener(SubmitRentalListener listener){
     btnSubmit.addActionListener(listener);
