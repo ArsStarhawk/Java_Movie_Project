@@ -36,4 +36,8 @@ hs_err_pid*
 .project/
 .classpath
 
+# Project Instruction
+*.doc
+*.docx
+
 # End of https://www.toptal.com/developers/gitignore/api/java

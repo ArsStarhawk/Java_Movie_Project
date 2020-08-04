@@ -39,7 +39,6 @@ public class MovieRentalModel
 			ex.printStackTrace();
 		}
 	}
-
 	// Gets a list of all countries in the database
 	public List<String> getAllCountries()
 	{

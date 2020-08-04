@@ -5,8 +5,13 @@ import java.util.List;
 import javax.swing.JComboBox;
 
 /**
+ * Program Name: MovieRentalController.java
+ * Purpose:
+ * Coder: 
+ * Date: Jul 14, 2020
  * Program Name: MovieRentalController.java Purpose: Coder: Date: Jul 14, 2020
  */
+import java.sql.*;
 
 public class MovieRentalController
 {
@@ -71,3 +76,4 @@ public class MovieRentalController
 		}
 	}
 }
+

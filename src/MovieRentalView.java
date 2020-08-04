@@ -11,6 +11,10 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
 /**
+ * Program Name: MovieRentalView.java
+ * Purpose:
+ * Coder: 
+ * Date: Jul 14, 2020
  * Program Name: MovieRentalView.java Purpose: Coder: Date: Jul 14, 2020
  */
 
@@ -352,3 +356,4 @@ public class MovieRentalView extends JFrame
 	}
 
 }
+

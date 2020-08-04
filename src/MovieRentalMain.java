@@ -1,7 +1,3 @@
-import java.awt.FlowLayout;
-import java.io.Console;
-import javax.swing.*;  
-
 /**
  * Program Name: MovieRentalMain.java
  * Purpose: Provide a GUI interface for users to access a movie rental database. 
@@ -11,7 +7,7 @@ import javax.swing.*;
  * 							2. generate reports
  * 							3. perform a movie rental transaction on the database
  * 
- * Coder: James Kidd, Evan Somers
+ * Coder: James Kidd, Evan Somers, James Scully, Sion Young
  * Date: Jul 14, 2020
  */
 
