@@ -111,7 +111,10 @@ public class MovieRentalView extends JFrame
 	JButton cust_btnClear;	
 
 	// Customer Button	
-	JButton cust_btnAddCustomer;	
+	JButton cust_btnAddCustomer;
+
+  // Error Cell
+  JLabel cust_lblError;
 
   //James Kidd's mess of stuff
   JComboBox<String> comboFilmList, comboCustList;
@@ -710,7 +713,10 @@ public class MovieRentalView extends JFrame
 
 		// Empty	
 		cust_lblEmptyCell_3 = new JLabel("");
-	}
+
+    // Error
+    cust_lblError = new JLabel("");
+  }
   
   /**
    * Method: addJComponentsToCustomerPanel
@@ -766,100 +772,115 @@ public class MovieRentalView extends JFrame
 
 		// Empty, Error	
 		pnlAddCustomer.add(cust_lblEmptyCell_3);
-	}
+    pnlAddCustomer.add(cust_lblError);
+  }
 	
 	 /**
    * Method: ValidateCustomer
    * Summary: Validates customer input form and displays a message if something is invalid
    * @return boolean true if valid, false if invalid
    */
- public boolean validateCustomer() {	
-
- 	// Check if empty	
- 	if(this.cust_tflFirstName.getText().equals("")) {
- 		displayMessage("Customer NOT added: Invalid firstname");
- 		this.cust_tflFirstName.setText("");
- 		this.cust_tflFirstName.requestFocus();
- 		return false;	
- 	}	
- 	if(this.cust_tflLastName.getText().equals("")) {	
-    displayMessage("Customer NOT added: Invalid lastname");
-    this.cust_tflLastName.setText("");
-    this.cust_tflLastName.requestFocus();
- 		return false;	
- 	}	
- 	
- 	// validate email address
- 	if (this.cust_tflEmailField.getText().equals("")) {	
-    displayMessage("Customer NOT added: Invalid email");
-    this.cust_tflEmailField.setText("");
-    this.cust_tflEmailField.requestFocus();
- 		return false;	
-   }	
-   String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 	
-       "[a-zA-Z0-9_+&*-]+)*@" + 	
-       "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 	
-       "A-Z]{2,7}$";          	
-   Pattern pat = Pattern.compile(emailRegex);
-   if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
-  	displayMessage("Customer NOT added: Invalid email");
-   	this.cust_tflEmailField.setText("");
-   	this.cust_tflEmailField.requestFocus();
-   	return false;	
-   } 
- 	
- 	// Get first address, no need to validate second address	
- 	if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() )
- 	{
-    displayMessage("Customer NOT added: Invalid address");
-    this.cust_tflAddress_1.setText("");
- 		this.cust_tflAddress_1.requestFocus();
- 		return false;
- 	}	
- 	
-	// validate postal
-	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
-	if(!HelperMethods.postalCodeValidator(code))
-	{
-		this.cust_tflPostal.setText("");
-		displayMessage("Customer NOT added: Invalid Postal Code");
-		this.cust_tflPostal.requestFocus();
-		return false;
-	}
-
-   // validate phone	
-   String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          	
-   Pattern phonePat = Pattern.compile(phoneRegex);  	
-   if(!phonePat.matcher(this.cust_tflPhone.getText()).matches())
+	 public boolean validateCustomer()
    {
-  	displayMessage("Customer NOT added: Invalid phone number");
-  	this.cust_tflPhone.setText("");
-   	this.cust_tflPhone.requestFocus();
-   	return false;	
-   } 	
 
-   if(this.cust_tflPhone.getText().equals(""))
-   {
-   	displayMessage("Customer NOT added: Invalid phone number");
-   	this.cust_tflPhone.setText("");
-  	this.cust_tflPhone.requestFocus();
-   	return false;	
-   }	
+     // Check if empty
+     if(this.cust_tflFirstName.getText().equals(""))
+     {
+       this.cust_lblError.setText("Invalid firstname");
+       displayMessage("Customer NOT added: Invalid firstname");
+       this.cust_tflFirstName.setText("");
+       this.cust_tflFirstName.requestFocus();
+       return false;
+     }
+     if(this.cust_tflLastName.getText().equals(""))
+     {
+       this.cust_lblError.setText("Invalid lastname");
+       this.cust_tflLastName.setText("");
+       displayMessage("Customer NOT added: Invalid lastname");
+       this.cust_tflLastName.requestFocus();
+       return false;
+     }
 
- 	// only need to validate country	
-   if(this.cust_cmbCountry.getSelectedItem().equals("-")){	
-   	displayMessage("Customer NOT added: Country not selected");
-   	this.cust_cmbCountry.requestFocus();
-   	return false;	
-   }	
- 	return true;	
- }	
+     // validate email address
+     if (this.cust_tflEmailField.getText().equals(""))
+     {
+       this.cust_lblError.setText("Invalid email");
+       this.cust_tflEmailField.setText("");
+       displayMessage("Customer NOT added: Invalid email");
+       this.cust_tflEmailField.requestFocus();
+       return false;
+     }
+     String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+         "[a-zA-Z0-9_+&*-]+)*@" +
+         "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+         "A-Z]{2,7}$";
+     Pattern pat = Pattern.compile(emailRegex);
+     if(!pat.matcher(this.cust_tflEmailField.getText()).matches())
+     {
+       displayMessage("Customer NOT added: Invalid email");
+       this.cust_lblError.setText("Invalid email");
+       this.cust_tflEmailField.setText("");
+       this.cust_tflEmailField.requestFocus();
+       return false;
+     }
 
- /**
-  * Method: 	displayMessage
-  * Summary: 	displays a message in an JOptionpane
-  * @param 	 	message to display
-  */
+     // Get first address, no need to validate second address
+     if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() )
+     {
+       this.cust_lblError.setText("Invalid address: Requires at least one address");
+       this.cust_tflAddress_1.setText("");
+       this.cust_tflAddress_1.requestFocus();
+       displayMessage("Customer NOT added: Invalid address");
+       return false;
+     }
+
+     // validate postal
+     String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
+     if(!HelperMethods.postalCodeValidator(code)) {
+       this.cust_lblError.setText("Invalid Postal Code");
+       this.cust_tflPostal.setText("");
+       displayMessage("Customer NOT added: Invalid Postal Code");
+       this.cust_tflPostal.requestFocus();
+       return false;
+     }
+
+     // validate phone
+     String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+     Pattern phonePat = Pattern.compile(phoneRegex);
+     if(!phonePat.matcher(this.cust_tflPhone.getText()).matches())
+     {
+       this.cust_lblError.setText("Invalid phone");
+       displayMessage("Customer NOT added: Invalid phone number");
+       this.cust_tflPhone.setText("");
+       this.cust_tflPhone.requestFocus();
+       return false;
+     }
+
+     if(this.cust_tflPhone.getText().equals(""))
+     {
+       this.cust_lblError.setText("Invalid phone");
+       displayMessage("Customer NOT added: Invalid phone number");
+       this.cust_tflPhone.setText("");
+       this.cust_tflPhone.requestFocus();
+       return false;
+     }
+
+     // only need to validate country
+     if(this.cust_cmbCountry.getSelectedItem().equals("-"))
+     {
+       this.cust_lblError.setText("Invalid Country");
+       displayMessage("Customer NOT added: Country not selected");
+       this.cust_cmbCountry.requestFocus();
+       return false;
+     }
+     return true;
+   }
+
+   /**
+    * Method: 	displayMessage
+    * Summary: 	displays a message in an JOptionpane
+    * @param 	 	message to display
+    */
 	public void displayMessage(String msg)
   {
    JOptionPane.showMessageDialog(this,msg);  	
