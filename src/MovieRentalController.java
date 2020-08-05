@@ -206,8 +206,8 @@ public class MovieRentalController
 			theView.cust_tflEmailField.setText("");
 			theView.cust_tflAddress_1.setText("");
 			theView.cust_tflAddress_2.setText("");
-			theView.cust_tflPostal.setText("");
-			theView.cust_tflPhone.setText("");
+			theView.cust_tflPostal.setValue(null);
+			theView.cust_tflPhone.setValue(null);
 			theView.cust_cmbCountry.setSelectedIndex(0);
 			theView.cust_cmbCountry.setSelectedIndex(0);
 			theView.cust_lblError.setText("");

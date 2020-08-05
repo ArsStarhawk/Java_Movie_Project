@@ -57,49 +57,6 @@ public class HelperMethods
 	// https://stackoverflow.com/questions/40353979/java-validating-postal-code
 	public static boolean postalCodeValidator(String postal)
 	{
-		if (postal.length() > 7)
-		{
-			return false;
-		}
-		if (postal.length() < 6)
-			return false;
-		if (postal.length() == 7)
-		{
-			boolean valid = true;
-
-			char a = postal.charAt(0);
-			char b = postal.charAt(2);
-			char c = postal.charAt(4);
-			char d = postal.charAt(1);
-			char e = postal.charAt(5);
-			char f = postal.charAt(6);
-			char g = postal.charAt(3);
-			if (!Character.isLetter(a))
-				valid = false;
-			else if (!Character.isLetter(b))
-				valid = false;
-			else if (!Character.isDigit(c))
-				valid = false;
-			else if (!Character.isDigit(d))
-				valid = false;
-			else if (!Character.isLetter(e))
-				valid = false;
-			else if (!Character.isDigit(f))
-				valid = false;
-			else if (!Character.isWhitespace(g))
-				valid = false;
-
-			if (valid)
-			{
-				return true;
-			} else
-			{
-				return false;
-			}
-		}
-		if (postal.length() == 6)
-		{
-			boolean valid = true;
 
 			char a = postal.charAt(0);
 			char b = postal.charAt(2);
@@ -108,27 +65,18 @@ public class HelperMethods
 			char e = postal.charAt(3);
 			char f = postal.charAt(5);
 			if (!Character.isLetter(a))
-				valid = false;
-			else if (!Character.isLetter(b))
-				valid = false;
-			else if (!Character.isLetter(c))
-				valid = false;
-			else if (!Character.isDigit(d))
-				valid = false;
-			else if (!Character.isDigit(e))
-				valid = false;
-			else if (!Character.isDigit(f))
-				valid = false;
-
-			if (valid)
-			{
-				return true;
-			} else
-			{
 				return false;
-			}
-		}
-		// if we reached here, something is wrong
-		return false;
+			else if (!Character.isLetter(b))
+				return false;
+			else if (!Character.isLetter(c))
+				return false;
+			else if (!Character.isDigit(d))
+				return false;
+			else if (!Character.isDigit(e))
+				return false;
+			else if (!Character.isDigit(f))
+				return false;
+
+			return true;
 	}
 }

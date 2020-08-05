@@ -470,7 +470,8 @@ public class MovieRentalView extends JFrame
 			e.printStackTrace();
 		}
 		cust_tflPostal = new JFormattedTextField(postalMask);
-
+		cust_tflPostal.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		
 		// Phone
 		cust_lblPhone = new JLabel("Phone: ");
 		MaskFormatter phoneMask = null;
@@ -482,7 +483,8 @@ public class MovieRentalView extends JFrame
 			e.printStackTrace();
 		}
 		cust_tflPhone = new JFormattedTextField(phoneMask);
-
+		cust_tflPhone.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		
 		// Country
 		String[] country = { "-" };
 		cust_lblCountry = new JLabel("Country: ");
