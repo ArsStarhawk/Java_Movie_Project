@@ -105,7 +105,11 @@ public class MovieRentalModel
     return model;
   }
   
-//Gets a list of all countries in the database
+ /**
+  * Method: getAllCountries
+  * Summary: Returns a list of all the countries in the database 
+  * @return the data as a list
+  */
 	public List<String> getAllCountries()
 	{
 		List<String> lstCountries = new ArrayList<String>();
@@ -124,7 +128,12 @@ public class MovieRentalModel
 		return lstCountries;
 	}
 
-	// Get a list of all cities in a country
+ /**
+	* Method: getCitiesInCountry
+	* Summary: Returns a list of all the cities within a specified country 
+	* @param country the specified country name as a string 
+	* @return the data as a list
+	*/
 	public List<String> getCitiesInCountry(String country)
 	{
 		List<String> lstCities = new ArrayList<String>();
@@ -148,7 +157,12 @@ public class MovieRentalModel
 		return lstCities;
 	}
 
-	// Gets the id of a country
+ /**
+	* Method: getCountryID
+	* Summary: Returns the unique id associated with a country 
+	* @param country the specified country name as a string 
+	* @return the country id as a string
+	*/
 	private String getCountryID(String country)
 	{
 		try
@@ -169,9 +183,15 @@ public class MovieRentalModel
 		}
 		return "";
 	}
-
-	// Gets the id of the city ( country is required to avoid things like "London,
-	// CA" and "London, UK" )
+ 
+ /**
+	* Method: getCityID
+	* Summary: Returns a unique city id associated with a city. (country is required as input to avoid things like "London,
+	* CA" and "London, UK" )
+	* @param city the specified city name as a string
+	* @param country the specified country name as a string 
+	* @return the country id as a string
+	*/
 	private String getCityID(String city, String country)
 	{
 		try
@@ -195,7 +215,12 @@ public class MovieRentalModel
 		return "";
 	}
 
-	// Adds a customers address to the database
+ /**
+	* Method: addCustomerAddress
+	* Summary: A helper method that adds a customer address to the database
+	* @param cust a customer object that stores the customers information 
+	* @return The last inserted id as a string
+	*/
 	private String addCustomerAddress(Customer cust) throws SQLException
 	{
 		try
@@ -230,7 +255,12 @@ public class MovieRentalModel
 		return "";
 	}
 
-	// Adds a customer to the database
+	 /**
+		* Method: addCustomer
+		* Summary: Adds a customer and an address to the database to the database
+		* @param cust a customer object that stores the customers information 
+		* @return -1 if fail, 1 if success
+		*/
 	public int addCustomer(Customer cust)
 	{
 		try // add address

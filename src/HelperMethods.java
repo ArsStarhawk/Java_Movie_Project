@@ -67,15 +67,15 @@ public class HelperMethods {
 			char f = postal.charAt(5);
 			if (!Character.isLetter(a))
 				return false;
-			else if (!Character.isLetter(b) || b == ' ')
+			else if (!Character.isLetter(b))
 				return false;
-			else if (!Character.isLetter(c) || c == ' ')
+			else if (!Character.isLetter(c))
 				return false;
-			else if (!Character.isDigit(d) || d == ' ')
+			else if (!Character.isDigit(d))
 				return false;
-			else if (!Character.isDigit(e) || e == ' ')
+			else if (!Character.isDigit(e))
 				return false;
-			else if (!Character.isDigit(f) || f == ' ')
+			else if (!Character.isDigit(f))
 				return false;
 
 			return true;
