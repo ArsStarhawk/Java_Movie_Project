@@ -16,9 +16,30 @@ import javax.swing.JComboBox;
 
 public class MovieRentalController
 {
-	private MovieRentalView theView;
-	private MovieRentalModel theModel;
-	private HelperMethods helperMethods;
+  private MovieRentalView theView;
+  private MovieRentalModel theModel;
+  private HelperMethods helperMethods;
+
+  MovieRentalController()
+  {
+    theView = new MovieRentalView();
+    theModel = new MovieRentalModel();
+    theView.addAddActorButtonListener(new AddActorListener(theView, theModel));
+    theView.addGenerateReportLisenter(new GenerateReportListener(theView, theModel));
+    theView.addSubmitRentalListener(new SubmitRentalListener(theView, theModel));
+    theView.addStoreRadioListener(new StoreRadioListener(theView, theModel, this));
+    theView.addFilmButton.addActionListener(new AddFilmListener(theView, theModel));
+    helperMethods = new HelperMethods();
+    populateCategoryDropdownForGenerateReportPane();
+    populateStoreDropdownForGenerateReportPane();
+    
+		// Setup for addCustomer
+    theView.updateCountryList(theModel.getAllCountries());
+    theView.addCountryComboListener(new CountryChangeListener());
+    theView.addCustomerButtonLIstener(new AddCustomerListener());
+    theView.addClearCustomerButtonListener(new ClearCustomerListener());
+    populateFilmDropdownForRentalPane();
+    populateCustomerDropDownForRentalPant();
 
 	MovieRentalController()
 	{

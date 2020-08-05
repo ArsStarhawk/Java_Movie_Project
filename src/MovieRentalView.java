@@ -17,9 +17,15 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
+import com.mysql.cj.jdbc.CallableStatement;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -109,374 +115,590 @@ public class MovieRentalView extends JFrame
 	// Error Cell
 	JLabel cust_lblError;
 
-	// James Kidd's mess of stuff
-	JComboBox<String> comboFilmList, comboCustList;
-	JLabel lblFilmCombo, lblCustCombo, lblStoreRadios;
-	JRadioButton radioStore1, radioStore2;
-	ButtonGroup radioGroup;
-	JPanel pnlInput, pnlOutput, pnlFilmCombo, pnlCustCombo, pnlStoreRadio, pnlBtnSubmit;
-	JTextPane txtOutput;
-	JButton btnSubmit;
-	Vector<String> custList;
-	Vector<String> filmList;
+  //James Kidd's mess of stuff
+  JComboBox<String> comboFilmList, comboCustList;
+  JLabel lblFilmCombo, lblCustCombo, lblStoreRadios;
+  JRadioButton radioStore1, radioStore2;
+  ButtonGroup radioGroup;
+  JPanel pnlInput, pnlOutput, pnlFilmCombo, pnlCustCombo, pnlStoreRadio, pnlBtnSubmit;
+  JTextPane txtOutput;
+  JButton btnSubmit;
+  Vector<String> custList;
+  Vector<String> filmList;
+  
+  
+//addFilm attributes
+  JTextField title;
+  JLabel titleLabel;
+  
+  JTextField description;
+  JLabel descriptionLabel;
+  
+  JLabel releaseYearLabel;
+  JComboBox<String> releaseYear;
+  	
+  
+  JLabel languageLabel;
+  JComboBox<String> language;;
+  
+  JLabel originalLanguageLabel;
+  JComboBox<String> originalLanguage;
+  
+  JLabel categoryLabel;
+  JComboBox<String> category;
+  
+  JTextField rentalDuration;
+  JLabel rentalDurationLabel;
+  
+  
+  JButton importActorsBtn;
+  
+  JLabel actorsLabel;
+  
+  JTextField movieLength;
+  JLabel movieLengthLabel;
+  
+  JTextField replacementCost ;
+  JLabel replacementCostLabel;
+  
+  JLabel ratingLabel;
+  JComboBox<String> rating;
+  
+  JCheckBox trailer;
+  JCheckBox commentary;
+  JLabel checkboxInstructions;
+  JLabel checkboxInstructions2;
 
-	MovieRentalView()
-	{
-		super("Movie Rental and Database");
-		setupJFrame();
-		createTabbedForms();
-		CreateAddCustomerPane();
-		createAddActorPane();
-		createAddNewFilmPane();
-		createAddNewRentalTransactionPane();
-		createGenerateReportPane();
-		this.setVisible(true);
-	}
+  JCheckBox deletedScenes;
+  JCheckBox behindScenes;
+  JPanel checkboxesPanel1;
+  JPanel checkboxesPanel2;
+  
+  JButton addActorsBtn;
+  
+  JButton addFilmButton;
+  JButton clearFilmInput;
 
-	/**
-	 * Method: SetupJFrame Summary: Initiate the JFrame for the app
-	 */
-	public void setupJFrame()
-	{
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(580, 580);
-		this.setLocationRelativeTo(null); // centers the frame in the screen
-		this.setLayout(null);// This is to center the JTabbedPane
-	}
+  JPanel addFilmFormPanel;
+  ArrayList<String> selectedActors;
+  FilmActorSelection actorFilmSelection;
 
-	/**
-	 * Method: createTabbedForms Summary: create 5 tabbed forms for the program
-	 */
-	public void createTabbedForms()
-	{
-		// This JTabbedPane will have different forms and reports for the user to switch
-		// through
-		tabbedPane = new JTabbedPane();
-		// setting the size of the tabbedPane 5px smaller than the size of the JFrame
-		tabbedPane.setBounds(0, 0, 575, 575);
 
-		// JPanels for the JTabbedPane
-		pnlAddCustomer = new JPanel();
-		pnlAddActor = new JPanel();
-		pnlAddFilm = new JPanel();
-		pnlNewRental = new JPanel();
-		pnlGenerateReport = new JPanel();
+  MovieRentalView()
+  {
+    super("Movie Rental and Database");
+    setupJFrame();
+    createTabbedForms();
+    CreateAddCustomerPane();
+    createAddActorPane();
+    createAddNewFilmPane();
+    createAddNewRentalTransactionPane();
+    createGenerateReportPane();
+    this.setVisible(true);
+  }
 
-		// Adding the JPanels to the tabbedPane with appropriate titles
-		tabbedPane.add("Add a new customer", pnlAddCustomer);
-		tabbedPane.add("Add a new actor", pnlAddActor);
-		tabbedPane.add("Add a new film", pnlAddFilm);
-		tabbedPane.add("Rent a movie", pnlNewRental);
-		tabbedPane.add("Generate report", pnlGenerateReport);
-		// adding the tabbedPane to the JFrame
-		this.add(tabbedPane);
-	}
+  /**
+   * Method: SetupJFrame
+   * Summary: Initiate the JFrame for the app
+   */
+  public void setupJFrame()
+  {
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setSize(580,580);
+    this.setLocationRelativeTo(null); //centers the frame in the screen
+    this.setLayout(null);//This is to center the JTabbedPane
+  }
 
-	private void CreateAddCustomerPane()
-	{
-		// Scully's codes
-		// Build UI
-		instantiateJComponentsForCustomerPane();
+  /**
+   * Method: createTabbedForms
+   * Summary: create 5 tabbed forms for the program
+   */
+  public void createTabbedForms()
+  {
+    //This JTabbedPane will have different forms and reports for the user to switch through
+    tabbedPane = new JTabbedPane();
+    //setting the size of the tabbedPane 5px smaller than the size of the JFrame
+    tabbedPane.setBounds(0,0,575,575);
+
+    //JPanels for the JTabbedPane
+    pnlAddCustomer = new JPanel();
+    pnlAddActor = new JPanel();
+    pnlAddFilm = new JPanel();
+    pnlNewRental = new JPanel();
+    pnlGenerateReport = new JPanel();
+
+    //Adding the JPanels to the tabbedPane with appropriate titles
+    tabbedPane.add("Add a new customer",pnlAddCustomer);
+    tabbedPane.add("Add a new actor",pnlAddActor);
+    tabbedPane.add("Add a new film",pnlAddFilm);
+    tabbedPane.add("Rent a movie",pnlNewRental);
+    tabbedPane.add("Generate report",pnlGenerateReport);
+    //adding the tabbedPane to the JFrame
+    this.add(tabbedPane);
+  }
+
+  private void CreateAddCustomerPane()
+  {
+    // Scully's codes
+		// Build UI	
+		instantiateJComponentsForCustomerPane();	
 		addJComponentsToCustomerPanel();
-	}
+  }
 
-	/**
-	 * Method: createAddActorPane Summary: Create add actor panel, its JComponents
-	 * for the program, and lay them out properly
-	 */
-	private void createAddActorPane()
-	{
-		// instantiate JComponent For Add Actor;
-		lblAddNewActorTitle = new JLabel("Add a New Actor to Database");
-		lblFirstname = new JLabel("First Name:");
-		lblLastname = new JLabel("Last Name:");
-		pnlAddActor.setLayout(new GridBagLayout());
-		lblAddNewActorTitle.setPreferredSize(new Dimension(250, 50));
-		tflFirstname = new JTextField(20);
-		tflLastname = new JTextField(20);
-		btnAddActor = new JButton("Add Actor");
-		btnCleanActor = new JButton("Clear");
-		gbc = new GridBagConstraints();
+  /**
+   * Method: createAddActorPane
+   * Summary: Create add actor panel, its JComponents for the program, and lay them out properly
+   */
+  private void createAddActorPane()
+  {
+    // instantiate JComponent For Add Actor;
+    lblAddNewActorTitle = new JLabel("Add a New Actor to Database");
+    lblFirstname = new JLabel("First Name:");
+    lblLastname = new JLabel("Last Name:");
+    pnlAddActor.setLayout(new GridBagLayout());
+    lblAddNewActorTitle.setPreferredSize(new Dimension(250, 50));
+    tflFirstname = new JTextField(20);
+    tflLastname = new JTextField(20);
+    btnAddActor = new JButton("Add Actor");
+    btnCleanActor = new JButton("Clear");
+    gbc = new GridBagConstraints();
 
-		// setupTitleForAddActor();
-		gbc.insets = new Insets(3, 3, 3, 3);
-		gbc.anchor = GridBagConstraints.CENTER;
-		setGBCPosition(1, 0);
-		pnlAddActor.add(lblAddNewActorTitle, gbc);
+    // setupTitleForAddActor();
+    gbc.insets = new Insets(3,3,3,3);
+    gbc.anchor = GridBagConstraints.CENTER;
+    setGBCPosition(1,0);
+    pnlAddActor.add(lblAddNewActorTitle, gbc);
 
-		// setupAllLabelsForAddActor();
-		gbc.anchor = GridBagConstraints.NORTHEAST;
-		gbc.weightx = 0.01;
+    //setupAllLabelsForAddActor();
+    gbc.anchor = GridBagConstraints.NORTHEAST;
+    gbc.weightx = 0.01;
 
-		setGBCPosition(0, 2);
-		pnlAddActor.add(lblFirstname, gbc);
+    setGBCPosition(0,2);
+    pnlAddActor.add(lblFirstname, gbc);
 
-		setGBCPosition(0, 3);
-		pnlAddActor.add(lblLastname, gbc);
+    setGBCPosition(0,3);
+    pnlAddActor.add(lblLastname, gbc);
 
-		// setupAllJTextFieldForAddActor();
-		gbc.anchor = GridBagConstraints.LINE_START;
-		gbc.weightx = 0.8;
-		setGBCPosition(1, 2);
-		pnlAddActor.add(tflFirstname, gbc);
 
-		setGBCPosition(1, 3);
-		pnlAddActor.add(tflLastname, gbc);
+    //setupAllJTextFieldForAddActor();
+    gbc.anchor = GridBagConstraints.LINE_START;
+    gbc.weightx = 0.8;
+    setGBCPosition(1,2);
+    pnlAddActor.add(tflFirstname, gbc);
 
-		// setupButtonForAddActor();
-		gbc.weighty = 1;
-		gbc.weightx = 0.01;
+    setGBCPosition(1,3);
+    pnlAddActor.add(tflLastname, gbc);
 
-		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-		setGBCPosition(0, 5);
-		pnlAddActor.add(btnCleanActor, gbc);
+    //setupButtonForAddActor();
+    gbc.weighty = 1;
+    gbc.weightx = 0.01;
 
-		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-		setGBCPosition(1, 5);
-		pnlAddActor.add(btnAddActor, gbc);
-	}
+    gbc.anchor = GridBagConstraints.FIRST_LINE_END;
+    setGBCPosition(0,5);
+    pnlAddActor.add(btnCleanActor, gbc);
 
-	/**
-	 * Method: createGenerateReportPane Summary: Create the generate report panel,
-	 * add it the the JFrame, and lay them out properly
-	 */
-	private void createGenerateReportPane()
-	{
-		// setUpAllLablesForGenerateReport();
-		tblGenerateReport = new JTable();
-		pnlGenerateReport.setLayout(new BorderLayout());
-		lblGenerateReportTitle = new JLabel("Generate Report", SwingConstants.CENTER);
-		pnlGenerateReport.add(lblGenerateReportTitle, BorderLayout.NORTH);
-		pnlGenerateReportNorth = new JPanel();
-		pnlGenerateReportNorth.setLayout(new GridBagLayout());
-		scpGenerateReport = new JScrollPane(tblGenerateReport);
-		cbCategory = new JComboBox();
-		cbCategory.setSize(30, 15);
-		cbStore = new JComboBox();
-		cbStore.setSize(30, 15);
-		tflFrom = new JTextField(20);
-		tflTo = new JTextField(20);
-		btnClearGenerateReportView = new JButton("Clear");
-		btnGenerateReport = new JButton("Generate Report");
-		gbc = new GridBagConstraints();
+    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+    setGBCPosition(1,5);
+    pnlAddActor.add(btnAddActor, gbc);
+  }
 
-		// setUpAllJCompoboxesForGenerateReport();
-		gbc.weightx = 0.1;
-		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-		setGBCPosition(0, 2);
-		pnlGenerateReportNorth.add(new JLabel("Select by Category"), gbc);
+  /**
+   * Method: createGenerateReportPane
+   * Summary: Create the generate report panel, add it  the the JFrame, and lay them out properly
+   */
+  private void createGenerateReportPane()
+  {
+    //setUpAllLablesForGenerateReport();
+    tblGenerateReport = new JTable();
+    pnlGenerateReport.setLayout(new BorderLayout());
+    lblGenerateReportTitle = new JLabel("Generate Report", SwingConstants.CENTER);
+    pnlGenerateReport.add(lblGenerateReportTitle, BorderLayout.NORTH);
+    pnlGenerateReportNorth = new JPanel();
+    pnlGenerateReportNorth.setLayout(new GridBagLayout());
+    scpGenerateReport = new JScrollPane(tblGenerateReport);
+    cbCategory = new JComboBox();
+    cbCategory.setSize(30,15);
+    cbStore = new JComboBox();
+    cbStore.setSize(30,15);
+    tflFrom = new JTextField(20);
+    tflTo = new JTextField(20);
+    btnClearGenerateReportView = new JButton("Clear");
+    btnGenerateReport = new JButton("Generate Report");
+    gbc = new GridBagConstraints();
 
-		setGBCPosition(0, 3);
-		pnlGenerateReportNorth.add(new JLabel("Select Store"), gbc);
+    //setUpAllJCompoboxesForGenerateReport();
+    gbc.weightx = 0.1;
+    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+    setGBCPosition(0,2);
+    pnlGenerateReportNorth.add(new JLabel("Select by Category"), gbc);
 
-		setGBCPosition(2, 2);
-		pnlGenerateReportNorth.add(new JLabel("From (DD-MM-YYYY)"), gbc);
+    setGBCPosition(0,3);
+    pnlGenerateReportNorth.add(new JLabel("Select Store"), gbc);
 
-		setGBCPosition(2, 3);
-		pnlGenerateReportNorth.add(new JLabel("To   (DD-MM-YYYY)"), gbc);
+    setGBCPosition(2,2);
+    pnlGenerateReportNorth.add(new JLabel("From (DD-MM-YYYY)"), gbc);
 
-		setGBCPosition(1, 2);
-		pnlGenerateReportNorth.add(cbCategory, gbc);
+    setGBCPosition(2,3);
+    pnlGenerateReportNorth.add(new JLabel("To   (DD-MM-YYYY)"), gbc);
 
-		setGBCPosition(1, 3);
-		pnlGenerateReportNorth.add(cbStore, gbc);
+    setGBCPosition(1,2);
+    pnlGenerateReportNorth.add(cbCategory, gbc);
 
-		setGBCPosition(4, 2);
-		pnlGenerateReportNorth.add(tflFrom, gbc);
+    setGBCPosition(1,3);
+    pnlGenerateReportNorth.add(cbStore, gbc);
 
-		setGBCPosition(4, 3);
-		pnlGenerateReportNorth.add(tflTo, gbc);
+    setGBCPosition(4,2);
+    pnlGenerateReportNorth.add(tflFrom, gbc);
 
-		// setUpAllButtonsForGenerateReport();
-		setGBCPosition(0, 5);
-		pnlGenerateReportNorth.add(btnGenerateReport, gbc);
+    setGBCPosition(4,3);
+    pnlGenerateReportNorth.add(tflTo, gbc);
 
-		setGBCPosition(1, 5);
-		pnlGenerateReportNorth.add(btnClearGenerateReportView, gbc);
+    //setUpAllButtonsForGenerateReport();
+    setGBCPosition(0,5);
+    pnlGenerateReportNorth.add(btnGenerateReport, gbc);
 
-		pnlGenerateReport.add(pnlGenerateReportNorth, BorderLayout.CENTER);
-		pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
-	}
+    setGBCPosition(1,5);
+    pnlGenerateReportNorth.add(btnClearGenerateReportView, gbc);
 
-	private void createAddNewRentalTransactionPane()
-	{
-		filmList = new Vector<String>();
-		custList = new Vector<String>();
+    pnlGenerateReport.add(pnlGenerateReportNorth, BorderLayout.CENTER);
+    pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
+  }
 
-		pnlNewRental.setLayout(new BorderLayout());
-		// instantiate components for view
-		lblFilmCombo = new JLabel("Name of Film: ");
-		lblCustCombo = new JLabel("Name of Customer: ");
-		lblStoreRadios = new JLabel("Store Location: ");
+  private void createAddNewRentalTransactionPane()
+  {
+    filmList = new Vector<String>();
+    custList = new Vector<String>();
 
-		radioStore1 = new JRadioButton("1", true);
-		radioStore1.setActionCommand("1");
 
-		radioStore2 = new JRadioButton("2", false);
-		radioStore2.setActionCommand("2");
+    pnlNewRental.setLayout(new BorderLayout());
+      // instantiate components for view
+      lblFilmCombo = new JLabel("Name of Film: ");
+      lblCustCombo = new JLabel("Name of Customer: ");
+      lblStoreRadios = new JLabel("Store Location: ");
 
-		radioGroup = new ButtonGroup();
-		radioGroup.add(radioStore1);
-		radioGroup.add(radioStore2);
+      radioStore1 = new JRadioButton("1", true);
+      radioStore1.setActionCommand("1");
 
-		btnSubmit = new JButton("Submit");
+      radioStore2 = new JRadioButton("2", false);
+      radioStore2.setActionCommand("2");
 
-		txtOutput = new JTextPane();
-		txtOutput.setFont(new Font("Arial", Font.BOLD, 18));
-		txtOutput.setEditable(false);
-		txtOutput.setOpaque(false);
-		txtOutput.setBorder(new EmptyBorder(0, 0, 115, 0));
+      radioGroup = new ButtonGroup();
+      radioGroup.add(radioStore1);
+      radioGroup.add(radioStore2);
 
-		StyledDocument doc = txtOutput.getStyledDocument();
-		SimpleAttributeSet center = new SimpleAttributeSet();
-		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-		doc.setParagraphAttributes(0, doc.getLength(), center, false);
+      btnSubmit = new JButton("Submit");
 
-		comboFilmList = new JComboBox<String>(filmList);
-		AutoCompletion.enable(comboFilmList); // third party decorator class - By Thomas Bierhance ( //
-																					// http://www.orbital-computer.de/JComboBox )
-		comboCustList = new JComboBox<String>(custList);
-		AutoCompletion.enable(comboCustList); // third party decorator class - By Thomas Bierhance ( //
-																					// http://www.orbital-computer.de/JComboBox )
+      txtOutput = new JTextPane();
+      txtOutput.setFont(new Font("Arial", Font.BOLD, 18));
+      txtOutput.setEditable(false);
+      txtOutput.setOpaque(false);
+      txtOutput.setBorder(new EmptyBorder(0, 0, 115, 0));
 
-		comboFilmList.setPreferredSize(new Dimension(200, 30));
-		comboCustList.setPreferredSize(new Dimension(200, 30));
+      StyledDocument doc = txtOutput.getStyledDocument();
+      SimpleAttributeSet center = new SimpleAttributeSet();
+      StyleConstants.setAlignment(center,  StyleConstants.ALIGN_CENTER);
+      doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
-		// make panels
-		pnlInput = new JPanel(new BorderLayout());
-		pnlFilmCombo = new JPanel(new GridLayout(2, 1));
-		pnlCustCombo = new JPanel(new GridLayout(2, 1));
-		pnlStoreRadio = new JPanel();
-		pnlOutput = new JPanel(new BorderLayout());
-		pnlBtnSubmit = new JPanel();
+      comboFilmList = new JComboBox<String>(filmList);
+      AutoCompletion.enable(comboFilmList); // third party decorator class - By Thomas Bierhance (  // http://www.orbital-computer.de/JComboBox )
+      comboCustList = new JComboBox<String>(custList);
+      AutoCompletion.enable(comboCustList); // third party decorator class - By Thomas Bierhance ( // http://www.orbital-computer.de/JComboBox )
 
-		pnlStoreRadio.setBorder(new EmptyBorder(20, 10, 5, 10));
-		pnlFilmCombo.setBorder(new EmptyBorder(10, 50, 25, 10));
-		pnlCustCombo.setBorder(new EmptyBorder(10, 10, 25, 50));
+      comboFilmList.setPreferredSize(new Dimension(200,30));
+      comboCustList.setPreferredSize(new Dimension(200,30));
 
-		pnlFilmCombo.add(lblFilmCombo);
-		pnlFilmCombo.add(comboFilmList);
 
-		pnlCustCombo.add(lblCustCombo);
-		pnlCustCombo.add(comboCustList);
+      // make panels
+      pnlInput = new JPanel(new BorderLayout());
+      pnlFilmCombo = new JPanel(new GridLayout(2, 1));
+      pnlCustCombo = new JPanel(new GridLayout(2, 1));
+      pnlStoreRadio = new JPanel();
+      pnlOutput = new JPanel(new BorderLayout());
+      pnlBtnSubmit = new JPanel();
 
-		pnlStoreRadio.add(lblStoreRadios);
-		pnlStoreRadio.add(radioStore1);
-		pnlStoreRadio.add(radioStore2);
+      pnlStoreRadio.setBorder(new EmptyBorder(20, 10, 5, 10));
+      pnlFilmCombo.setBorder(new EmptyBorder(10, 50, 25, 10));
+      pnlCustCombo.setBorder(new EmptyBorder(10, 10, 25, 50));
 
-		pnlInput.add(pnlFilmCombo, BorderLayout.WEST);
-		pnlInput.add(pnlCustCombo, BorderLayout.EAST);
-		pnlInput.add(pnlStoreRadio, BorderLayout.NORTH);
+      pnlFilmCombo.add(lblFilmCombo);
+      pnlFilmCombo.add(comboFilmList);
 
-		pnlBtnSubmit.add(btnSubmit);
+      pnlCustCombo.add(lblCustCombo);
+      pnlCustCombo.add(comboCustList);
 
-		pnlOutput.add(txtOutput);
+      pnlStoreRadio.add(lblStoreRadios);
+      pnlStoreRadio.add(radioStore1);
+      pnlStoreRadio.add(radioStore2);
 
-		pnlNewRental.add(pnlInput, BorderLayout.NORTH);
-		pnlNewRental.add(pnlBtnSubmit, BorderLayout.CENTER);
-		pnlNewRental.add(pnlOutput, BorderLayout.SOUTH);
+      pnlInput.add(pnlFilmCombo, BorderLayout.WEST);
+      pnlInput.add(pnlCustCombo, BorderLayout.EAST);
+      pnlInput.add(pnlStoreRadio, BorderLayout.NORTH);
 
-	}// create method
+      pnlBtnSubmit.add(btnSubmit);
 
-	private void createAddNewFilmPane()
-	{
-		// Evan's codes
-	}
+      pnlOutput.add(txtOutput);
 
-	/**
-	 * Method: addAddActorButtonListener Summary: Add an action listener to the
-	 * buttons for add actor panel
-	 * 
-	 * @param listener An AddActorListener object
-	 */
-	public void addAddActorButtonListener(ActionListener listener)
-	{
-		btnAddActor.addActionListener(listener);
-		btnCleanActor.addActionListener(listener);
-	}
+      pnlNewRental.add(pnlInput, BorderLayout.NORTH);
+      pnlNewRental.add(pnlBtnSubmit, BorderLayout.CENTER);
+      pnlNewRental.add(pnlOutput, BorderLayout.SOUTH);
 
-	/**
-	 * Method: addGenerateReportLisenter Summary: Add an action listener to the
-	 * buttons for generate report panel
-	 * 
-	 * @param listener An GenerateReportListener object
-	 */
-	public void addGenerateReportLisenter(ActionListener listener)
-	{
-		btnClearGenerateReportView.addActionListener(listener);
-		btnGenerateReport.addActionListener(listener);
-	}
+  }//create method
 
-	/**
-	 * Method: setGBCPosition Summary: A helper method to set GridBagConstrains
-	 * coordinates. GridBagLayout is used in add actor and generate report panels.
-	 * 
-	 * @param x x coordinate
-	 * @param y y coordinate
-	 */
-	public void setGBCPosition(int x, int y)
-	{
-		gbc.gridx = x;
-		gbc.gridy = y;
-	}
+  private void createAddNewFilmPane()
+{
+  	
+  	
+  	//String arrays to load combo boxes
+  	String[]years = {"1920","1921","1922","1923","1924","1925","1926","1927","1928","1929","1930","1931","1932","1933","1934","1935","1936","1937","1938","1939","1940","1941","1942","1943","1944","1945","1946","1947","1948","1949","1950","1951","1952","1953","1954","1955","1956","1957","1958","1959","1960","1961","1962","1963","1964","1965","1966","1967","1968","1969","1970","1971","1972","1973","1974","1975","1976","1977","1978","1979","1980","1981","1982","1983","1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"};
+  	String[]langs = {"English", "Italian", "Japanese", "Mandarin", "French", "German"};
+  	String[]categories = {"Action", "Animation", "Children", "Classics", "Comedy", "Documentary", "Drama", "Family", "Foreign", "Games", "Horror", "Music", "New", "Sci-Fi", "Sports", "Travel"};
+  	String[]ratings = {"G", "PG","PG-13", "R", "NC-17"};
+  	    
+  	
+  	//creating the the form objects
+    title = new JTextField();
+    titleLabel = new JLabel("Title");
+    
+    description = new JTextField();
+    descriptionLabel = new JLabel("Description");
+    
+    releaseYearLabel = new JLabel("Year Released");
+    releaseYear = new JComboBox<String>(years);
+    releaseYear.setSelectedItem(null);
+    	
+    
+    languageLabel = new JLabel("Language");
+    language = new JComboBox<String>(langs);
+    language.setSelectedItem(null);
+    
+    originalLanguageLabel = new JLabel("Original Language");
+    originalLanguage = new JComboBox<String>(langs);
+    originalLanguage.setSelectedItem(null);
+    
+    categoryLabel = new JLabel("Category");
+    category = new JComboBox<String>(categories);
+    category.setSelectedItem(null);
+    
+    rentalDuration = new JTextField();
+    rentalDurationLabel = new JLabel("Rental Duration");
+    
+    
+    importActorsBtn = new JButton("Import actors");
+    
+    actorsLabel = new JLabel("Press button to choose actors");
+    
+    movieLength = new JTextField();
+    movieLengthLabel = new JLabel("Movie Length");
+    
+    replacementCost = new JTextField();
+    replacementCostLabel = new JLabel("Replacement Cost");
+    
+    ratingLabel = new JLabel("Rating");
+    rating = new JComboBox<String>(ratings);
+    rating.setSelectedItem(null);
+    
+    trailer = new JCheckBox("Trailers");
+    commentary = new JCheckBox("Commentary");
+    checkboxInstructions = new JLabel("Select Special Features");
+    checkboxInstructions2 = new JLabel("For the entered film");
 
-	/**
-	 * Method: clearGeneratereportInput Summary: Clear/reset inputs for generate
-	 * report panel
-	 */
-	public void clearGeneratereportInput()
-	{
-		tflFrom.setText("");
-		tflTo.setText("");
-		cbCategory.setSelectedIndex(0);
-		cbStore.setSelectedIndex(0);
-	}
+    deletedScenes = new JCheckBox("Deleted Scenes");
+    behindScenes = new JCheckBox("Behind the Scenes");
+    checkboxesPanel1 = new JPanel();
+    checkboxesPanel2 = new JPanel();
+    
+    
+    
+    //Button to import selected actors from external JFrame
+    importActorsBtn.addActionListener(new ActionListener() {
 
-	/**
-	 * Method: instantiateJComponentsForCustomerPane Summary: Inits components for
-	 * customer panel
-	 */
-	public void instantiateJComponentsForCustomerPane()
-	{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(actorFilmSelection == null) {
+		  		JOptionPane.showMessageDialog(getContentPane(), "Please open actor import window first");
+				}
+				else {
+					importActors();
+			  	if(selectedActors.size() == 0)
+			  		JOptionPane.showMessageDialog(getContentPane(), "No actors selected in external window");
+			  	else
+			  		JOptionPane.showMessageDialog(getContentPane(), "Actor list imported from external window");
+				}
+				
+			}
+    	
+    });
+    
+  //Button to open choose actor menu
+    addActorsBtn = new JButton("Choose actors");
+    addActorsBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				actorFilmSelection = new FilmActorSelection();
+			}
+    	
+    });
+    
+    //inserting objects into panels
+    checkboxesPanel1.add(trailer);
+    checkboxesPanel1.add(commentary);
+    checkboxesPanel2.add(deletedScenes);
+    checkboxesPanel2.add(behindScenes);
+    
+    addFilmButton = new JButton("Add Film");
+    clearFilmInput = new JButton("Clear");
 
-		// Firstname
-		cust_lblFirstName = new JLabel("First Name: ");
-		cust_tflFirstName = new JTextField("");
+    addFilmFormPanel = new JPanel();
+    addFilmFormPanel.setLayout(new GridLayout(14,2));
+    addFilmFormPanel.setPreferredSize(new Dimension(550,510));
+    addFilmFormPanel.add(titleLabel);
+    addFilmFormPanel.add(title);
+    addFilmFormPanel.add(descriptionLabel);
+    addFilmFormPanel.add(description);
+    addFilmFormPanel.add(releaseYearLabel);
+    addFilmFormPanel.add(releaseYear);
+    addFilmFormPanel.add(languageLabel);
+    addFilmFormPanel.add(language);
+    addFilmFormPanel.add(originalLanguageLabel);
+    addFilmFormPanel.add(originalLanguage);
+    addFilmFormPanel.add(categoryLabel);
+    addFilmFormPanel.add(category);
+    addFilmFormPanel.add(rentalDurationLabel);
+    addFilmFormPanel.add(rentalDuration);
+    addFilmFormPanel.add(movieLengthLabel);
+    addFilmFormPanel.add(movieLength);
+    addFilmFormPanel.add(replacementCostLabel);
+    addFilmFormPanel.add(replacementCost);
+    addFilmFormPanel.add(ratingLabel);
+    addFilmFormPanel.add(rating);    
+    
+    addFilmFormPanel.add(checkboxInstructions);
+    addFilmFormPanel.add(checkboxesPanel1);
+    addFilmFormPanel.add(checkboxInstructions2);
+    addFilmFormPanel.add(checkboxesPanel2);
+    addFilmFormPanel.add(addActorsBtn);
+    addFilmFormPanel.add(importActorsBtn);
+    addFilmFormPanel.add(clearFilmInput);
+    addFilmFormPanel.add(addFilmButton);
+    pnlAddFilm.add(addFilmFormPanel);
+    
+    
+    //button listener to clear input
+    clearFilmInput.addActionListener(new ActionListener() {
 
-		// Lastname
-		cust_lblLastName = new JLabel("Last Name: ");
-		cust_tflLastName = new JTextField("");
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				title.setText("");
+				description.setText("");
+				releaseYear.setSelectedItem(null);
+				language.setSelectedItem(null);
+				originalLanguage.setSelectedItem(null);
+				category.setSelectedItem(null);
+				rentalDuration.setText("");
+				movieLength.setText("");
+				replacementCost.setText("");
+				rating.setSelectedItem(null);
+				
+			}
+    	
+    });
+    
+    //button listener to add film
+  }
 
-		// Email
-		cust_lblEmail = new JLabel("Email: ");
-		cust_tflEmailField = new JTextField("");
+  /**
+   * Method: addAddActorButtonListener
+   * Summary: Add an action listener to the buttons for add actor panel
+   * @param listener An AddActorListener object
+   */
+  public void addAddActorButtonListener(ActionListener listener)
+  {
+    btnAddActor.addActionListener(listener);
+    btnCleanActor.addActionListener(listener);
+  }
 
-		// Address
-		cust_lblAddress_1 = new JLabel("Address 1: ");
-		cust_tflAddress_1 = new JTextField("");
+  /**
+   * Method: addGenerateReportLisenter
+   * Summary: Add an action listener to the buttons for generate report panel
+   * @param listener An GenerateReportListener object
+   */
+  public void addGenerateReportLisenter(ActionListener listener) {
+    btnClearGenerateReportView.addActionListener(listener);
+    btnGenerateReport.addActionListener(listener);
+  }
 
-		// Address 2
-		cust_lblAddress_2 = new JLabel("Address 2: ");
-		cust_tflAddress_2 = new JTextField("");
+  /**
+   * Method: setGBCPosition
+   * Summary: A helper method to set GridBagConstrains coordinates.
+   *          GridBagLayout is used in add actor and generate report panels.
+   * @param x x coordinate
+   * @param y y coordinate
+   */
+  public void setGBCPosition(int x, int y)
+  {
+    gbc.gridx = x;
+    gbc.gridy = y;
+  }
 
-		// Postal
-		cust_lblPostal = new JLabel("Postal: ");
-		MaskFormatter postalMask = null;
-		try
-		{
-			postalMask = new MaskFormatter("U#U-#U#");
-		} catch (ParseException e)
-		{
-			e.printStackTrace();
-		}
-		cust_tflPostal = new JFormattedTextField(postalMask);
+  /**
+   * Method: clearGeneratereportInput
+   * Summary: Clear/reset inputs for generate report panel
+   */
+  public void clearGeneratereportInput() {
+    tflFrom.setText("");
+    tflTo.setText("");
+    cbCategory.setSelectedIndex(0);
+    cbStore.setSelectedIndex(0);
+  }
+  
+  /**
+   * Method: instantiateJComponentsForCustomerPane
+   * Summary: Inits components for customer panel
+   */
+	public void instantiateJComponentsForCustomerPane()	
+	{	
+
+		// Firstname	
+		cust_lblFirstName = new JLabel("First Name: ");	
+		cust_tflFirstName = new JTextField("");	
+
+		// Lastname	
+		cust_lblLastName = new JLabel("Last Name: ");	
+		cust_tflLastName = new JTextField("");	
+
+		// Email	
+		cust_lblEmail = new JLabel("Email: ");	
+		cust_tflEmailField = new JTextField("");	
+
+		// Address	
+		cust_lblAddress_1 = new JLabel("Address 1: ");	
+		cust_tflAddress_1 = new JTextField("");	
+
+		// Address 2	
+		cust_lblAddress_2 = new JLabel("Address 2: ");	
+		cust_tflAddress_2 = new JTextField("");	
+
+		// Postal	
+		cust_lblPostal = new JLabel("Postal: ");	
+    MaskFormatter postalMask = null;	
+		try	
+		{	
+			postalMask = new MaskFormatter("U#U-#U#");	
+		} catch (ParseException e)	
+		{	
+			e.printStackTrace();	
+		}	
+		cust_tflPostal = new JFormattedTextField(postalMask);	
 		cust_tflPostal.setFocusLostBehavior(JFormattedTextField.PERSIST);
-		
-		// Phone
-		cust_lblPhone = new JLabel("Phone: ");
-		MaskFormatter phoneMask = null;
-		try
-		{
+    
+		// Phone	
+		cust_lblPhone = new JLabel("Phone: ");	
+    MaskFormatter phoneMask = null;	
+		try	
+		{	
 			phoneMask = new MaskFormatter("(###) ###-####");
 		} catch (ParseException e)
 		{
@@ -702,22 +924,75 @@ public class MovieRentalView extends JFrame
 	 * list of cities
 	 * 
 	 * @param A list of the cities to be added
-	 */
-	public void setCityComboBox(List<String> cities)
-	{
-		cust_cmbCity.removeAllItems();
-		for (int i = 0; i < cities.size(); ++i)
-			cust_cmbCity.addItem(cities.get(i).toString());
-	}
+	 */	
+  public void setCityComboBox(List<String> cities ) {	
+  	cust_cmbCity.removeAllItems();	
+  	for(int i = 0; i < cities.size(); ++i) 	
+  		cust_cmbCity.addItem(cities.get(i).toString());	
+  }
+  
 
-	public void addSubmitRentalListener(SubmitRentalListener listener)
-	{
-		btnSubmit.addActionListener(listener);
-	}
+  public void addSubmitRentalListener(SubmitRentalListener listener){
+    btnSubmit.addActionListener(listener);
+  }
 
-	public void addStoreRadioListener(StoreRadioListener listener)
-	{
-		radioStore1.addItemListener(listener);
-		radioStore2.addItemListener(listener);
-	}
+  public void addStoreRadioListener(StoreRadioListener listener){
+    radioStore1.addItemListener(listener);
+    radioStore2.addItemListener(listener);
+  }
+  
+  public void importActors() {
+  	selectedActors = actorFilmSelection.exportActors();
+	
+  }
+  
+  //Method for getting a list of actor names from the db
+  public ArrayList<String> getActors() throws SQLException{
+  	Connection myConn = null;
+		CallableStatement myStmt = null;
+		ResultSet myRslt = null;
+		ArrayList<String> actors = new ArrayList<String>();
+		//Step 1: Use a try-catch to attempt the database connection
+		try
+		{
+			//create a Connection object by calling a static method of DriverManager class
+			myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/demo?useSSL=false","root","password"
+					);
+			
+			//Step 2: create a Statement object by calling a method of the Connection object
+			myStmt = (CallableStatement) myConn.prepareCall("SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
+			
+			//Step 3: pass in a query string to the Statement object using a method
+			// called executeQuery().
+			//Assign the returned ResultSet object to myRslt.
+			myRslt = myStmt.executeQuery();
+			
+			//Step 4: PROCESS the myRslt result set object using a while loop
+			while(myRslt.next())
+			{
+				actors.add(myRslt.getString("name"));
+			}
+			
+					
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Exception caught, message is " + ex.getMessage());
+		}
+		
+		//DO THE finally block!
+		finally
+		{
+			//put your clean up code here to close the objects. Standard practice is to
+			//close them in REVERSE ORDER of creation
+			if(myRslt != null)
+				myRslt.close();
+			if(myStmt != null)
+				myStmt.close();
+			if(myConn != null)
+				myConn.close();			
+		}
+		return actors;
+  }
 }
