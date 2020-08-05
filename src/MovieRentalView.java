@@ -691,7 +691,8 @@ public class MovieRentalView extends JFrame
 			e.printStackTrace();	
 		}	
 		cust_tflPostal = new JFormattedTextField(postalMask);	
-
+		cust_tflPostal.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		
 		// Phone	
 		cust_lblPhone = new JLabel("Phone: ");	
     MaskFormatter phoneMask = null;	
@@ -702,7 +703,8 @@ public class MovieRentalView extends JFrame
 			e.printStackTrace();	
 		}	
 		cust_tflPhone = new JFormattedTextField(phoneMask);	
-
+		cust_tflPhone.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		
 		// Country	
 		String[] country = {"-"};	
 		cust_lblCountry = new JLabel("Country: ");	
@@ -806,7 +808,14 @@ public class MovieRentalView extends JFrame
  		this.cust_lblError.setText("Invalid address: Requirest at least one");	
  		return false;	
  	}	
-
+ 	
+	// validate postal
+	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
+	if(!HelperMethods.postalCodeValidator(code)) {
+		this.cust_lblError.setText("Invalid Postal Code");
+		return false;
+	}
+	
  	// validate email address
  	if (this.cust_tflEmailField.getText().equals("")) {	
  		this.cust_lblError.setText("Invalid email");	
