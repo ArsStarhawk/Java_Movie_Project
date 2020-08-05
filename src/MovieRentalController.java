@@ -118,22 +118,35 @@ public class MovieRentalController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			boolean custAdded = false;
 			Customer cust = new Customer();
-			cust.firstName = theView.cust_tflFirstName.getText().toString();
-			cust.lastName = theView.cust_tflLastName.getText().toString();
-			cust.email = theView.cust_tflEmailField.getText().toString();
-			cust.address1 = theView.cust_tflAddress_1.getText().toString();
-			cust.address2 = theView.cust_tflAddress_2.getText().toString();
-			cust.postal = theView.cust_tflPostal.getText().toString();
-			cust.phone = theView.cust_tflPhone.getText().toString();
-			cust.country = theView.cust_cmbCountry.getSelectedItem().toString();
-			cust.city = theView.cust_cmbCity.getSelectedItem().toString();
-			if (theModel.addCustomer(cust) > 0)
+			if (theView.validateCustomer())
 			{
+				cust.firstName = theView.cust_tflFirstName.getText().toString();
+				cust.lastName = theView.cust_tflLastName.getText().toString();
+				cust.email = theView.cust_tflEmailField.getText().toString();
+				cust.address1 = theView.cust_tflAddress_1.getText().toString();
+				cust.address2 = theView.cust_tflAddress_2.getText().toString();
+				cust.postal = theView.cust_tflPostal.getText().toString();
+				cust.phone = theView.cust_tflPhone.getText().toString();
+				cust.country = theView.cust_cmbCountry.getSelectedItem().toString();
+				cust.city = theView.cust_cmbCity.getSelectedItem().toString();
+				if (theModel.addCustomer(cust) > 0)
+				{
+					custAdded = true;
+				}
+			}
+				
+			// of add was successful
+			if (custAdded)
+			{
+				theView.cust_lblError.setText("");
 				theView.displayMessage(cust.firstName + " " + cust.lastName + " has been added");
+
 			} else
 			{
-				theView.displayMessage("ERROR: Customer not added");
+				theView.cust_lblError.setForeground(Color.RED);
+				theView.displayMessage("Customer NOT added");
 			}
 		}
 	}

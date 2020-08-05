@@ -48,4 +48,36 @@ public class HelperMethods {
     s += "payment_date <= '" + dateStoreCategory.to + " 23:59:59')";
     return s;
   }
+  
+
+  /**
+   * Methods: postalCodeValidator
+   * Summary: Used to validate postal codes
+   * @param postal the code to validate as a string
+   * Note: algorithm was referenced from here: https://stackoverflow.com/questions/40353979/java-validating-postal-code
+   */
+	public static boolean postalCodeValidator(String postal)
+	{
+
+			char a = postal.charAt(0);
+			char b = postal.charAt(2);
+			char c = postal.charAt(4);
+			char d = postal.charAt(1);
+			char e = postal.charAt(3);
+			char f = postal.charAt(5);
+			if (!Character.isLetter(a))
+				return false;
+			else if (!Character.isLetter(b) || b == ' ')
+				return false;
+			else if (!Character.isLetter(c) || c == ' ')
+				return false;
+			else if (!Character.isDigit(d) || d == ' ')
+				return false;
+			else if (!Character.isDigit(e) || e == ' ')
+				return false;
+			else if (!Character.isDigit(f) || f == ' ')
+				return false;
+
+			return true;
+	}
 }
