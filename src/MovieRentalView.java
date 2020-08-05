@@ -16,9 +16,15 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
+import com.mysql.cj.jdbc.CallableStatement;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -118,6 +124,64 @@ public class MovieRentalView extends JFrame
   JButton btnSubmit;
   Vector<String> custList;
   Vector<String> filmList;
+  
+  
+//addFilm attributes
+  JTextField title;
+  JLabel titleLabel;
+  
+  JTextField description;
+  JLabel descriptionLabel;
+  
+  JLabel releaseYearLabel;
+  JComboBox<String> releaseYear;
+  	
+  
+  JLabel languageLabel;
+  JComboBox<String> language;;
+  
+  JLabel originalLanguageLabel;
+  JComboBox<String> originalLanguage;
+  
+  JLabel categoryLabel;
+  JComboBox<String> category;
+  
+  JTextField rentalDuration;
+  JLabel rentalDurationLabel;
+  
+  
+  JButton importActorsBtn;
+  
+  JLabel actorsLabel;
+  
+  JTextField movieLength;
+  JLabel movieLengthLabel;
+  
+  JTextField replacementCost ;
+  JLabel replacementCostLabel;
+  
+  JLabel ratingLabel;
+  JComboBox<String> rating;
+  
+  JCheckBox trailer;
+  JCheckBox commentary;
+  JLabel checkboxInstructions;
+  JLabel checkboxInstructions2;
+
+  JCheckBox deletedScenes;
+  JCheckBox behindScenes;
+  JPanel checkboxesPanel1;
+  JPanel checkboxesPanel2;
+  
+  JButton addActorsBtn;
+  
+  JButton addFilmButton;
+  JButton clearFilmInput;
+
+  JPanel addFilmFormPanel;
+  ArrayList<String> selectedActors;
+  FilmActorSelection actorFilmSelection;
+
 
   MovieRentalView()
   {
@@ -380,8 +444,168 @@ public class MovieRentalView extends JFrame
   }//create method
 
   private void createAddNewFilmPane()
-  {
-    // Evan's codes
+{
+  	
+  	
+  	//String arrays to load combo boxes
+  	String[]years = {"1920","1921","1922","1923","1924","1925","1926","1927","1928","1929","1930","1931","1932","1933","1934","1935","1936","1937","1938","1939","1940","1941","1942","1943","1944","1945","1946","1947","1948","1949","1950","1951","1952","1953","1954","1955","1956","1957","1958","1959","1960","1961","1962","1963","1964","1965","1966","1967","1968","1969","1970","1971","1972","1973","1974","1975","1976","1977","1978","1979","1980","1981","1982","1983","1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"};
+  	String[]langs = {"English", "Italian", "Japanese", "Mandarin", "French", "German"};
+  	String[]categories = {"Action", "Animation", "Children", "Classics", "Comedy", "Documentary", "Drama", "Family", "Foreign", "Games", "Horror", "Music", "New", "Sci-Fi", "Sports", "Travel"};
+  	String[]ratings = {"G", "PG","PG-13", "R", "NC-17"};
+  	    
+  	
+  	//creating the the form objects
+    title = new JTextField();
+    titleLabel = new JLabel("Title");
+    
+    description = new JTextField();
+    descriptionLabel = new JLabel("Description");
+    
+    releaseYearLabel = new JLabel("Year Released");
+    releaseYear = new JComboBox<String>(years);
+    releaseYear.setSelectedItem(null);
+    	
+    
+    languageLabel = new JLabel("Language");
+    language = new JComboBox<String>(langs);
+    language.setSelectedItem(null);
+    
+    originalLanguageLabel = new JLabel("Original Language");
+    originalLanguage = new JComboBox<String>(langs);
+    originalLanguage.setSelectedItem(null);
+    
+    categoryLabel = new JLabel("Category");
+    category = new JComboBox<String>(categories);
+    category.setSelectedItem(null);
+    
+    rentalDuration = new JTextField();
+    rentalDurationLabel = new JLabel("Rental Duration");
+    
+    
+    importActorsBtn = new JButton("Import actors");
+    
+    actorsLabel = new JLabel("Press button to choose actors");
+    
+    movieLength = new JTextField();
+    movieLengthLabel = new JLabel("Movie Length");
+    
+    replacementCost = new JTextField();
+    replacementCostLabel = new JLabel("Replacement Cost");
+    
+    ratingLabel = new JLabel("Rating");
+    rating = new JComboBox<String>(ratings);
+    rating.setSelectedItem(null);
+    
+    trailer = new JCheckBox("Trailers");
+    commentary = new JCheckBox("Commentary");
+    checkboxInstructions = new JLabel("Select Special Features");
+    checkboxInstructions2 = new JLabel("For the entered film");
+
+    deletedScenes = new JCheckBox("Deleted Scenes");
+    behindScenes = new JCheckBox("Behind the Scenes");
+    checkboxesPanel1 = new JPanel();
+    checkboxesPanel2 = new JPanel();
+    
+    
+    
+    //Button to import selected actors from external JFrame
+    importActorsBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(actorFilmSelection == null) {
+		  		JOptionPane.showMessageDialog(getContentPane(), "Please open actor import window first");
+				}
+				else {
+					importActors();
+			  	if(selectedActors.size() == 0)
+			  		JOptionPane.showMessageDialog(getContentPane(), "No actors selected in external window");
+			  	else
+			  		JOptionPane.showMessageDialog(getContentPane(), "Actor list imported from external window");
+				}
+				
+			}
+    	
+    });
+    
+  //Button to open choose actor menu
+    addActorsBtn = new JButton("Choose actors");
+    addActorsBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				actorFilmSelection = new FilmActorSelection();
+			}
+    	
+    });
+    
+    //inserting objects into panels
+    checkboxesPanel1.add(trailer);
+    checkboxesPanel1.add(commentary);
+    checkboxesPanel2.add(deletedScenes);
+    checkboxesPanel2.add(behindScenes);
+    
+    addFilmButton = new JButton("Add Film");
+    clearFilmInput = new JButton("Clear");
+
+    addFilmFormPanel = new JPanel();
+    addFilmFormPanel.setLayout(new GridLayout(14,2));
+    addFilmFormPanel.setPreferredSize(new Dimension(550,510));
+    addFilmFormPanel.add(titleLabel);
+    addFilmFormPanel.add(title);
+    addFilmFormPanel.add(descriptionLabel);
+    addFilmFormPanel.add(description);
+    addFilmFormPanel.add(releaseYearLabel);
+    addFilmFormPanel.add(releaseYear);
+    addFilmFormPanel.add(languageLabel);
+    addFilmFormPanel.add(language);
+    addFilmFormPanel.add(originalLanguageLabel);
+    addFilmFormPanel.add(originalLanguage);
+    addFilmFormPanel.add(categoryLabel);
+    addFilmFormPanel.add(category);
+    addFilmFormPanel.add(rentalDurationLabel);
+    addFilmFormPanel.add(rentalDuration);
+    addFilmFormPanel.add(movieLengthLabel);
+    addFilmFormPanel.add(movieLength);
+    addFilmFormPanel.add(replacementCostLabel);
+    addFilmFormPanel.add(replacementCost);
+    addFilmFormPanel.add(ratingLabel);
+    addFilmFormPanel.add(rating);    
+    
+    addFilmFormPanel.add(checkboxInstructions);
+    addFilmFormPanel.add(checkboxesPanel1);
+    addFilmFormPanel.add(checkboxInstructions2);
+    addFilmFormPanel.add(checkboxesPanel2);
+    addFilmFormPanel.add(addActorsBtn);
+    addFilmFormPanel.add(importActorsBtn);
+    addFilmFormPanel.add(clearFilmInput);
+    addFilmFormPanel.add(addFilmButton);
+    pnlAddFilm.add(addFilmFormPanel);
+    
+    
+    //button listener to clear input
+    clearFilmInput.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				title.setText("");
+				description.setText("");
+				releaseYear.setSelectedItem(null);
+				language.setSelectedItem(null);
+				originalLanguage.setSelectedItem(null);
+				category.setSelectedItem(null);
+				rentalDuration.setText("");
+				movieLength.setText("");
+				replacementCost.setText("");
+				rating.setSelectedItem(null);
+				
+			}
+    	
+    });
+    
+    //button listener to add film
   }
 
   /**
@@ -687,5 +911,60 @@ public class MovieRentalView extends JFrame
   public void addStoreRadioListener(StoreRadioListener listener){
     radioStore1.addItemListener(listener);
     radioStore2.addItemListener(listener);
+  }
+  
+  public void importActors() {
+  	selectedActors = actorFilmSelection.exportActors();
+	
+  }
+  
+  //Method for getting a list of actor names from the db
+  public ArrayList<String> getActors() throws SQLException{
+  	Connection myConn = null;
+		CallableStatement myStmt = null;
+		ResultSet myRslt = null;
+		ArrayList<String> actors = new ArrayList<String>();
+		//Step 1: Use a try-catch to attempt the database connection
+		try
+		{
+			//create a Connection object by calling a static method of DriverManager class
+			myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/demo?useSSL=false","root","password"
+					);
+			
+			//Step 2: create a Statement object by calling a method of the Connection object
+			myStmt = (CallableStatement) myConn.prepareCall("SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
+			
+			//Step 3: pass in a query string to the Statement object using a method
+			// called executeQuery().
+			//Assign the returned ResultSet object to myRslt.
+			myRslt = myStmt.executeQuery();
+			
+			//Step 4: PROCESS the myRslt result set object using a while loop
+			while(myRslt.next())
+			{
+				actors.add(myRslt.getString("name"));
+			}
+			
+					
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Exception caught, message is " + ex.getMessage());
+		}
+		
+		//DO THE finally block!
+		finally
+		{
+			//put your clean up code here to close the objects. Standard practice is to
+			//close them in REVERSE ORDER of creation
+			if(myRslt != null)
+				myRslt.close();
+			if(myStmt != null)
+				myStmt.close();
+			if(myConn != null)
+				myConn.close();			
+		}
+		return actors;
   }
 }
