@@ -799,18 +799,24 @@ public class MovieRentalView extends JFrame
  	if(this.cust_tflFirstName.getText().equals("")) {	
  		this.cust_lblError.setText("Invalid firstname");
  		displayMessage("Customer NOT added: Invalid firstname");
+ 		this.cust_tflFirstName.setText("");
+ 		this.cust_tflFirstName.requestFocus();
  		return false;	
  	}	
  	if(this.cust_tflLastName.getText().equals("")) {	
  		this.cust_lblError.setText("Invalid lastname");	
- 		displayMessage("Customer NOT added: Invalid lastname");
+ 		this.cust_tflLastName.setText("");
+    displayMessage("Customer NOT added: Invalid lastname");
+ 		this.cust_tflLastName.requestFocus();
  		return false;	
  	}	
-
+ 	
  	// validate email address
  	if (this.cust_tflEmailField.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid email");	
- 		displayMessage("Customer NOT added: Invalid email");
+ 		this.cust_lblError.setText("Invalid email");
+ 		this.cust_tflEmailField.setText("");
+    displayMessage("Customer NOT added: Invalid email");
+ 		this.cust_tflEmailField.requestFocus();
  		return false;	
    }	
    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 	
@@ -819,10 +825,31 @@ public class MovieRentalView extends JFrame
        "A-Z]{2,7}$";          	
    Pattern pat = Pattern.compile(emailRegex);
    if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
-   	this.cust_lblError.setText("Invalid email");	
   	displayMessage("Customer NOT added: Invalid email");
+   	this.cust_lblError.setText("Invalid email");
+   	this.cust_tflEmailField.setText("");
+   	this.cust_tflEmailField.requestFocus();
    	return false;	
-   } 	
+   } 
+ 	
+ 	// Get first address, no need to validate second address	
+ 	if(this.cust_tflAddress_1.getText().equals("") ) {	
+ 		this.cust_lblError.setText("Invalid address: Requires at least one address");	
+ 		this.cust_tflAddress_1.setText("");
+ 		this.cust_tflAddress_1.requestFocus();
+ 		return false;	
+ 	}	
+ 	
+	// validate postal
+	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
+	if(!HelperMethods.postalCodeValidator(code)) {
+		this.cust_lblError.setText("Invalid Postal Code");
+		this.cust_tflPostal.setText("");
+		this.cust_tflPostal.requestFocus();
+		return false;
+	}
+	
+	
 
   	// Get first address, no need to validate second address	
   	if(this.cust_tflAddress_1.getText().equals(" ") || this.cust_tflAddress_1.getText().isEmpty()) {	
@@ -847,19 +874,24 @@ public class MovieRentalView extends JFrame
    if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {	
    	this.cust_lblError.setText("Invalid phone");
   	displayMessage("Customer NOT added: Invalid phone number");
+  	this.cust_tflPhone.setText("");
+   	this.cust_tflPhone.requestFocus();
    	return false;	
    } 	
 
    if(this.cust_tflPhone.getText().equals("")) {	
    	this.cust_lblError.setText("Invalid phone");	
    	displayMessage("Customer NOT added: Invalid phone number");
+   	this.cust_tflPhone.setText("");
+  	this.cust_tflPhone.requestFocus();
    	return false;	
    }	
 
  	// only need to validate country	
    if(this.cust_cmbCountry.getSelectedItem().equals("-")){	
    	this.cust_lblError.setText("Invalid Country");
-   	displayMessage("Customer NOT added: Country not selected");
+   	displayMessage("Customer NOT added: Country not selected");	
+   	this.cust_cmbCountry.requestFocus();
    	return false;	
    }	
  	return true;	

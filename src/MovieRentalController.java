@@ -113,7 +113,7 @@ public class MovieRentalController
 
 	 /**
    * Method: AddCustomerListener
-   * Summary: Gets all the fiels from the customer table, 
+   * Summary: Gets all the fields from the customer table, 
    * 					Validates them and builds a query for the model
    */
 	class AddCustomerListener implements ActionListener
