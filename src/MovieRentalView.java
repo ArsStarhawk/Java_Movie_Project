@@ -833,10 +833,11 @@ public class MovieRentalView extends JFrame
    } 
  	
  	// Get first address, no need to validate second address	
- 	if(this.cust_tflAddress_1.getText().equals("") ) {	
+ 	if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() ) {	
  		this.cust_lblError.setText("Invalid address: Requires at least one address");	
  		this.cust_tflAddress_1.setText("");
  		this.cust_tflAddress_1.requestFocus();
+ 		displayMessage("Customer NOT added: Invalid address");
  		return false;	
  	}	
  	
@@ -845,29 +846,11 @@ public class MovieRentalView extends JFrame
 	if(!HelperMethods.postalCodeValidator(code)) {
 		this.cust_lblError.setText("Invalid Postal Code");
 		this.cust_tflPostal.setText("");
+		displayMessage("Customer NOT added: Invalid Postal Code");
 		this.cust_tflPostal.requestFocus();
 		return false;
 	}
-	
-	
 
-  	// Get first address, no need to validate second address	
-  	if(this.cust_tflAddress_1.getText().equals(" ") || this.cust_tflAddress_1.getText().isEmpty()) {	
-  		this.cust_lblError.setText("Invalid address: Requires at least one address");	
-  		displayMessage("Customer NOT added: Invalid address");
-  		return false;	
-  	}		
-
-   
- 	// validate postal
- 	String pc = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
- 	if(!HelperMethods.postalCodeValidator(pc)) {
- 		this.cust_lblError.setText("Invalid Postal Code");
- 		displayMessage("Customer NOT added: Invalid Postal Code");
- 		return false;
- 	}
- 	
- 	
    // validate phone	
    String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          	
    Pattern phonePat = Pattern.compile(phoneRegex);  	
