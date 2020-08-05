@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 public class MovieRentalView extends JFrame
 {
+  // panels
   JPanel pnlAddCustomer;
   JPanel pnlAddActor;
   JPanel pnlAddFilm;
@@ -37,6 +38,7 @@ public class MovieRentalView extends JFrame
   JPanel pnlGenerateReport;
   JPanel pnlGenerateReportNorth;
 
+  // components for generate report
   JComboBox cbCategory;
   JComboBox cbStore;
 
@@ -110,9 +112,6 @@ public class MovieRentalView extends JFrame
 
 	// Customer Button	
 	JButton cust_btnAddCustomer;	
-
-	// Error Cell	
-	JLabel cust_lblError;
 
   //James Kidd's mess of stuff
   JComboBox<String> comboFilmList, comboCustList;
@@ -238,8 +237,7 @@ public class MovieRentalView extends JFrame
 
   private void CreateAddCustomerPane()
   {
-    // Scully's codes
-		// Build UI	
+		// Build UI
 		instantiateJComponentsForCustomerPane();	
 		addJComponentsToCustomerPanel();
   }
@@ -630,19 +628,6 @@ public class MovieRentalView extends JFrame
   }
 
   /**
-   * Method: setGBCPosition
-   * Summary: A helper method to set GridBagConstrains coordinates.
-   *          GridBagLayout is used in add actor and generate report panels.
-   * @param x x coordinate
-   * @param y y coordinate
-   */
-  public void setGBCPosition(int x, int y)
-  {
-    gbc.gridx = x;
-    gbc.gridy = y;
-  }
-
-  /**
    * Method: clearGeneratereportInput
    * Summary: Clear/reset inputs for generate report panel
    */
@@ -724,10 +709,7 @@ public class MovieRentalView extends JFrame
 		cust_btnAddCustomer = new JButton("Add Customer");	
 
 		// Empty	
-		cust_lblEmptyCell_3 = new JLabel("");	
-
-		// Error	
-		cust_lblError = new JLabel("");	
+		cust_lblEmptyCell_3 = new JLabel("");
 	}
   
   /**
@@ -783,9 +765,7 @@ public class MovieRentalView extends JFrame
 		pnlAddCustomer.add(cust_btnAddCustomer);	
 
 		// Empty, Error	
-		pnlAddCustomer.add(cust_lblEmptyCell_3);	
-		pnlAddCustomer.add(cust_lblError);	
-
+		pnlAddCustomer.add(cust_lblEmptyCell_3);
 	}
 	
 	 /**
@@ -796,27 +776,24 @@ public class MovieRentalView extends JFrame
  public boolean validateCustomer() {	
 
  	// Check if empty	
- 	if(this.cust_tflFirstName.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid firstname");
+ 	if(this.cust_tflFirstName.getText().equals("")) {
  		displayMessage("Customer NOT added: Invalid firstname");
  		this.cust_tflFirstName.setText("");
  		this.cust_tflFirstName.requestFocus();
  		return false;	
  	}	
  	if(this.cust_tflLastName.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid lastname");	
- 		this.cust_tflLastName.setText("");
     displayMessage("Customer NOT added: Invalid lastname");
- 		this.cust_tflLastName.requestFocus();
+    this.cust_tflLastName.setText("");
+    this.cust_tflLastName.requestFocus();
  		return false;	
  	}	
  	
  	// validate email address
  	if (this.cust_tflEmailField.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid email");
- 		this.cust_tflEmailField.setText("");
     displayMessage("Customer NOT added: Invalid email");
- 		this.cust_tflEmailField.requestFocus();
+    this.cust_tflEmailField.setText("");
+    this.cust_tflEmailField.requestFocus();
  		return false;	
    }	
    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 	
@@ -826,25 +803,24 @@ public class MovieRentalView extends JFrame
    Pattern pat = Pattern.compile(emailRegex);
    if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
   	displayMessage("Customer NOT added: Invalid email");
-   	this.cust_lblError.setText("Invalid email");
    	this.cust_tflEmailField.setText("");
    	this.cust_tflEmailField.requestFocus();
    	return false;	
    } 
  	
  	// Get first address, no need to validate second address	
- 	if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() ) {	
- 		this.cust_lblError.setText("Invalid address: Requires at least one address");	
- 		this.cust_tflAddress_1.setText("");
+ 	if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() )
+ 	{
+    displayMessage("Customer NOT added: Invalid address");
+    this.cust_tflAddress_1.setText("");
  		this.cust_tflAddress_1.requestFocus();
- 		displayMessage("Customer NOT added: Invalid address");
- 		return false;	
+ 		return false;
  	}	
  	
 	// validate postal
 	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
-	if(!HelperMethods.postalCodeValidator(code)) {
-		this.cust_lblError.setText("Invalid Postal Code");
+	if(!HelperMethods.postalCodeValidator(code))
+	{
 		this.cust_tflPostal.setText("");
 		displayMessage("Customer NOT added: Invalid Postal Code");
 		this.cust_tflPostal.requestFocus();
@@ -854,16 +830,16 @@ public class MovieRentalView extends JFrame
    // validate phone	
    String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          	
    Pattern phonePat = Pattern.compile(phoneRegex);  	
-   if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {	
-   	this.cust_lblError.setText("Invalid phone");
+   if(!phonePat.matcher(this.cust_tflPhone.getText()).matches())
+   {
   	displayMessage("Customer NOT added: Invalid phone number");
   	this.cust_tflPhone.setText("");
    	this.cust_tflPhone.requestFocus();
    	return false;	
    } 	
 
-   if(this.cust_tflPhone.getText().equals("")) {	
-   	this.cust_lblError.setText("Invalid phone");	
+   if(this.cust_tflPhone.getText().equals(""))
+   {
    	displayMessage("Customer NOT added: Invalid phone number");
    	this.cust_tflPhone.setText("");
   	this.cust_tflPhone.requestFocus();
@@ -872,8 +848,7 @@ public class MovieRentalView extends JFrame
 
  	// only need to validate country	
    if(this.cust_cmbCountry.getSelectedItem().equals("-")){	
-   	this.cust_lblError.setText("Invalid Country");
-   	displayMessage("Customer NOT added: Country not selected");	
+   	displayMessage("Customer NOT added: Country not selected");
    	this.cust_cmbCountry.requestFocus();
    	return false;	
    }	
@@ -885,7 +860,8 @@ public class MovieRentalView extends JFrame
   * Summary: 	displays a message in an JOptionpane
   * @param 	 	message to display
   */
-	public void displayMessage(String msg) {	
+	public void displayMessage(String msg)
+  {
    JOptionPane.showMessageDialog(this,msg);  	
 	}
 
@@ -894,7 +870,8 @@ public class MovieRentalView extends JFrame
 	  * Summary: 	A setter method for the country comobo box listener
 	  * @param 	 	The action listener to be added
 	  */
-  public void addCountryComboListener(ActionListener listener) {	
+  public void addCountryComboListener(ActionListener listener)
+  {
   	cust_cmbCountry.addActionListener(listener);	
   }	
 
@@ -903,7 +880,8 @@ public class MovieRentalView extends JFrame
 	 * Summary: A setter method for the add customer button listener
 	 * @param The action listener to be added
 	 */
-  public void addCustomerButtonLIstener(ActionListener listener) {	
+  public void addCustomerButtonLIstener(ActionListener listener)
+  {
   	cust_btnAddCustomer.addActionListener(listener);	
   }	
   
@@ -912,7 +890,8 @@ public class MovieRentalView extends JFrame
 	 * Summary: A setter method for the clear customer button listener
 	 * @param The action listener to be added
 	 */
-  public void addClearCustomerButtonListener(ActionListener listener) {
+  public void addClearCustomerButtonListener(ActionListener listener)
+  {
   	this.cust_btnClear.addActionListener(listener);
   }
   
@@ -921,7 +900,8 @@ public class MovieRentalView extends JFrame
 	 * Summary: Updates the customer country combobox with a list of countries
 	 * @param A list of the countries to be added
 	 */
-  public void updateCountryList(List<String> countries) {
+  public void updateCountryList(List<String> countries)
+  {
   	cust_cmbCountry.removeAllItems();	
   	cust_cmbCountry.addItem("-");	
   	for(int i = 0; i < countries.size(); ++i) {	
@@ -934,34 +914,25 @@ public class MovieRentalView extends JFrame
 	 * Summary: Updates the customers city combobox with a list of cities
 	 * @param A list of the cities to be added
 	 */	
-  public void setCityComboBox(List<String> cities ) {	
+  public void setCityComboBox(List<String> cities )
+  {
   	cust_cmbCity.removeAllItems();	
   	for(int i = 0; i < cities.size(); ++i) 	
   		cust_cmbCity.addItem(cities.get(i).toString());	
   }
-  
 
-  public void addSubmitRentalListener(SubmitRentalListener listener){
-    btnSubmit.addActionListener(listener);
-  }
-
-  public void addStoreRadioListener(StoreRadioListener listener){
-    radioStore1.addItemListener(listener);
-    radioStore2.addItemListener(listener);
-  }
-  
-  public void importActors() {
+  public void importActors()
+  {
   	selectedActors = actorFilmSelection.exportActors();
-	
   }
   
   //Method for getting a list of actor names from the db
-  public ArrayList<String> getActors() throws SQLException{
+  public ArrayList<String> getActors() throws SQLException
+  {
   	Connection myConn = null;
 		CallableStatement myStmt = null;
 		ResultSet myRslt = null;
 		ArrayList<String> actors = new ArrayList<String>();
-		//Step 1: Use a try-catch to attempt the database connection
 		try
 		{
 			//create a Connection object by calling a static method of DriverManager class
@@ -969,11 +940,10 @@ public class MovieRentalView extends JFrame
 					"jdbc:mysql://localhost:3306/demo?useSSL=false","root","password"
 					);
 			
-			//Step 2: create a Statement object by calling a method of the Connection object
-			myStmt = (CallableStatement) myConn.prepareCall("SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
-			
-			//Step 3: pass in a query string to the Statement object using a method
-			// called executeQuery().
+			//create a Statement object by calling a method of the Connection object
+			myStmt = (CallableStatement) myConn.prepareCall(
+			    "SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
+
 			//Assign the returned ResultSet object to myRslt.
 			myRslt = myStmt.executeQuery();
 			
@@ -982,15 +952,11 @@ public class MovieRentalView extends JFrame
 			{
 				actors.add(myRslt.getString("name"));
 			}
-			
-					
 		}
 		catch(Exception ex)
 		{
 			System.out.println("Exception caught, message is " + ex.getMessage());
 		}
-		
-		//DO THE finally block!
 		finally
 		{
 			//put your clean up code here to close the objects. Standard practice is to
@@ -1003,5 +969,49 @@ public class MovieRentalView extends JFrame
 				myConn.close();			
 		}
 		return actors;
+  }
+
+  /**
+   * Method: setGBCPosition
+   * Summary: A helper method to set GridBagConstrains coordinates.
+   *          GridBagLayout is used in add actor and generate report panels.
+   * @param x x coordinate
+   * @param y y coordinate
+   */
+  public void setGBCPosition(int x, int y)
+  {
+    gbc.gridx = x;
+    gbc.gridy = y;
+  }
+
+  /**
+   * Method: addFilmButtonListener
+   * Summary: register a listener for addFilmButton
+   * @param listener listener to register
+   */
+  public void addFilmButtonListener(AddFilmListener listener)
+  {
+    this.addFilmButton.addActionListener(listener);
+  }
+
+  /**
+   * Method: addSubmitRentalListener
+   * Summary: register a listener for submit rental button
+   * @param listener listener to register
+   */
+  public void addSubmitRentalListener(SubmitRentalListener listener)
+  {
+    btnSubmit.addActionListener(listener);
+  }
+
+  /**
+   * Method: addStoreRadioListener
+   * Summary: register a listener for store selection radio buttons for add rental operation
+   * @param listener listener to register
+   */
+  public void addStoreRadioListener(StoreRadioListener listener)
+  {
+    radioStore1.addItemListener(listener);
+    radioStore2.addItemListener(listener);
   }
 }

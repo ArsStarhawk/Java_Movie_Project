@@ -32,6 +32,8 @@ public class MovieRentalModel
     }
     catch(SQLException ex)
     {
+      helperMethods.createPopupDialog("Connection Error",
+          "Connection failure. Please contact IT support.");
       System.out.println("SQLException while closing connection objects: "+ ex.getMessage());
       ex.printStackTrace();
     }
@@ -47,8 +49,12 @@ public class MovieRentalModel
     try
     {
       stmt.executeUpdate(statement);
-    } catch (SQLException ex){
+    }
+    catch (SQLException ex)
+    {
+      helperMethods.createPopupDialog("Unexpected Error", "Actor not added.");
       System.out.println("Error: " + ex.getMessage());
+      ex.printStackTrace();
     }
   }
 
@@ -62,7 +68,10 @@ public class MovieRentalModel
     try{
       rslt = stmt.executeQuery("SELECT Name FROM Category");
     }catch (SQLException ex ){
+      helperMethods.createPopupDialog("Unexpected Error",
+          "Unable to load movie categories. Please contact IT support");
       System.out.println("Error: " + ex.getMessage());
+      ex.printStackTrace();
     }
     return rslt;
   }
@@ -77,7 +86,10 @@ public class MovieRentalModel
     try{
       rslt = stmt.executeQuery("SELECT store_id FROM Store;");
     }catch (SQLException ex ){
+      helperMethods.createPopupDialog("Unexpected Error",
+          "Unable to load stores. Please contact IT support");
       System.out.println("Error: " + ex.getMessage());
+      ex.printStackTrace();
     }
     return rslt;
   }
@@ -98,9 +110,10 @@ public class MovieRentalModel
       rslt = stmt.executeQuery(sql);
       model = DbUtils.resultSetToTableModel(rslt);
     } catch (SQLException ex){
-      helperMethods.createPopupDialog("Database Error", "Problem loading table. " +
-          "Please contact IT support.");
+      helperMethods.createPopupDialog("Database Error",
+          "Problem loading table. Please contact IT support.");
       System.out.println( ex.getMessage());
+      ex.printStackTrace();
     }
     return model;
   }
@@ -122,6 +135,8 @@ public class MovieRentalModel
 			}
 		} catch (SQLException ex)
 		{
+      helperMethods.createPopupDialog("Database Error",
+          "Problem loading countries. Please contact IT support.");
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
 		}
@@ -140,7 +155,8 @@ public class MovieRentalModel
 		try
 		{
 			prepStmt = conn.prepareStatement(
-					"select ci.city from country c inner join city ci on c.country_id = ci.country_id where c.country = ? ");
+					"SELECT ci.city FROM country c INNER JOIN city ci " +
+              "ON c.country_id = ci.country_id WHERE c.country = ? ");
 			prepStmt.setString(1, country);
 			rslt = prepStmt.executeQuery();
 
@@ -151,6 +167,8 @@ public class MovieRentalModel
 
 		} catch (SQLException ex)
 		{
+      helperMethods.createPopupDialog("Database Error",
+          "Problem loading cities. Please contact IT support.");
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
 		}
@@ -178,6 +196,8 @@ public class MovieRentalModel
 
 		} catch (SQLException ex)
 		{
+      helperMethods.createPopupDialog("Database Error",
+          "Problem loading countries. Please contact IT support.");
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
 		}
@@ -197,7 +217,8 @@ public class MovieRentalModel
 		try
 		{
 			prepStmt = conn.prepareStatement(
-					"select city_id from city where city = ? and country_id = ( select country_id  from country where country = ?);");
+					"SELECT city_id FROM city WHERE city = ? " +
+              "AND country_id = ( SELECT country_id  FROM country WHERE country = ?);");
 			prepStmt.setString(1, city);
 			prepStmt.setString(2, country);
 			rslt = prepStmt.executeQuery();
@@ -228,8 +249,8 @@ public class MovieRentalModel
 			String cityID = getCityID(cust.city, cust.country);
 			String countryID = getCountryID(cust.country);
 
-			String q = "insert into address ( address, address2, district, city_id, postal_code, phone, location ) "
-					+ "values('" + cust.address1 + "', '" + cust.address2 + "', '" + cust.city + "', " + cityID + ", '"
+			String q = "INSERT INTO address ( address, address2, district, city_id, postal_code, phone, location ) "
+					+ "VALUES('" + cust.address1 + "', '" + cust.address2 + "', '" + cust.city + "', " + cityID + ", '"
 					+ cust.postal + "', '" + cust.phone + "', ST_GeomFromText('POINT(" + cityID + " " + countryID + ")'));";
 			int i = stmt.executeUpdate(q);
 			if (i == 1)
@@ -240,14 +261,14 @@ public class MovieRentalModel
 				{
 					return rslt.getString("LAST_INSERT_ID()");
 				}
-
-			} else
+			}
+			else
 			{
 				System.out.println("Adress not added");
 				return "";
 			}
-
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
@@ -266,7 +287,8 @@ public class MovieRentalModel
 		try // add address
 		{
 			addCustomerAddress(cust);
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
@@ -274,17 +296,18 @@ public class MovieRentalModel
 		}
 		try // add customer
 		{
-			String q = "insert into customer(store_id, first_name, last_name, email, address_id, active) " + "values (1, '"
-					+ cust.firstName + "', '" + cust.lastName + "', '" + cust.email + "', LAST_INSERT_ID(), 1 );";
+			String q = "INSERT INTO customer(store_id, first_name, last_name, email, address_id, active) " +
+                 "VALUES (1, '"+ cust.firstName + "', '" + cust.lastName + "', '" + cust.email +
+                         "', LAST_INSERT_ID(), 1 );";
 			int i = stmt.executeUpdate(q);
-		} catch (SQLException ex)
+		}
+		catch (SQLException ex)
 		{
 			System.out.println("Error: " + ex.getMessage());
 			ex.printStackTrace();
 			;
 			return -1;
 		}
-
 		return 1;
 	}
   /**
@@ -300,7 +323,8 @@ public class MovieRentalModel
     {
       String sql = "SELECT title FROM film";
       rslt = stmt.executeQuery(sql);
-    } catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in GetAllFilms(), message is: " + e.getMessage());
     }
@@ -318,11 +342,13 @@ public class MovieRentalModel
   {
     try
     {
-      prepStmt = conn.prepareStatement("SELECT first_name, last_name FROM customer WHERE store_id = ? AND active = 1;");
+      prepStmt = conn.prepareStatement("SELECT first_name, last_name " +
+                                           "FROM customer WHERE store_id = ? AND active = 1;");
       prepStmt.setString(1, storeId);
 
       rslt = prepStmt.executeQuery();
-    } catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in GetAllCustomers(), message is: " + e.getMessage());
     }
@@ -373,13 +399,15 @@ public class MovieRentalModel
     try
     {
       conn = DriverManager.getConnection(
-              "jdbc:mySql://localhost:3306/sakila?useSSL=false&allowPublicKeyRetrieval=true", "root", "password");
+              "jdbc:mySql://localhost:3306/sakila?useSSL=false&allowPublicKeyRetrieval=true",
+             "root", "password");
       prepStmt = conn.prepareStatement("SELECT rental_rate FROM film WHERE film_id = ?");
       prepStmt.setString(1, String.valueOf(filmId));
       rslt = prepStmt.executeQuery();
       rslt.next();
       return rslt.getString(1);
-    } catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in GetRentalPrice(), message is: " + e.getMessage());
     }
@@ -400,13 +428,16 @@ public class MovieRentalModel
     int retVal = -1;
 
     try {
-      prepStmt = conn.prepareStatement("SELECT customer_id FROM customer WHERE first_name = ? AND last_name = ?");
+      prepStmt = conn.prepareStatement("SELECT customer_id FROM customer " +
+                                           "WHERE first_name = ? AND last_name = ?");
       prepStmt.setString(1, firstName);
       prepStmt.setString(2, lastName);
       rslt = prepStmt.executeQuery();
       rslt.next();
       retVal = rslt.getInt(1);
-    } catch (SQLException e) {
+    }
+    catch (SQLException e)
+    {
       System.out.println("SQL Exeption in GetCustomerId(), message is: " + e.getMessage());
     }
     return retVal;
@@ -414,7 +445,7 @@ public class MovieRentalModel
 
   /**
    * <h1>Purpose:</h1>  Inserts the new rental into the rental table
-   * <h1>Accepts:</h1> int: inventoryId, int: customerId, int: staffId (or storeID)
+   * <h1>Accepts:</h1> int: inventoryId, int: customerId, int: stAffId (or storeID)
    * <h1>Returns:</h1> String: the rental date of the inserted rental
    * <h1>Date:</h1> Aug 3, 2020
    * <h1>Coder:</h1> James Kidd
@@ -433,15 +464,16 @@ public class MovieRentalModel
       prepStmt.setInt(3, staffId);
       prepStmt.executeUpdate();
 
-      prepStmt = conn.prepareStatement("SELECT rental_date FROM rental WHERE rental_id = last_insert_id()");
+      prepStmt = conn.prepareStatement("SELECT rental_date FROM rental " +
+                                           "WHERE rental_id = last_insert_id()");
       rslt = prepStmt.executeQuery();
       rslt.next();
       retVal = rslt.getString(1);
-    } catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in AddRental(), message is: " + e.getMessage());
     }
-
     return retVal;
   }//AddRental
 
@@ -463,7 +495,8 @@ public class MovieRentalModel
       rslt = prepStmt.executeQuery();
       rslt.next();
       retVal = rslt.getInt(1);
-    } catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in GetFilmDuration(), message is: " + e.getMessage());
     }
@@ -495,7 +528,8 @@ public class MovieRentalModel
       prepStmt.setInt(3, rentalId);
       prepStmt.setDouble(4, price);
       prepStmt.executeUpdate();
-    }catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in AddPayment(), message is: " + e.getMessage());
     }
@@ -544,7 +578,8 @@ public class MovieRentalModel
         unavailableIds.add(rslt.getInt(1));
       }
 
-    } catch (SQLException e)
+    }
+    catch (SQLException e)
     {
       System.out.println("SQL Exeption in findAvailableCopyOfFilm(), message is: " + e.getMessage());
     }
@@ -561,5 +596,3 @@ public class MovieRentalModel
     return -1;
   }// findAvailableCopyOfFilm
 }//class
-
-

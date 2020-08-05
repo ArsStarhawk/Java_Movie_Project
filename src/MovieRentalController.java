@@ -6,13 +6,11 @@
  */
 
 //import java.awt.List;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
-import java.sql.*;
-import java.util.List;
 
-import javax.swing.JComboBox;
+import java.sql.*;
 
 public class MovieRentalController
 {
@@ -22,27 +20,29 @@ public class MovieRentalController
 
   MovieRentalController()
   {
+
     theView = new MovieRentalView();
     theModel = new MovieRentalModel();
+    helperMethods = new HelperMethods();
+
+    // register listener for all buttons
     theView.addAddActorButtonListener(new AddActorListener(theView, theModel));
     theView.addGenerateReportLisenter(new GenerateReportListener(theView, theModel));
     theView.addSubmitRentalListener(new SubmitRentalListener(theView, theModel));
     theView.addStoreRadioListener(new StoreRadioListener(theView, theModel, this));
-    theView.addFilmButton.addActionListener(new AddFilmListener(theView, theModel));
-    helperMethods = new HelperMethods();
-    populateCategoryDropdownForGenerateReportPane();
-    populateStoreDropdownForGenerateReportPane();
-    
+    theView.addFilmButtonListener(new AddFilmListener(theView, theModel));
+
 		// Setup for addCustomer
     theView.updateCountryList(theModel.getAllCountries());
-    theView.addCountryComboListener(new CountryChangeListener());
-    theView.addCustomerButtonLIstener(new AddCustomerListener());
+    theView.addCountryComboListener(new CountryChangeListener(theView,theModel));
+    theView.addCustomerButtonLIstener(new AddCustomerListener(theView, theModel));
     theView.addClearCustomerButtonListener(new ClearCustomerListener());
+
+    // populate all the drop down lists for the program
     populateFilmDropdownForRentalPane();
     populateCustomerDropDownForRentalPant();
-
-
-
+    populateCategoryDropdownForGenerateReportPane();
+    populateStoreDropdownForGenerateReportPane();
   }
 
   /**
@@ -68,7 +68,6 @@ public class MovieRentalController
       System.out.println("SQL Exception while loading films in class ctor, message is: " + e.getMessage());
     }
     theView.comboFilmList.setSelectedIndex(0);
-
   }
 
 
@@ -96,59 +95,6 @@ public class MovieRentalController
     theView.comboCustList.setSelectedIndex(0);
   }
 
-	 /**
-  * Class: 		AddCustomerListener
-  * Summary:	Handles input for the Change country combo box on the add customer tab
-  */
-	class CountryChangeListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent event)
-		{
-			JComboBox countryBox = (JComboBox) event.getSource();
-			List<String> selectedCities = theModel.getCitiesInCountry(countryBox.getSelectedItem().toString());
-			theView.setCityComboBox(selectedCities);
-		}
-	}
-
-	 /**
-   * Method: AddCustomerListener
-   * Summary: Gets all the fields from the customer table, 
-   * 					Validates them and builds a query for the model
-   */
-	class AddCustomerListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			boolean custAdded = false;
-			Customer cust = new Customer();
-			if (theView.validateCustomer())
-			{
-				cust.firstName = theView.cust_tflFirstName.getText().toString();
-				cust.lastName = theView.cust_tflLastName.getText().toString();
-				cust.email = theView.cust_tflEmailField.getText().toString();
-				cust.address1 = theView.cust_tflAddress_1.getText().toString();
-				cust.address2 = theView.cust_tflAddress_2.getText().toString();
-				cust.postal = theView.cust_tflPostal.getText().toString();
-				cust.phone = theView.cust_tflPhone.getText().toString();
-				cust.country = theView.cust_cmbCountry.getSelectedItem().toString();
-				cust.city = theView.cust_cmbCity.getSelectedItem().toString();
-				if (theModel.addCustomer(cust) > 0)
-				{
-					custAdded = true;
-				}
-			}
-				
-			// of add was successful
-			if (custAdded)
-			{
-				theView.cust_lblError.setText("");
-				theView.displayMessage(cust.firstName + " " + cust.lastName + " has been added");
-			} 
-		}
-	}
-  
   /**
    * Method: populateCategoryDropdownForGenerateReportPane
    * Summary: Gets all categories from database and populate the drop-down list
@@ -204,7 +150,6 @@ public class MovieRentalController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			
 			theView.cust_tflFirstName.setText("");
 			theView.cust_tflLastName.setText("");
 			theView.cust_tflEmailField.setText("");
@@ -214,7 +159,6 @@ public class MovieRentalController
 			theView.cust_tflPhone.setText("");
 			theView.cust_cmbCountry.setSelectedIndex(0);
 			theView.cust_cmbCity.removeAll();
-			theView.cust_lblError.removeAll();
 		}
 	}
 }

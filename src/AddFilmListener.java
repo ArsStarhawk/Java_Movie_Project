@@ -13,6 +13,7 @@ public class AddFilmListener implements ActionListener
 
 	MovieRentalView view;
 	MovieRentalModel model;
+
 	public AddFilmListener(MovieRentalView view, MovieRentalModel model) {
 		this.view = view;
 		this.model = model;

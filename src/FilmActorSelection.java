@@ -22,11 +22,11 @@ import com.mysql.cj.jdbc.CallableStatement;
 
 
 public class FilmActorSelection extends JFrame {
+
     private JList jList;
     private JList selectedList;
     private JButton copyButton;
     public ArrayList<String> selectedActors = new ArrayList<String>();
-    
 
     public FilmActorSelection() {
         super("Choose actors");
@@ -43,7 +43,6 @@ public class FilmActorSelection extends JFrame {
     			
     		} catch (SQLException e1)
     		{
-    			// TODO Auto-generated catch block
     			e1.printStackTrace();
     		}
         jList.setFixedCellHeight(35);
@@ -71,7 +70,6 @@ public class FilmActorSelection extends JFrame {
             }
         });
         
-        
         add(copyButton);
         selectedList = new JList();
         selectedList.setFixedCellHeight(18);
@@ -83,14 +81,14 @@ public class FilmActorSelection extends JFrame {
         
         this.setVisible(true);
     }
-    
-    
+
     public ArrayList<String> getActors() throws SQLException{
+
     	Connection myConn = null;
   		CallableStatement myStmt = null;
   		ResultSet myRslt = null;
   		ArrayList<String> actors = new ArrayList<String>();
-  		//Step 1: Use a try-catch to attempt the database connection
+
   		try
   		{
   			//create a Connection object by calling a static method of DriverManager class
@@ -98,21 +96,18 @@ public class FilmActorSelection extends JFrame {
   					"jdbc:mysql://localhost:3306/demo?useSSL=false","root","password"
   					);
   			
-  			//Step 2: create a Statement object by calling a method of the Connection object
-  			myStmt = (CallableStatement) myConn.prepareCall("SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
+  			//create a Statement object by calling a method of the Connection object
+  			myStmt = (CallableStatement) myConn.prepareCall(
+  					"SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
   			
-  			//Step 3: pass in a query string to the Statement object using a method
-  			// called executeQuery().
   			//Assign the returned ResultSet object to myRslt.
   			myRslt = myStmt.executeQuery();
   			
-  			//Step 4: PROCESS the myRslt result set object using a while loop
+  			//PROCESS the myRslt result set object using a while loop
   			while(myRslt.next())
   			{
   				actors.add(myRslt.getString("name"));
   			}
-  			
-  					
   		}
   		catch(Exception ex)
   		{
@@ -122,7 +117,6 @@ public class FilmActorSelection extends JFrame {
   		//DO THE finally block!
   		finally
   		{
-  			//put your clean up code here to close the objects. Standard practice is to
   			//close them in REVERSE ORDER of creation
   			if(myRslt != null)
   				myRslt.close();
@@ -134,11 +128,12 @@ public class FilmActorSelection extends JFrame {
   		return actors;
     }
     
-    public ArrayList<String> exportActors(){
+    public ArrayList<String> exportActors()
+		{
     	return selectedActors;
     }
-    public static void main(String[] args) {
+    public static void main(String[] args)
+		{
     	FilmActorSelection filmSelection = new FilmActorSelection();
-        
     }
 }
