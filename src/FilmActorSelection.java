@@ -19,6 +19,10 @@ import javax.swing.event.ListSelectionListener;
 
 import com.mysql.cj.jdbc.CallableStatement;
 
+/**
+ * Coder:   Evan Somers, Sion Young, James Kidd, James Scully
+ * Date:    Aug 5, 2020
+ */
 
 
 public class FilmActorSelection extends JFrame {
