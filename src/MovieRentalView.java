@@ -827,7 +827,7 @@ public class MovieRentalView extends JFrame
   	// Get first address, no need to validate second address	
   	if(this.cust_tflAddress_1.getText().equals(" ") || this.cust_tflAddress_1.getText().isEmpty()) {	
   		this.cust_lblError.setText("Invalid address: Requires at least one address");	
-  		displayMessage("Customer NOT added: Invalid adress");
+  		displayMessage("Customer NOT added: Invalid address");
   		return false;	
   	}		
 
