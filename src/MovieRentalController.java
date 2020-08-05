@@ -213,13 +213,13 @@ public class MovieRentalController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-		  theView.cust_lblFirstName.setForeground(Color.BLACK);
-		  theView.cust_lblLastName.setForeground(Color.BLACK);
-		  theView.cust_lblEmail.setForeground(Color.BLACK);
-		  theView.cust_lblAddress_1.setForeground(Color.BLACK);
-		  theView.cust_lblPhone.setForeground(Color.BLACK);
-		  theView.cust_lblPostal.setForeground(Color.BLACK);
-		  theView.cust_lblCountry.setForeground(Color.BLACK);
+		  theView.cust_lblFirstName.setForeground(Color.DARK_GRAY);
+		  theView.cust_lblLastName.setForeground(Color.DARK_GRAY);
+		  theView.cust_lblEmail.setForeground(Color.DARK_GRAY);
+		  theView.cust_lblAddress_1.setForeground(Color.DARK_GRAY);
+		  theView.cust_lblPhone.setForeground(Color.DARK_GRAY);
+		  theView.cust_lblPostal.setForeground(Color.DARK_GRAY);
+		  theView.cust_lblCountry.setForeground(Color.DARK_GRAY);
 			theView.cust_tflFirstName.setText("");
 			theView.cust_tflLastName.setText("");
 			theView.cust_tflEmailField.setText("");
