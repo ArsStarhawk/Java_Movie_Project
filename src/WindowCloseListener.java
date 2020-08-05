@@ -23,11 +23,12 @@ public class WindowCloseListener implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-
+        model.close();
+        System.out.println("Closing JDBC Objects");
     }
 
     public void windowClosed(WindowEvent we){
-        model.close();
+
     }
 
     @Override
