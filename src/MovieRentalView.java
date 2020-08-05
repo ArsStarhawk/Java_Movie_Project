@@ -5,6 +5,8 @@
  * Date: Jul 14, 2020
  */
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 
 import java.text.ParseException;
@@ -27,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 public class MovieRentalView extends JFrame
 {
@@ -61,60 +64,60 @@ public class MovieRentalView extends JFrame
   GridBagConstraints gbc;
 
   // Add Customer Variables
-  JTabbedPane tabbedPane;	
-	JPanel addCustomer;	
+  JTabbedPane tabbedPane;
+	JPanel addCustomer;
 
-	// Customer Firstname	
-	JLabel cust_lblFirstName;	
-	JTextField cust_tflFirstName;	
+	// Customer Firstname
+	JLabel cust_lblFirstName;
+	JTextField cust_tflFirstName;
 
-	// Customer Lastname	
-	JLabel cust_lblLastName;	
-	JTextField cust_tflLastName;	
+	// Customer Lastname
+	JLabel cust_lblLastName;
+	JTextField cust_tflLastName;
 
-	// Customer Email	
-	JLabel cust_lblEmail;	
-	JTextField cust_tflEmailField;	
+	// Customer Email
+	JLabel cust_lblEmail;
+	JTextField cust_tflEmailField;
 
-	// Customer Address	
-	JLabel cust_lblAddress_1;	
-	JTextField cust_tflAddress_1;	
+	// Customer Address
+	JLabel cust_lblAddress_1;
+	JTextField cust_tflAddress_1;
 
-	// Customer Address 2	
-	JLabel cust_lblAddress_2;	
-	JTextField cust_tflAddress_2;	
+	// Customer Address 2
+	JLabel cust_lblAddress_2;
+	JTextField cust_tflAddress_2;
 
-	// Customer Postal	
-	JLabel cust_lblPostal;	
-	JFormattedTextField cust_tflPostal;	
+	// Customer Postal
+	JLabel cust_lblPostal;
+	JFormattedTextField cust_tflPostal;
 
-	// Customer Phone	
-	JLabel cust_lblPhone;	
-	JFormattedTextField cust_tflPhone;	
+	// Customer Phone
+	JLabel cust_lblPhone;
+	JFormattedTextField cust_tflPhone;
 
-	// Customer Country	
-	JLabel cust_lblCountry;	
-	protected JComboBox<String> cust_cmbCountry;	
+	// Customer Country
+	JLabel cust_lblCountry;
+	protected JComboBox<String> cust_cmbCountry;
 
-	// Customer City	
-	JLabel cust_lblCity;	
-	JComboBox<String> cust_cmbCity;	
+	// Customer City
+	JLabel cust_lblCity;
+	JComboBox<String> cust_cmbCity;
 
-	// Empty Cells	
-	JLabel cust_lblEmptyCell_1;	
-	JLabel cust_lblEmptyCell_2;	
-	JLabel cust_lblEmptyCell_3;	
+	// Empty Cells
+	JLabel cust_lblEmptyCell_1;
+	JLabel cust_lblEmptyCell_2;
+	JLabel cust_lblEmptyCell_3;
 
-	// Clear Button	
-	JButton cust_btnClear;	
+	// Clear Button
+	JButton cust_btnClear;
 
-	// Customer Button	
-	JButton cust_btnAddCustomer;	
+	// Customer Button
+	JButton cust_btnAddCustomer;
 
-	// Error Cell	
+	// Error Cell
 	JLabel cust_lblError;
 
-  //James Kidd's mess of stuff
+  //RentalPane Components
   JComboBox<String> comboFilmList, comboCustList;
   JLabel lblFilmCombo, lblCustCombo, lblStoreRadios;
   JRadioButton radioStore1, radioStore2;
@@ -124,45 +127,45 @@ public class MovieRentalView extends JFrame
   JButton btnSubmit;
   Vector<String> custList;
   Vector<String> filmList;
-  
-  
+
+
 //addFilm attributes
   JTextField title;
   JLabel titleLabel;
-  
+
   JTextField description;
   JLabel descriptionLabel;
-  
+
   JLabel releaseYearLabel;
   JComboBox<String> releaseYear;
-  	
-  
+
+
   JLabel languageLabel;
   JComboBox<String> language;;
-  
+
   JLabel originalLanguageLabel;
   JComboBox<String> originalLanguage;
-  
+
   JLabel categoryLabel;
   JComboBox<String> category;
-  
+
   JTextField rentalDuration;
   JLabel rentalDurationLabel;
-  
-  
+
+
   JButton importActorsBtn;
-  
+
   JLabel actorsLabel;
-  
+
   JTextField movieLength;
   JLabel movieLengthLabel;
-  
+
   JTextField replacementCost ;
   JLabel replacementCostLabel;
-  
+
   JLabel ratingLabel;
   JComboBox<String> rating;
-  
+
   JCheckBox trailer;
   JCheckBox commentary;
   JLabel checkboxInstructions;
@@ -172,9 +175,9 @@ public class MovieRentalView extends JFrame
   JCheckBox behindScenes;
   JPanel checkboxesPanel1;
   JPanel checkboxesPanel2;
-  
+
   JButton addActorsBtn;
-  
+
   JButton addFilmButton;
   JButton clearFilmInput;
 
@@ -185,15 +188,15 @@ public class MovieRentalView extends JFrame
 
   MovieRentalView()
   {
-    super("Movie Rental and Database");
-    setupJFrame();
-    createTabbedForms();
-    CreateAddCustomerPane();
-    createAddActorPane();
-    createAddNewFilmPane();
-    createAddNewRentalTransactionPane();
-    createGenerateReportPane();
-    this.setVisible(true);
+      super("Movie Rental and Database");
+      setupJFrame();
+      createTabbedForms();
+      CreateAddCustomerPane();
+      createAddActorPane();
+      createAddNewFilmPane();
+      createAddNewRentalTransactionPane();
+      createGenerateReportPane();
+      this.setVisible(true);
   }
 
   /**
@@ -206,6 +209,7 @@ public class MovieRentalView extends JFrame
     this.setSize(580,580);
     this.setLocationRelativeTo(null); //centers the frame in the screen
     this.setLayout(null);//This is to center the JTabbedPane
+
   }
 
   /**
@@ -234,13 +238,14 @@ public class MovieRentalView extends JFrame
     tabbedPane.add("Generate report",pnlGenerateReport);
     //adding the tabbedPane to the JFrame
     this.add(tabbedPane);
+
   }
 
   private void CreateAddCustomerPane()
   {
     // Scully's codes
-		// Build UI	
-		instantiateJComponentsForCustomerPane();	
+		// Build UI
+		instantiateJComponentsForCustomerPane();
 		addJComponentsToCustomerPanel();
   }
 
@@ -363,6 +368,13 @@ public class MovieRentalView extends JFrame
     pnlGenerateReport.add(scpGenerateReport, BorderLayout.SOUTH);
   }
 
+    /**
+     * <h1>Purpose:</h1> Creates new rental pane
+     * <h1>Accepts:</h1> -
+     * <h1>Returns:</h1> void
+     * <h1>Date:</h1> Aug 5, 2020
+     * <h1>Coder:</h1> James Kidd
+     */
   private void createAddNewRentalTransactionPane()
   {
     filmList = new Vector<String>();
@@ -443,59 +455,59 @@ public class MovieRentalView extends JFrame
 
   }//create method
 
+
   private void createAddNewFilmPane()
 {
-  	
-  	
-  	//String arrays to load combo boxes
-  	String[]years = {"1920","1921","1922","1923","1924","1925","1926","1927","1928","1929","1930","1931","1932","1933","1934","1935","1936","1937","1938","1939","1940","1941","1942","1943","1944","1945","1946","1947","1948","1949","1950","1951","1952","1953","1954","1955","1956","1957","1958","1959","1960","1961","1962","1963","1964","1965","1966","1967","1968","1969","1970","1971","1972","1973","1974","1975","1976","1977","1978","1979","1980","1981","1982","1983","1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"};
+    final int MIN_YEAR = 1920;
+
+    //String arrays to load combo boxes
+    String[] years = getYears(MIN_YEAR);
   	String[]langs = {"English", "Italian", "Japanese", "Mandarin", "French", "German"};
   	String[]categories = {"Action", "Animation", "Children", "Classics", "Comedy", "Documentary", "Drama", "Family", "Foreign", "Games", "Horror", "Music", "New", "Sci-Fi", "Sports", "Travel"};
   	String[]ratings = {"G", "PG","PG-13", "R", "NC-17"};
-  	    
-  	
+
   	//creating the the form objects
     title = new JTextField();
     titleLabel = new JLabel("Title");
-    
+
     description = new JTextField();
     descriptionLabel = new JLabel("Description");
-    
+
     releaseYearLabel = new JLabel("Year Released");
     releaseYear = new JComboBox<String>(years);
     releaseYear.setSelectedItem(null);
-    	
-    
+
+
     languageLabel = new JLabel("Language");
     language = new JComboBox<String>(langs);
     language.setSelectedItem(null);
-    
+
     originalLanguageLabel = new JLabel("Original Language");
     originalLanguage = new JComboBox<String>(langs);
     originalLanguage.setSelectedItem(null);
-    
+
     categoryLabel = new JLabel("Category");
     category = new JComboBox<String>(categories);
     category.setSelectedItem(null);
-    
+
     rentalDuration = new JTextField();
     rentalDurationLabel = new JLabel("Rental Duration");
-    
-    
+
+
     importActorsBtn = new JButton("Import actors");
-    
+
     actorsLabel = new JLabel("Press button to choose actors");
-    
+
     movieLength = new JTextField();
     movieLengthLabel = new JLabel("Movie Length");
-    
+
     replacementCost = new JTextField();
     replacementCostLabel = new JLabel("Replacement Cost");
-    
+
     ratingLabel = new JLabel("Rating");
     rating = new JComboBox<String>(ratings);
     rating.setSelectedItem(null);
-    
+
     trailer = new JCheckBox("Trailers");
     commentary = new JCheckBox("Commentary");
     checkboxInstructions = new JLabel("Select Special Features");
@@ -505,9 +517,9 @@ public class MovieRentalView extends JFrame
     behindScenes = new JCheckBox("Behind the Scenes");
     checkboxesPanel1 = new JPanel();
     checkboxesPanel2 = new JPanel();
-    
-    
-    
+
+
+
     //Button to import selected actors from external JFrame
     importActorsBtn.addActionListener(new ActionListener() {
 
@@ -524,11 +536,11 @@ public class MovieRentalView extends JFrame
 			  	else
 			  		JOptionPane.showMessageDialog(getContentPane(), "Actor list imported from external window");
 				}
-				
+
 			}
-    	
+
     });
-    
+
   //Button to open choose actor menu
     addActorsBtn = new JButton("Choose actors");
     addActorsBtn.addActionListener(new ActionListener() {
@@ -537,15 +549,15 @@ public class MovieRentalView extends JFrame
 			{
 				actorFilmSelection = new FilmActorSelection();
 			}
-    	
+
     });
-    
+
     //inserting objects into panels
     checkboxesPanel1.add(trailer);
     checkboxesPanel1.add(commentary);
     checkboxesPanel2.add(deletedScenes);
     checkboxesPanel2.add(behindScenes);
-    
+
     addFilmButton = new JButton("Add Film");
     clearFilmInput = new JButton("Clear");
 
@@ -571,8 +583,8 @@ public class MovieRentalView extends JFrame
     addFilmFormPanel.add(replacementCostLabel);
     addFilmFormPanel.add(replacementCost);
     addFilmFormPanel.add(ratingLabel);
-    addFilmFormPanel.add(rating);    
-    
+    addFilmFormPanel.add(rating);
+
     addFilmFormPanel.add(checkboxInstructions);
     addFilmFormPanel.add(checkboxesPanel1);
     addFilmFormPanel.add(checkboxInstructions2);
@@ -582,8 +594,8 @@ public class MovieRentalView extends JFrame
     addFilmFormPanel.add(clearFilmInput);
     addFilmFormPanel.add(addFilmButton);
     pnlAddFilm.add(addFilmFormPanel);
-    
-    
+
+
     //button listener to clear input
     clearFilmInput.addActionListener(new ActionListener() {
 
@@ -600,11 +612,11 @@ public class MovieRentalView extends JFrame
 				movieLength.setText("");
 				replacementCost.setText("");
 				rating.setSelectedItem(null);
-				
+
 			}
-    	
+
     });
-    
+
     //button listener to add film
   }
 
@@ -652,309 +664,321 @@ public class MovieRentalView extends JFrame
     cbCategory.setSelectedIndex(0);
     cbStore.setSelectedIndex(0);
   }
-  
+
   /**
    * Method: instantiateJComponentsForCustomerPane
    * Summary: Inits components for customer panel
    */
-	public void instantiateJComponentsForCustomerPane()	
-	{	
+	public void instantiateJComponentsForCustomerPane()
+	{
 
-		// Firstname	
-		cust_lblFirstName = new JLabel("First Name: ");	
-		cust_tflFirstName = new JTextField("");	
+		// Firstname
+		cust_lblFirstName = new JLabel("First Name: ");
+		cust_tflFirstName = new JTextField("");
 
-		// Lastname	
-		cust_lblLastName = new JLabel("Last Name: ");	
-		cust_tflLastName = new JTextField("");	
+		// Lastname
+		cust_lblLastName = new JLabel("Last Name: ");
+		cust_tflLastName = new JTextField("");
 
-		// Email	
-		cust_lblEmail = new JLabel("Email: ");	
-		cust_tflEmailField = new JTextField("");	
+		// Email
+		cust_lblEmail = new JLabel("Email: ");
+		cust_tflEmailField = new JTextField("");
 
-		// Address	
-		cust_lblAddress_1 = new JLabel("Address 1: ");	
-		cust_tflAddress_1 = new JTextField("");	
+		// Address
+		cust_lblAddress_1 = new JLabel("Address 1: ");
+		cust_tflAddress_1 = new JTextField("");
 
-		// Address 2	
-		cust_lblAddress_2 = new JLabel("Address 2: ");	
-		cust_tflAddress_2 = new JTextField("");	
+		// Address 2
+		cust_lblAddress_2 = new JLabel("Address 2: ");
+		cust_tflAddress_2 = new JTextField("");
 
-		// Postal	
-		cust_lblPostal = new JLabel("Postal: ");	
-    MaskFormatter postalMask = null;	
-		try	
-		{	
-			postalMask = new MaskFormatter("U#U-#U#");	
-		} catch (ParseException e)	
-		{	
-			e.printStackTrace();	
-		}	
-		cust_tflPostal = new JFormattedTextField(postalMask);	
+		// Postal
+		cust_lblPostal = new JLabel("Postal: ");
+    MaskFormatter postalMask = null;
+		try
+		{
+			postalMask = new MaskFormatter("U#U-#U#");
+		} catch (ParseException e)
+		{
+			e.printStackTrace();
+		}
+		cust_tflPostal = new JFormattedTextField(postalMask);
 		cust_tflPostal.setFocusLostBehavior(JFormattedTextField.PERSIST);
-		
-		// Phone	
-		cust_lblPhone = new JLabel("Phone: ");	
-    MaskFormatter phoneMask = null;	
-		try	
-		{	
+
+		// Phone
+		cust_lblPhone = new JLabel("Phone: ");
+    MaskFormatter phoneMask = null;
+		try
+		{
 			phoneMask = new MaskFormatter("(###) ###-####");
-		} catch (ParseException e) {	
-			e.printStackTrace();	
-		}	
-		cust_tflPhone = new JFormattedTextField(phoneMask);	
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		cust_tflPhone = new JFormattedTextField(phoneMask);
 		cust_tflPhone.setFocusLostBehavior(JFormattedTextField.PERSIST);
-		
-		// Country	
-		String[] country = {"-"};	
-		cust_lblCountry = new JLabel("Country: ");	
-		cust_cmbCountry = new JComboBox<String>(country);	
 
-		// City	
-		cust_lblCity = new JLabel("City: ");	
-		String[] city = {"-"};	
-		cust_cmbCity = new JComboBox<String>(city);	
+		// Country
+		String[] country = {"-"};
+		cust_lblCountry = new JLabel("Country: ");
+		cust_cmbCountry = new JComboBox<String>(country);
 
-		// Empty	
-		cust_lblEmptyCell_1 = new JLabel("");	
-		cust_lblEmptyCell_2 = new JLabel("");	
+		// City
+		cust_lblCity = new JLabel("City: ");
+		String[] city = {"-"};
+		cust_cmbCity = new JComboBox<String>(city);
 
-		// Clear and Add Button	
-		cust_btnClear = new JButton("Clear");	
-		cust_btnAddCustomer = new JButton("Add Customer");	
+		// Empty
+		cust_lblEmptyCell_1 = new JLabel("");
+		cust_lblEmptyCell_2 = new JLabel("");
 
-		// Empty	
-		cust_lblEmptyCell_3 = new JLabel("");	
+		// Clear and Add Button
+		cust_btnClear = new JButton("Clear");
+		cust_btnAddCustomer = new JButton("Add Customer");
 
-		// Error	
-		cust_lblError = new JLabel("");	
+		// Empty
+		cust_lblEmptyCell_3 = new JLabel("");
+
+		// Error
+		cust_lblError = new JLabel("");
 	}
-  
+
   /**
    * Method: addJComponentsToCustomerPanel
    * Summary: Creates components for customer panel
    */
-	public void addJComponentsToCustomerPanel() {	
-		// Add JComponents to the addCustomer panel	
-		pnlAddCustomer.setLayout(new GridLayout(16, 2));	
+	public void addJComponentsToCustomerPanel() {
+		// Add JComponents to the addCustomer panel
+		pnlAddCustomer.setLayout(new GridLayout(16, 2));
 
-		// Firstname	
-		pnlAddCustomer.add(cust_lblFirstName);	
-		pnlAddCustomer.add(cust_tflFirstName);	
+		// Firstname
+		pnlAddCustomer.add(cust_lblFirstName);
+		pnlAddCustomer.add(cust_tflFirstName);
 
-		// Lastname	
-		pnlAddCustomer.add(cust_lblLastName);	
-		pnlAddCustomer.add(cust_tflLastName);	
+		// Lastname
+		pnlAddCustomer.add(cust_lblLastName);
+		pnlAddCustomer.add(cust_tflLastName);
 
-		// Email	
-		pnlAddCustomer.add(cust_lblEmail);	
-		pnlAddCustomer.add(cust_tflEmailField);	
+		// Email
+		pnlAddCustomer.add(cust_lblEmail);
+		pnlAddCustomer.add(cust_tflEmailField);
 
-		// Address	
-		pnlAddCustomer.add(cust_lblAddress_1);	
-		pnlAddCustomer.add(cust_tflAddress_1);	
+		// Address
+		pnlAddCustomer.add(cust_lblAddress_1);
+		pnlAddCustomer.add(cust_tflAddress_1);
 
-		// Address 2	
-		pnlAddCustomer.add(cust_lblAddress_2);	
-		pnlAddCustomer.add(cust_tflAddress_2);	
+		// Address 2
+		pnlAddCustomer.add(cust_lblAddress_2);
+		pnlAddCustomer.add(cust_tflAddress_2);
 
-		// Postal	
-		pnlAddCustomer.add(cust_lblPostal);	
-		pnlAddCustomer.add(cust_tflPostal);	
+		// Postal
+		pnlAddCustomer.add(cust_lblPostal);
+		pnlAddCustomer.add(cust_tflPostal);
 
-		// Phone	
-		pnlAddCustomer.add(cust_lblPhone);	
-		pnlAddCustomer.add(cust_tflPhone);	
+		// Phone
+		pnlAddCustomer.add(cust_lblPhone);
+		pnlAddCustomer.add(cust_tflPhone);
 
-		// Country	
-		pnlAddCustomer.add(cust_lblCountry);	
-		pnlAddCustomer.add(cust_cmbCountry);	
+		// Country
+		pnlAddCustomer.add(cust_lblCountry);
+		pnlAddCustomer.add(cust_cmbCountry);
 
-		// City	
-		pnlAddCustomer.add(cust_lblCity);	
-		pnlAddCustomer.add(cust_cmbCity);	
+		// City
+		pnlAddCustomer.add(cust_lblCity);
+		pnlAddCustomer.add(cust_cmbCity);
 
-		// Empty cells	
-		pnlAddCustomer.add(cust_lblEmptyCell_1);	
-		pnlAddCustomer.add(cust_lblEmptyCell_2);	
+		// Empty cells
+		pnlAddCustomer.add(cust_lblEmptyCell_1);
+		pnlAddCustomer.add(cust_lblEmptyCell_2);
 
-		// Clear, Add Buttons	
-		pnlAddCustomer.add(cust_btnClear);	
-		pnlAddCustomer.add(cust_btnAddCustomer);	
+		// Clear, Add Buttons
+		pnlAddCustomer.add(cust_btnClear);
+		pnlAddCustomer.add(cust_btnAddCustomer);
 
-		// Empty, Error	
-		pnlAddCustomer.add(cust_lblEmptyCell_3);	
-		pnlAddCustomer.add(cust_lblError);	
+		// Empty, Error
+		pnlAddCustomer.add(cust_lblEmptyCell_3);
+		pnlAddCustomer.add(cust_lblError);
 
 	}
-	
+
 	 /**
    * Method: ValidateCustomer
    * Summary: Validates customer input form and displays a message if something is invalid
    * @return boolean true if valid, false if invalid
    */
- public boolean validateCustomer() {	
+ public boolean validateCustomer() {
 
- 	// Check if empty	
- 	if(this.cust_tflFirstName.getText().equals("")) {	
- 		this.cust_tflFirstName.setText("");
- 		this.cust_lblFirstName.setForeground(Color.RED);
+ 	// Check if empty
+ 	if(this.cust_tflFirstName.getText().equals("")) {
+ 		this.cust_lblError.setText("Invalid firstname");
  		displayMessage("Customer NOT added: Invalid firstname");
+ 		this.cust_tflFirstName.setText("");
  		this.cust_tflFirstName.requestFocus();
- 		return false;	
- 	}	
- 	if(this.cust_tflLastName.getText().equals("")) {	
+ 		return false;
+ 	}
+ 	if(this.cust_tflLastName.getText().equals("")) {
+ 		this.cust_lblError.setText("Invalid lastname");
  		this.cust_tflLastName.setText("");
- 		this.cust_lblLastName.setForeground(Color.RED);
     displayMessage("Customer NOT added: Invalid lastname");
  		this.cust_tflLastName.requestFocus();
- 		return false;	
- 	}	
- 	
+ 		return false;
+ 	}
+
  	// validate email address
- 	if (this.cust_tflEmailField.getText().equals("")) {	
+ 	if (this.cust_tflEmailField.getText().equals("")) {
+ 		this.cust_lblError.setText("Invalid email");
  		this.cust_tflEmailField.setText("");
- 		this.cust_lblEmail.setForeground(Color.RED);
     displayMessage("Customer NOT added: Invalid email");
  		this.cust_tflEmailField.requestFocus();
- 		return false;	
-   }	
-   String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 	
-       "[a-zA-Z0-9_+&*-]+)*@" + 	
-       "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 	
-       "A-Z]{2,7}$";          	
+ 		return false;
+   }
+   String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+       "[a-zA-Z0-9_+&*-]+)*@" +
+       "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+       "A-Z]{2,7}$";
    Pattern pat = Pattern.compile(emailRegex);
-   if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
+   if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {
   	displayMessage("Customer NOT added: Invalid email");
-  	this.cust_lblEmail.setForeground(Color.RED);
+   	this.cust_lblError.setText("Invalid email");
    	this.cust_tflEmailField.setText("");
    	this.cust_tflEmailField.requestFocus();
-   	return false;	
-   } 
- 	
- 	// Get first address, no need to validate second address	
- 	if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() ) {	
+   	return false;
+   }
+
+ 	// Get first address, no need to validate second address
+ 	if(this.cust_tflAddress_1.getText().equals(" ")|| this.cust_tflAddress_1.getText().isEmpty() ) {
+ 		this.cust_lblError.setText("Invalid address: Requires at least one address");
  		this.cust_tflAddress_1.setText("");
- 		this.cust_lblAddress_1.setForeground(Color.RED);
- 		displayMessage("Customer NOT added: Invalid address");
  		this.cust_tflAddress_1.requestFocus();
- 		return false;	
- 	}	
- 	
+ 		displayMessage("Customer NOT added: Invalid address");
+ 		return false;
+ 	}
+
 	// validate postal
 	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
 	if(!HelperMethods.postalCodeValidator(code)) {
+		this.cust_lblError.setText("Invalid Postal Code");
 		this.cust_tflPostal.setText("");
-		this.cust_lblPostal.setForeground(Color.RED);
 		displayMessage("Customer NOT added: Invalid Postal Code");
 		this.cust_tflPostal.requestFocus();
 		return false;
 	}
 
-   // validate phone	
-   String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          	
-   Pattern phonePat = Pattern.compile(phoneRegex);  	
-   if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {	
- 		this.cust_lblPhone.setForeground(Color.RED);
- 		this.cust_tflPhone.setValue(null);
+   // validate phone
+   String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+   Pattern phonePat = Pattern.compile(phoneRegex);
+   if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {
+   	this.cust_lblError.setText("Invalid phone");
   	displayMessage("Customer NOT added: Invalid phone number");
-   	this.cust_tflPhone.requestFocus();
-   	return false;	
-   } 	
-
-   if(this.cust_tflPhone.getText().equals("")) {	
-  	this.cust_lblPhone.setForeground(Color.RED);
   	this.cust_tflPhone.setText("");
-   	displayMessage("Customer NOT added: Invalid phone number");
-  	this.cust_tflPhone.requestFocus();
-   	return false;	
-   }	
+   	this.cust_tflPhone.requestFocus();
+   	return false;
+   }
 
- 	// only need to validate country	
-   if(this.cust_cmbCountry.getSelectedItem().equals("-")){	
-   	this.cust_lblCountry.setForeground(Color.RED);
-   	displayMessage("Customer NOT added: Country not selected");	
+   if(this.cust_tflPhone.getText().equals("")) {
+   	this.cust_lblError.setText("Invalid phone");
+   	displayMessage("Customer NOT added: Invalid phone number");
+   	this.cust_tflPhone.setText("");
+  	this.cust_tflPhone.requestFocus();
+   	return false;
+   }
+
+ 	// only need to validate country
+   if(this.cust_cmbCountry.getSelectedItem().equals("-")){
+   	this.cust_lblError.setText("Invalid Country");
+   	displayMessage("Customer NOT added: Country not selected");
    	this.cust_cmbCountry.requestFocus();
-   	return false;	
-   }	
- 	return true;	
- }	
+   	return false;
+   }
+ 	return true;
+ }
 
  /**
   * Method: 	displayMessage
   * Summary: 	displays a message in an JOptionpane
-  * @param 	 	message to display
+  * @param: 	 	message to display
   */
-	public void displayMessage(String msg) {	
-   JOptionPane.showMessageDialog(this,msg);  	
+	public void displayMessage(String msg) {
+   JOptionPane.showMessageDialog(this,msg);
 	}
 
 	/**
 	  * Method: 	addCountryComboListener
 	  * Summary: 	A setter method for the country comobo box listener
-	  * @param 	 	The action listener to be added
+	  * @param: 	 	The action listener to be added
 	  */
-  public void addCountryComboListener(ActionListener listener) {	
-  	cust_cmbCountry.addActionListener(listener);	
-  }	
+  public void addCountryComboListener(ActionListener listener) {
+  	cust_cmbCountry.addActionListener(listener);
+  }
 
 	/**
-	 * Method: addCustomerButtonLIstener 
+	 * Method: addCustomerButtonLIstener
 	 * Summary: A setter method for the add customer button listener
-	 * @param The action listener to be added
+	 * @param: The action listener to be added
 	 */
-  public void addCustomerButtonLIstener(ActionListener listener) {	
-  	cust_btnAddCustomer.addActionListener(listener);	
-  }	
-  
+  public void addCustomerButtonLIstener(ActionListener listener) {
+  	cust_btnAddCustomer.addActionListener(listener);
+  }
+
 	/**
-	 * Method: clearCustomerButtonListener 
+	 * Method: clearCustomerButtonListener
 	 * Summary: A setter method for the clear customer button listener
-	 * @param The action listener to be added
+	 * @param: The action listener to be added
 	 */
   public void addClearCustomerButtonListener(ActionListener listener) {
   	this.cust_btnClear.addActionListener(listener);
   }
-  
+
 	/**
-	 * Method: updateCountryList 
+	 * Method: updateCountryList
 	 * Summary: Updates the customer country combobox with a list of countries
-	 * @param A list of the countries to be added
+	 * @param: A list of the countries to be added
 	 */
   public void updateCountryList(List<String> countries) {
-  	cust_cmbCountry.removeAllItems();	
-  	cust_cmbCountry.addItem("-");	
-  	for(int i = 0; i < countries.size(); ++i) {	
-  		cust_cmbCountry.addItem(countries.get(i).toString());	
-  	}	
-  }	
+  	cust_cmbCountry.removeAllItems();
+  	cust_cmbCountry.addItem("-");
+  	for(int i = 0; i < countries.size(); ++i) {
+  		cust_cmbCountry.addItem(countries.get(i).toString());
+  	}
+  }
 
   /**
-	 * Method: setCityComboBox 
+	 * Method: setCityComboBox
 	 * Summary: Updates the customers city combobox with a list of cities
-	 * @param A list of the cities to be added
-	 */	
-  public void setCityComboBox(List<String> cities ) {	
-  	cust_cmbCity.removeAllItems();	
-  	for(int i = 0; i < cities.size(); ++i) 	
-  		cust_cmbCity.addItem(cities.get(i).toString());	
+	 * @param: A list of the cities to be added
+	 */
+  public void setCityComboBox(List<String> cities ) {
+  	cust_cmbCity.removeAllItems();
+  	for(int i = 0; i < cities.size(); ++i)
+  		cust_cmbCity.addItem(cities.get(i).toString());
   }
-  
 
+  public void addWindowCloseListener(WindowCloseListener listener){
+      this.addWindowListener(listener);
+  }
+
+
+    /**
+     * adds a action listener to the submit button for a new rental     *
+     * @param listener
+     */
   public void addSubmitRentalListener(SubmitRentalListener listener){
     btnSubmit.addActionListener(listener);
   }
 
+    /**
+     * adds an item listener to the store radio buttons
+     * @param listener
+     */
   public void addStoreRadioListener(StoreRadioListener listener){
     radioStore1.addItemListener(listener);
     radioStore2.addItemListener(listener);
   }
-  
+
   public void importActors() {
   	selectedActors = actorFilmSelection.exportActors();
-	
+
   }
-  
+
   //Method for getting a list of actor names from the db
   public ArrayList<String> getActors() throws SQLException{
   	Connection myConn = null;
@@ -968,28 +992,28 @@ public class MovieRentalView extends JFrame
 			myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/demo?useSSL=false","root","password"
 					);
-			
+
 			//Step 2: create a Statement object by calling a method of the Connection object
 			myStmt = (CallableStatement) myConn.prepareCall("SELECT CONCAT(first_name, \" \", last_name) AS Name FROM sakila.actor");
-			
+
 			//Step 3: pass in a query string to the Statement object using a method
 			// called executeQuery().
 			//Assign the returned ResultSet object to myRslt.
 			myRslt = myStmt.executeQuery();
-			
+
 			//Step 4: PROCESS the myRslt result set object using a while loop
 			while(myRslt.next())
 			{
 				actors.add(myRslt.getString("name"));
 			}
-			
-					
+
+
 		}
 		catch(Exception ex)
 		{
 			System.out.println("Exception caught, message is " + ex.getMessage());
 		}
-		
+
 		//DO THE finally block!
 		finally
 		{
@@ -1000,8 +1024,24 @@ public class MovieRentalView extends JFrame
 			if(myStmt != null)
 				myStmt.close();
 			if(myConn != null)
-				myConn.close();			
+				myConn.close();
 		}
 		return actors;
   }
+
+    /**
+     * purpose: returns a string array of all the years from the given "minYear" to the currentYear inclusive
+     * @param minYear
+     * @return: string[] of the increments ints
+     */
+    public String[] getYears(int minYear)
+    {
+        String[] years;
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        IntStream yearStream = IntStream.range(minYear, currentYear +1);
+        years = Arrays.stream(yearStream.toArray()).mapToObj(String::valueOf).toArray(String[]::new);
+        return years;
+    }
+
 }

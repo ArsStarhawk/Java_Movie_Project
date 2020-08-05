@@ -13,7 +13,8 @@ public class AddFilmListener implements ActionListener
 
 	MovieRentalView view;
 	MovieRentalModel model;
-	public AddFilmListener(MovieRentalView view, MovieRentalModel model) {
+	public AddFilmListener(MovieRentalView view, MovieRentalModel model)
+	{
 		this.view = view;
 		this.model = model;
 	}
@@ -46,10 +47,12 @@ public class AddFilmListener implements ActionListener
 		String specialFeatureStr = "";
 		ArrayList<String> specialFeatures = new ArrayList<String>();
 		
-		if(yearEntered < 2015) {
+		if(yearEntered < 2015)
+		{
 			rentalRateFinal = 0.99;
 		}
-		else {
+		else
+		{
 			rentalRateFinal = 4.99;
 		}
 		
@@ -96,7 +99,8 @@ public class AddFilmListener implements ActionListener
 			int updatedId = myRslt.getInt(1);
 
 			//INSERTING ACTORS
-			for(String actorName : view.selectedActors) {
+			for(String actorName : view.selectedActors)
+			{
 				String firstName = actorName.split(" ")[0];
 				String lastName = actorName.split(" ")[1];
 				String selectActorId = String.format("SELECT actor_id FROM actor WHERE first_name = \"%s\" and last_name = \"%s\";", firstName, lastName);
@@ -128,7 +132,8 @@ public class AddFilmListener implements ActionListener
 		{
 			//put your clean up code here to close the objects. Standard practice is to
 			//close them in REVERSE ORDER of creation
-			try {
+			try
+			{
 			if(myRslt != null)
 				myRslt.close();
 			if(myStmt != null)
@@ -141,7 +146,5 @@ public class AddFilmListener implements ActionListener
 				System.out.println("Exception caught, message is " + ex.getMessage());
 			}
 		}
-		
 	}
-
 }

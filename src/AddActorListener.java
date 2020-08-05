@@ -68,7 +68,8 @@ public class AddActorListener implements ActionListener
       helper.createPopupDialog("Error", "Please enter actor's last name.");
       theView.tflLastname.requestFocus();
       return false;
-    }else{
+    }else
+      {
       return true;
     }
   }
@@ -77,7 +78,8 @@ public class AddActorListener implements ActionListener
    * Method: clearTextField
    * Purpose: Clear text fields for add actor Panel
    */
-  public void clearTextField (){
+  public void clearTextField ()
+  {
     theView.tflFirstname.setText("");
     theView.tflLastname.setText("");
   }

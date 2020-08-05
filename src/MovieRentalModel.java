@@ -32,7 +32,7 @@ public class MovieRentalModel
     }
     catch(SQLException ex)
     {
-      System.out.println("SQLException while closing connection objects: "+ ex.getMessage());
+      System.out.println("SQLException while creating model's connection objects: "+ ex.getMessage());
       ex.printStackTrace();
     }
   }
@@ -104,10 +104,10 @@ public class MovieRentalModel
     }
     return model;
   }
-  
+
  /**
   * Method: getAllCountries
-  * Summary: Returns a list of all the countries in the database 
+  * Summary: Returns a list of all the countries in the database
   * @return the data as a list
   */
 	public List<String> getAllCountries()
@@ -130,8 +130,8 @@ public class MovieRentalModel
 
  /**
 	* Method: getCitiesInCountry
-	* Summary: Returns a list of all the cities within a specified country 
-	* @param country the specified country name as a string 
+	* Summary: Returns a list of all the cities within a specified country
+	* @param country the specified country name as a string
 	* @return the data as a list
 	*/
 	public List<String> getCitiesInCountry(String country)
@@ -159,8 +159,8 @@ public class MovieRentalModel
 
  /**
 	* Method: getCountryID
-	* Summary: Returns the unique id associated with a country 
-	* @param country the specified country name as a string 
+	* Summary: Returns the unique id associated with a country
+	* @param country the specified country name as a string
 	* @return the country id as a string
 	*/
 	private String getCountryID(String country)
@@ -183,13 +183,13 @@ public class MovieRentalModel
 		}
 		return "";
 	}
- 
+
  /**
 	* Method: getCityID
 	* Summary: Returns a unique city id associated with a city. (country is required as input to avoid things like "London,
 	* CA" and "London, UK" )
 	* @param city the specified city name as a string
-	* @param country the specified country name as a string 
+	* @param country the specified country name as a string
 	* @return the country id as a string
 	*/
 	private String getCityID(String city, String country)
@@ -218,7 +218,7 @@ public class MovieRentalModel
  /**
 	* Method: addCustomerAddress
 	* Summary: A helper method that adds a customer address to the database
-	* @param cust a customer object that stores the customers information 
+	* @param cust a customer object that stores the customers information
 	* @return The last inserted id as a string
 	*/
 	private String addCustomerAddress(Customer cust) throws SQLException
@@ -258,7 +258,7 @@ public class MovieRentalModel
 	 /**
 		* Method: addCustomer
 		* Summary: Adds a customer and an address to the database to the database
-		* @param cust a customer object that stores the customers information 
+		* @param cust a customer object that stores the customers information
 		* @return -1 if fail, 1 if success
 		*/
 	public int addCustomer(Customer cust)
@@ -290,7 +290,7 @@ public class MovieRentalModel
   /**
    * <h1>Purpose:</h1>  Retrieves list of all films in Database
    * <h1>Accepts:</h1> -
-   * <h1>Returns:</h1> ResulSet: All films in DB
+   * <h1>Returns:</h1> ResultSet: All films in DB
    * <h1>Date:</h1> Aug 3, 2020
    * <h1>Coder:</h1> James Kidd
    */
@@ -324,7 +324,7 @@ public class MovieRentalModel
       rslt = prepStmt.executeQuery();
     } catch (SQLException e)
     {
-      System.out.println("SQL Exeption in GetAllCustomers(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in GetAllCustomers(), message is: " + e.getMessage());
     }
     return rslt;
   }
@@ -355,7 +355,7 @@ public class MovieRentalModel
 
     } catch (SQLException e)
     {
-      System.out.println("SQL Exeption in GetReturnDate, message is: " + e.getMessage());
+      System.out.println("SQL Exception in GetReturnDate, message is: " + e.getMessage());
     }
     return retVal;
   }// GetReturnDate
@@ -381,7 +381,7 @@ public class MovieRentalModel
       return rslt.getString(1);
     } catch (SQLException e)
     {
-      System.out.println("SQL Exeption in GetRentalPrice(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in GetRentalPrice(), message is: " + e.getMessage());
     }
     return retVal;
   }//GetRentalPrice
@@ -407,7 +407,7 @@ public class MovieRentalModel
       rslt.next();
       retVal = rslt.getInt(1);
     } catch (SQLException e) {
-      System.out.println("SQL Exeption in GetCustomerId(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in GetCustomerId(), message is: " + e.getMessage());
     }
     return retVal;
   }
@@ -439,7 +439,7 @@ public class MovieRentalModel
       retVal = rslt.getString(1);
     } catch (SQLException e)
     {
-      System.out.println("SQL Exeption in AddRental(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in AddRental(), message is: " + e.getMessage());
     }
 
     return retVal;
@@ -465,7 +465,7 @@ public class MovieRentalModel
       retVal = rslt.getInt(1);
     } catch (SQLException e)
     {
-      System.out.println("SQL Exeption in GetFilmDuration(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in GetFilmDuration(), message is: " + e.getMessage());
     }
     return retVal;
   }
@@ -497,7 +497,7 @@ public class MovieRentalModel
       prepStmt.executeUpdate();
     }catch (SQLException e)
     {
-      System.out.println("SQL Exeption in AddPayment(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in AddPayment(), message is: " + e.getMessage());
     }
   }
 
@@ -546,11 +546,10 @@ public class MovieRentalModel
 
     } catch (SQLException e)
     {
-      System.out.println("SQL Exeption in findAvailableCopyOfFilm(), message is: " + e.getMessage());
+      System.out.println("SQL Exception in findAvailableCopyOfFilm(), message is: " + e.getMessage());
     }
 
-    // check if any of the selected film's inventory IDs don't exist in the
-    // unavailable list
+    // check if any of the selected film's inventory IDs don't exist in the unavailable list
     for (int i = 0; i < inventoryIds.size(); i++)
     {
       if (!unavailableIds.contains(inventoryIds.elementAt(i)))
@@ -560,6 +559,44 @@ public class MovieRentalModel
     }
     return -1;
   }// findAvailableCopyOfFilm
+
+    /**
+     * <h1>Purpose:</h1> Closes all non-null JDBC objects
+     * <h1>Accepts:</h1> -
+     * <h1>Returns:</h1> void
+     * <h1>Date:</h1> Aug 5, 2020
+     * <h1>Coder:</h1> James Kidd
+     */
+    public void close()
+    {
+        try
+        {
+            if (this.conn != null)
+            {
+                conn.close();
+            }
+            if (this.stmt != null)
+            {
+                stmt.close();
+            }
+            if(this.rslt != null)
+            {
+                rslt.close();
+            }
+            if(this.prepStmt != null)
+            {
+                prepStmt.close();
+            }
+            if(this.callStmt != null)
+            {
+                callStmt.close();
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("SQLException while closing model's connection objects: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }//class
 
 

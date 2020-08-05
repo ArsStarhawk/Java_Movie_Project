@@ -1,8 +1,8 @@
 /**
  * Program Name: StoreRadioListener.java
- * Purpose:
+ * Purpose: Listener for Store selection radio buttons on New Rental pane
  * Coder: Evan Somers, Sion Young, James Kidd, James Scully
- * Date: Jul 14, 2020
+ * Date: Aug 3, 2020
  */
 
 import javax.swing.*;
