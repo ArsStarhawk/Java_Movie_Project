@@ -17,5 +17,10 @@ public class MovieRentalMain
 	public static void main(String[] args)
 	{
 		MovieRentalController controller = new MovieRentalController();
+
+
+
+
 	}
+
 }

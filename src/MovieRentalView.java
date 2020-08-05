@@ -5,6 +5,8 @@
  * Date: Jul 14, 2020
  */
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 
 import java.text.ParseException;
@@ -186,15 +188,15 @@ public class MovieRentalView extends JFrame
 
   MovieRentalView()
   {
-    super("Movie Rental and Database");
-    setupJFrame();
-    createTabbedForms();
-    CreateAddCustomerPane();
-    createAddActorPane();
-    createAddNewFilmPane();
-    createAddNewRentalTransactionPane();
-    createGenerateReportPane();
-    this.setVisible(true);
+      super("Movie Rental and Database");
+      setupJFrame();
+      createTabbedForms();
+      CreateAddCustomerPane();
+      createAddActorPane();
+      createAddNewFilmPane();
+      createAddNewRentalTransactionPane();
+      createGenerateReportPane();
+      this.setVisible(true);
   }
 
   /**
@@ -236,6 +238,7 @@ public class MovieRentalView extends JFrame
     tabbedPane.add("Generate report",pnlGenerateReport);
     //adding the tabbedPane to the JFrame
     this.add(tabbedPane);
+
   }
 
   private void CreateAddCustomerPane()
@@ -949,11 +952,23 @@ public class MovieRentalView extends JFrame
   		cust_cmbCity.addItem(cities.get(i).toString());
   }
 
+  public void addWindowCloseListener(WindowCloseListener listener){
+      this.addWindowListener(listener);
+  }
 
+
+    /**
+     * adds a action listener to the submit button for a new rental     *
+     * @param listener
+     */
   public void addSubmitRentalListener(SubmitRentalListener listener){
     btnSubmit.addActionListener(listener);
   }
 
+    /**
+     * adds an item listener to the store radio buttons
+     * @param listener
+     */
   public void addStoreRadioListener(StoreRadioListener listener){
     radioStore1.addItemListener(listener);
     radioStore2.addItemListener(listener);
@@ -1014,6 +1029,11 @@ public class MovieRentalView extends JFrame
 		return actors;
   }
 
+    /**
+     * purpose: returns a string array of all the years from the given "minYear" to the currentYear inclusive
+     * @param minYear
+     * @return: string[] of the increments ints
+     */
     public String[] getYears(int minYear)
     {
         String[] years;

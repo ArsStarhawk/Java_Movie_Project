@@ -563,11 +563,11 @@ public class MovieRentalModel
     /**
      * <h1>Purpose:</h1> Closes all non-null JDBC objects
      * <h1>Accepts:</h1> -
-     * <h1>Returns:</h1> ivoid
+     * <h1>Returns:</h1> void
      * <h1>Date:</h1> Aug 5, 2020
      * <h1>Coder:</h1> James Kidd
      */
-    public void Close()
+    public void close()
     {
         try
         {

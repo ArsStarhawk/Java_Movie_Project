@@ -16,9 +16,10 @@ import javax.swing.JComboBox;
 
 public class MovieRentalController
 {
-  private MovieRentalView theView;
-  private MovieRentalModel theModel;
-  private HelperMethods helperMethods;
+  private final MovieRentalView theView;
+  private final MovieRentalModel theModel;
+  private final HelperMethods helperMethods;
+
 
   MovieRentalController()
   {
@@ -27,6 +28,7 @@ public class MovieRentalController
     theView.addAddActorButtonListener(new AddActorListener(theView, theModel));
     theView.addGenerateReportLisenter(new GenerateReportListener(theView, theModel));
     theView.addSubmitRentalListener(new SubmitRentalListener(theView, theModel));
+    theView.addWindowCloseListener(new WindowCloseListener(theView, theModel));
     theView.addStoreRadioListener(new StoreRadioListener(theView, theModel, this));
     theView.addFilmButton.addActionListener(new AddFilmListener(theView, theModel));
     helperMethods = new HelperMethods();
@@ -40,9 +42,6 @@ public class MovieRentalController
     theView.addClearCustomerButtonListener(new ClearCustomerListener());
     populateFilmDropdownForRentalPane();
     populateCustomerDropDownForRentalPant();
-
-
-
   }
 
   /**
@@ -125,13 +124,13 @@ public class MovieRentalController
 			Customer cust = new Customer();
 			if (theView.validateCustomer())
 			{
-				cust.firstName = theView.cust_tflFirstName.getText().toString();
-				cust.lastName = theView.cust_tflLastName.getText().toString();
-				cust.email = theView.cust_tflEmailField.getText().toString();
-				cust.address1 = theView.cust_tflAddress_1.getText().toString();
-				cust.address2 = theView.cust_tflAddress_2.getText().toString();
-				cust.postal = theView.cust_tflPostal.getText().toString();
-				cust.phone = theView.cust_tflPhone.getText().toString();
+				cust.firstName = theView.cust_tflFirstName.getText();
+				cust.lastName = theView.cust_tflLastName.getText();
+				cust.email = theView.cust_tflEmailField.getText();
+				cust.address1 = theView.cust_tflAddress_1.getText();
+				cust.address2 = theView.cust_tflAddress_2.getText();
+				cust.postal = theView.cust_tflPostal.getText();
+				cust.phone = theView.cust_tflPhone.getText();
 				cust.country = theView.cust_cmbCountry.getSelectedItem().toString();
 				cust.city = theView.cust_cmbCity.getSelectedItem().toString();
 				if (theModel.addCustomer(cust) > 0)
