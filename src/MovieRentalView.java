@@ -805,7 +805,7 @@ public class MovieRentalView extends JFrame
  	}	
  	// Get first address, no need to validate second address	
  	if(this.cust_lblAddress_1.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid address: Requirest at least one");	
+ 		this.cust_lblError.setText("Invalid address: Requires at least one address");	
  		return false;	
  	}	
  	
