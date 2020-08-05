@@ -96,7 +96,10 @@ public class MovieRentalController
     theView.comboCustList.setSelectedIndex(0);
   }
 
-	// Listener for country combobox on addCustomer
+	 /**
+  * Class: 		AddCustomerListener
+  * Summary:	Handles input for the Change country combo box on the add customer tab
+  */
 	class CountryChangeListener implements ActionListener
 	{
 		@Override
@@ -142,12 +145,7 @@ public class MovieRentalController
 			{
 				theView.cust_lblError.setText("");
 				theView.displayMessage(cust.firstName + " " + cust.lastName + " has been added");
-
-			} else
-			{
-				theView.cust_lblError.setForeground(Color.RED);
-				theView.displayMessage("Customer NOT added");
-			}
+			} 
 		}
 	}
   

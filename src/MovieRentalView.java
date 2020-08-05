@@ -790,35 +790,27 @@ public class MovieRentalView extends JFrame
 	
 	 /**
    * Method: ValidateCustomer
-   * Summary: Validates customer input form
+   * Summary: Validates customer input form and displays a message if something is invalid
+   * @return boolean true if valid, false if invalid
    */
  public boolean validateCustomer() {	
 
  	// Check if empty	
  	if(this.cust_tflFirstName.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid firstname");	
+ 		this.cust_lblError.setText("Invalid firstname");
+ 		displayMessage("Customer NOT added: Invalid firstname");
  		return false;	
  	}	
  	if(this.cust_tflLastName.getText().equals("")) {	
  		this.cust_lblError.setText("Invalid lastname");	
+ 		displayMessage("Customer NOT added: Invalid lastname");
  		return false;	
  	}	
- 	// Get first address, no need to validate second address	
- 	if(this.cust_lblAddress_1.getText().equals("")) {	
- 		this.cust_lblError.setText("Invalid address: Requires at least one address");	
- 		return false;	
- 	}	
- 	
-	// validate postal
-	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
-	if(!HelperMethods.postalCodeValidator(code)) {
-		this.cust_lblError.setText("Invalid Postal Code");
-		return false;
-	}
-	
+
  	// validate email address
  	if (this.cust_tflEmailField.getText().equals("")) {	
  		this.cust_lblError.setText("Invalid email");	
+ 		displayMessage("Customer NOT added: Invalid email");
  		return false;	
    }	
    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 	
@@ -828,25 +820,46 @@ public class MovieRentalView extends JFrame
    Pattern pat = Pattern.compile(emailRegex);
    if(!pat.matcher(this.cust_tflEmailField.getText()).matches()) {	
    	this.cust_lblError.setText("Invalid email");	
+  	displayMessage("Customer NOT added: Invalid email");
    	return false;	
    } 	
 
-  // validate phone	
+  	// Get first address, no need to validate second address	
+  	if(this.cust_tflAddress_1.getText().equals(" ") || this.cust_tflAddress_1.getText().isEmpty()) {	
+  		this.cust_lblError.setText("Invalid address: Requires at least one address");	
+  		displayMessage("Customer NOT added: Invalid adress");
+  		return false;	
+  	}		
+
+   
+ 	// validate postal
+ 	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
+ 	if(!HelperMethods.postalCodeValidator(code)) {
+ 		this.cust_lblError.setText("Invalid Postal Code");
+ 		displayMessage("Customer NOT added: Invalid Postal Code");
+ 		return false;
+ 	}
+ 	
+ 	
+   // validate phone	
    String phoneRegex = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";          	
    Pattern phonePat = Pattern.compile(phoneRegex);  	
    if(!phonePat.matcher(this.cust_tflPhone.getText()).matches()) {	
-   	this.cust_lblError.setText("Invalid phone");	
+   	this.cust_lblError.setText("Invalid phone");
+  	displayMessage("Customer NOT added: Invalid phone number");
    	return false;	
    } 	
 
    if(this.cust_tflPhone.getText().equals("")) {	
    	this.cust_lblError.setText("Invalid phone");	
+   	displayMessage("Customer NOT added: Invalid phone number");
    	return false;	
    }	
 
  	// only need to validate country	
    if(this.cust_cmbCountry.getSelectedItem().equals("-")){	
-   	this.cust_lblError.setText("Invalid Country");	
+   	this.cust_lblError.setText("Invalid Country");
+   	displayMessage("Customer NOT added: Country not selected");
    	return false;	
    }	
  	return true;	
