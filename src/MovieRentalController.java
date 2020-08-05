@@ -121,6 +121,15 @@ public class MovieRentalController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			// clear all lables
+		  theView.cust_lblFirstName.setForeground(Color.BLACK);
+		  theView.cust_lblLastName.setForeground(Color.BLACK);
+		  theView.cust_lblEmail.setForeground(Color.BLACK);
+		  theView.cust_lblAddress_1.setForeground(Color.BLACK);
+		  theView.cust_lblPhone.setForeground(Color.BLACK);
+		  theView.cust_lblPostal.setForeground(Color.BLACK);
+		  theView.cust_lblCountry.setForeground(Color.BLACK);
+
 			boolean custAdded = false;
 			Customer cust = new Customer();
 			if (theView.validateCustomer())
@@ -204,7 +213,13 @@ public class MovieRentalController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			
+		  theView.cust_lblFirstName.setForeground(Color.BLACK);
+		  theView.cust_lblLastName.setForeground(Color.BLACK);
+		  theView.cust_lblEmail.setForeground(Color.BLACK);
+		  theView.cust_lblAddress_1.setForeground(Color.BLACK);
+		  theView.cust_lblPhone.setForeground(Color.BLACK);
+		  theView.cust_lblPostal.setForeground(Color.BLACK);
+		  theView.cust_lblCountry.setForeground(Color.BLACK);
 			theView.cust_tflFirstName.setText("");
 			theView.cust_tflLastName.setText("");
 			theView.cust_tflEmailField.setText("");
