@@ -860,8 +860,8 @@ public class MovieRentalView extends JFrame
 
    
  	// validate postal
- 	String code = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
- 	if(!HelperMethods.postalCodeValidator(code)) {
+ 	String pc = this.cust_tflPostal.getText().substring(0, 3) + this.cust_tflPostal.getText().substring(4, 7);
+ 	if(!HelperMethods.postalCodeValidator(pc)) {
  		this.cust_lblError.setText("Invalid Postal Code");
  		displayMessage("Customer NOT added: Invalid Postal Code");
  		return false;
