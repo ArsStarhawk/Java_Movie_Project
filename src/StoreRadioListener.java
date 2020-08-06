@@ -11,12 +11,14 @@ import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StoreRadioListener implements ItemListener {
+public class StoreRadioListener implements ItemListener
+{
 
     MovieRentalView view;
     MovieRentalModel model;
 
-    public StoreRadioListener(MovieRentalView view, MovieRentalModel model, MovieRentalController controller){
+    public StoreRadioListener(MovieRentalView view, MovieRentalModel model, MovieRentalController controller)
+    {
         this.view = view;
         this.model = model;
     }
@@ -28,13 +30,13 @@ public class StoreRadioListener implements ItemListener {
         view.custList.add("Start Typing to search...");
         ResultSet custResults = null;
 
-        if(view.radioGroup.getSelection().getActionCommand().equals("1"))
+        if (view.radioGroup.getSelection().getActionCommand().equals("1"))
         {
-            custResults = model.GetAllCustomers("1");
+            custResults = model.getAllCustomers("1");
         }
-        else if(view.radioGroup.getSelection().getActionCommand().equals("2"))
+        else if (view.radioGroup.getSelection().getActionCommand().equals("2"))
         {
-            custResults = model.GetAllCustomers("2");
+            custResults = model.getAllCustomers("2");
         }
 
         try
