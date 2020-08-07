@@ -93,7 +93,7 @@ public class AddFilmListener implements ActionListener
             "jdbc:mysql://localhost:3306/sakila?useSSL=false","root", "password");
 
         myStmt = myConn.createStatement();
-        System.out.println(insertStatement);
+
         //catch the returned int value after the insert is executed
         int returnedValue = myStmt.executeUpdate(insertStatement);
         String selectStatement = String.format("SELECT film_id FROM film WHERE title = \"%s\"", titleStr);
@@ -137,7 +137,7 @@ public class AddFilmListener implements ActionListener
       }
       catch(Exception ex)
       {
-        JOptionPane.showMessageDialog(view.getContentPane(), "There was an error inserting");
+        JOptionPane.showMessageDialog(view.getContentPane(), "Movie Already Exist");
       }
       //DO THE finally block!
       finally
