@@ -7,6 +7,7 @@
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
@@ -104,6 +105,7 @@ public class MovieRentalModel
     public TableModel generateReport(String s, DateStoreCategory dateStoreCategory)
     {
         TableModel model = new DefaultTableModel();
+        double totalIncome = 0.0;
         try
         {
             String sql = helperMethods.generateSqlConditionedString(s, dateStoreCategory);

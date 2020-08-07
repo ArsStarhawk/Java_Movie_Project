@@ -5,8 +5,6 @@
  * Date: Jul 14, 2020
  */
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.*;
 
 import java.text.ParseException;
@@ -48,6 +46,8 @@ public class MovieRentalView extends JFrame
 
     protected JTextField tflFirstname;
     protected JTextField tflLastname;
+    protected JLabel lblTotalIncomeTitle;
+    protected JLabel lblTotalIncome;
 
     JLabel lblFirstname;
     JLabel lblLastname;
@@ -324,6 +324,7 @@ public class MovieRentalView extends JFrame
         tflTo = new JTextField(20);
         btnClearGenerateReportView = new JButton("Clear");
         btnGenerateReport = new JButton("Generate Report");
+        lblTotalIncome = new JLabel();
         gbc = new GridBagConstraints();
 
         //setUpAllJCompoboxesForGenerateReport();
@@ -341,6 +342,9 @@ public class MovieRentalView extends JFrame
         setGBCPosition(2, 3);
         pnlGenerateReportNorth.add(new JLabel("To   (DD-MM-YYYY)"), gbc);
 
+        setGBCPosition(2, 5);
+        pnlGenerateReportNorth.add(new JLabel("Total Income: "), gbc);
+
         setGBCPosition(1, 2);
         pnlGenerateReportNorth.add(cbCategory, gbc);
 
@@ -352,6 +356,9 @@ public class MovieRentalView extends JFrame
 
         setGBCPosition(4, 3);
         pnlGenerateReportNorth.add(tflTo, gbc);
+
+        setGBCPosition(4, 5);
+        pnlGenerateReportNorth.add(lblTotalIncome, gbc);
 
         //setUpAllButtonsForGenerateReport();
         setGBCPosition(0, 5);
@@ -1100,5 +1107,4 @@ public class MovieRentalView extends JFrame
         years = Arrays.stream(yearStream.toArray()).mapToObj(String::valueOf).toArray(String[]::new);
         return years;
     }
-
 }
