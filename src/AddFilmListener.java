@@ -1,12 +1,9 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  * Listener for addfilm submission
@@ -98,7 +95,7 @@ public class AddFilmListener implements ActionListener
         {
             //create a Connection object by calling a static method of DriverManager class
             myConn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/sakila?useSSL=false", "root", "password!"
+                    "jdbc:mysql://localhost:3306/sakila?useSSL=false", "root", "password"
             );
 
             //Step 2: create a Statement object by calling a method of the Connection object
@@ -142,6 +139,23 @@ public class AddFilmListener implements ActionListener
 
             //Step 4: output results of operation
             JOptionPane.showMessageDialog(view.getContentPane(), titleStr + " film inserted into sakila database");
+
+            //refresh film combobox in new rental pane
+            view.filmList.clear();
+            view.filmList.add("Start Typing to search...");
+            ResultSet filmResults = model.getAllFilms();
+            try
+            {
+                while (filmResults.next())
+                {
+                    view.filmList.add(filmResults.getString("title"));
+                }
+            }
+            catch (SQLException ef)
+            {
+                System.out.println("SQL Exception while loading films in class ctor, message is: " + ef.getMessage());
+            }
+            view.comboFilmList.setModel(new DefaultComboBoxModel<String>(view.filmList));
 
         }
         catch (Exception ex)
