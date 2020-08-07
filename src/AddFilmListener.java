@@ -97,7 +97,7 @@ public class AddFilmListener implements ActionListener
     try
     {
       myConn = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/sakila?useSSL=false","root", "password!");
+          "jdbc:mysql://localhost:3306/sakila?useSSL=false","root", "password");
 
       myStmt = myConn.createStatement();
       System.out.println(insertStatement);
