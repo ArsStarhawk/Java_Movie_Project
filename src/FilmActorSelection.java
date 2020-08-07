@@ -22,16 +22,18 @@ import com.mysql.cj.jdbc.CallableStatement;
 /**
  * Coder:   Evan Somers, Sion Young, James Kidd, James Scully
  * Date:    Aug 5, 2020
+ * Purpose: A new window in the program for users to select actors and add them to a list
  */
 
 
 public class FilmActorSelection extends JFrame {
+	//class attributes
     private JList jList;
     private JList selectedList;
     private JButton copyButton;
     public ArrayList<String> selectedActors = new ArrayList<String>();
     
-
+	//constructor method to build frame
     public FilmActorSelection() {
         super("Choose actors");
         setLayout(new FlowLayout());
@@ -57,7 +59,8 @@ public class FilmActorSelection extends JFrame {
         add(new JScrollPane(jList));
         
         copyButton = new JButton("Add actor");
-        
+
+        //adds the selected list element to the selected actors list to the right
         copyButton.addActionListener(new ActionListener() {
             
             @Override
@@ -75,7 +78,7 @@ public class FilmActorSelection extends JFrame {
             }
         });
         
-        
+        //adding everything to the frame
         add(copyButton);
         selectedList = new JList();
         selectedList.setFixedCellHeight(18);
@@ -87,8 +90,13 @@ public class FilmActorSelection extends JFrame {
         
         this.setVisible(true);
     }
-    
-    
+
+	/**
+	 * Method: getActors
+	 * Summary: returns a list of all actors from the database
+	 *
+	 * @return ArrayList<String>
+	 */
     public ArrayList<String> getActors() throws SQLException{
     	Connection myConn = null;
   		CallableStatement myStmt = null;
@@ -137,7 +145,9 @@ public class FilmActorSelection extends JFrame {
   		}
   		return actors;
     }
-    
+
+    //method for exporting the list of actors that the user selected
+	//the user can then import the list to the other jframe window
     public ArrayList<String> exportActors(){
     	return selectedActors;
     }

@@ -129,53 +129,61 @@ public class MovieRentalView extends JFrame
     Vector<String> filmList;
 
     //addFilm attributes
+    //film title
     JTextField title;
     JLabel titleLabel;
-
+    //film description
     JTextField description;
     JLabel descriptionLabel;
-
+    //film release year
     JLabel releaseYearLabel;
     JComboBox<String> releaseYear;
 
-
+    //film language
     JLabel languageLabel;
     JComboBox<String> language;
-    ;
 
+    //film original language
     JLabel originalLanguageLabel;
     JComboBox<String> originalLanguage;
 
+    //film category
     JLabel categoryLabel;
     JComboBox<String> category;
 
+    //film rental duration
     JTextField rentalDuration;
     JLabel rentalDurationLabel;
 
-
+    //import actors button
     JButton importActorsBtn;
 
     JLabel actorsLabel;
 
+    //movie length
     JTextField movieLength;
     JLabel movieLengthLabel;
 
+    //film replacement cost
     JTextField replacementCost;
     JLabel replacementCostLabel;
 
+    //film rating
     JLabel ratingLabel;
     JComboBox<String> rating;
 
+    //special features for films
     JCheckBox trailer;
     JCheckBox commentary;
     JLabel checkboxInstructions;
     JLabel checkboxInstructions2;
-
+    //checkboxes for special features
     JCheckBox deletedScenes;
     JCheckBox behindScenes;
     JPanel checkboxesPanel1;
     JPanel checkboxesPanel2;
 
+    //action buttons for adding to database or clearing user input
     JButton addActorsBtn;
 
     JButton addFilmButton;
@@ -476,7 +484,7 @@ public class MovieRentalView extends JFrame
         };
         String[] ratings = {"G", "PG", "PG-13", "R", "NC-17"};
 
-        //creating the the form objects
+        //All the input objects for the form
         title = new JTextField();
         titleLabel = new JLabel("Title");
 
@@ -530,6 +538,7 @@ public class MovieRentalView extends JFrame
 
 
         //Button to import selected actors from external JFrame
+        //tells user if they have incorrectly selected or have not selected actors
         importActorsBtn.addActionListener(new ActionListener()
         {
             @Override
@@ -554,7 +563,7 @@ public class MovieRentalView extends JFrame
             }
         });
 
-        //Button to open choose actor menu
+        //action listener to open up a new jframe for the selection of actors for a film
         addActorsBtn = new JButton("Choose actors");
         addActorsBtn.addActionListener(new ActionListener()
         {
@@ -575,6 +584,7 @@ public class MovieRentalView extends JFrame
         addFilmButton = new JButton("Add Film");
         clearFilmInput = new JButton("Clear");
 
+        //adding everything to main jpanel, then to the frame
         addFilmFormPanel = new JPanel();
         addFilmFormPanel.setLayout(new GridLayout(14, 2));
         addFilmFormPanel.setPreferredSize(new Dimension(550, 510));
@@ -610,10 +620,9 @@ public class MovieRentalView extends JFrame
         pnlAddFilm.add(addFilmFormPanel);
 
 
-        //button listener to clear input
+        //button listener to clear user input
         clearFilmInput.addActionListener(new ActionListener()
         {
-
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -627,12 +636,9 @@ public class MovieRentalView extends JFrame
                 movieLength.setText("");
                 replacementCost.setText("");
                 rating.setSelectedItem(null);
-
             }
-
         });
 
-        //button listener to add film
     }
 
     /**
@@ -1028,13 +1034,24 @@ public class MovieRentalView extends JFrame
         radioStore2.addItemListener(listener);
     }
 
+    /**
+     * Method: importActors
+     * Summary: updates the local array list with the selected actors from the actor selection window
+     *
+     * @return void
+     */
     public void importActors()
     {
         selectedActors = actorFilmSelection.exportActors();
 
     }
 
-    //Method for getting a list of actor names from the db
+    /**
+     * Method: getActors
+     * Summary: returns a list of all actors from the database
+     *
+     * @return ArrayList<String>
+     */
     public ArrayList<String> getActors() throws SQLException
     {
         Connection myConn = null;

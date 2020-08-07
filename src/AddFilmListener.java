@@ -1,3 +1,10 @@
+
+/**
+ * File Name: AddFilmListener.java
+ * Coder: Evan Somers, Sion Young, James Kidd, James Scully
+ * Date: 8/1/2020
+ * Description: A custom actionlistener class for adding films to the database
+ */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
@@ -5,11 +12,12 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+//this class is used to select a list of actors for a film
 public class AddFilmListener implements ActionListener
 {
 
-  MovieRentalView view;
-  MovieRentalModel model;
+  private MovieRentalView view;
+  private MovieRentalModel model;
 
   Connection myConn;
   Statement myStmt;
@@ -61,6 +69,7 @@ public class AddFilmListener implements ActionListener
     boolean hasDeletedScenes = view.deletedScenes.isSelected()? true: false;
     boolean hasBehindScenes = view.behindScenes.isSelected()? true: false;
 
+    //setting the rental price based on year of movie
     boolean isValidInput = getInputAndValidate();
     if (isValidInput) {
       if (yearEntered < 2015) {
@@ -160,18 +169,20 @@ public class AddFilmListener implements ActionListener
     }
   }
 
+  //method for validating the users input
   private boolean getInputAndValidate()
   {
     boolean	isValid = false;
     while(!isValid)
     {
+      //validating title
       titleStr = view.title.getText();
       if(titleStr.isEmpty()){
         helperMethods.createPopupDialog("Error", "Invalid Movie Title");
         view.title.requestFocus();
         break;
       }
-
+      //validating description
       descriptionStr = view.description.getText();
       if(descriptionStr.isEmpty())
       {
@@ -179,7 +190,7 @@ public class AddFilmListener implements ActionListener
         view.description.requestFocus();
         break;
       }
-
+      //validating year
       try{
         yearEntered = Integer.parseInt(view.releaseYear.getSelectedItem().toString());
       } catch (NullPointerException npex){
@@ -187,7 +198,7 @@ public class AddFilmListener implements ActionListener
         view.releaseYear.requestFocus();
         break;
       }
-
+      //validating language
       languageStr = view.language.getSelectedIndex();
       if(languageStr == -1)
       {
@@ -196,7 +207,7 @@ public class AddFilmListener implements ActionListener
         break;
       }
       languageStr++;
-
+      //validating original language
       origLanguageStr = view.originalLanguage.getSelectedIndex() +1;
       if(origLanguageStr == 0){
         helperMethods.createPopupDialog("Error", "Select original language.");
@@ -204,6 +215,7 @@ public class AddFilmListener implements ActionListener
         break;
       }
 
+      //validating category
       categoryStr = view.category.getSelectedIndex() + 1;
       if(categoryStr == 0){
         helperMethods.createPopupDialog("Error", "Select Category.");
@@ -211,6 +223,7 @@ public class AddFilmListener implements ActionListener
         break;
       }
 
+      //validating rental duration
       try{
         rentalDurationStr = Integer.parseInt(view.rentalDuration.getText());
       } catch (NullPointerException np){
@@ -223,7 +236,7 @@ public class AddFilmListener implements ActionListener
         view.rentalDuration.requestFocus();
         break;
       }
-
+      //validating movie length
       try
       {
         movieLengthStr = Integer.parseInt(view.movieLength.getText());
@@ -254,7 +267,7 @@ public class AddFilmListener implements ActionListener
         view.movieLength.requestFocus();
         break;
       }
-
+      //validating replacement cost
       try{
         replacementCostStr = Double.parseDouble(view.replacementCost.getText());
       } catch (NullPointerException nex){
@@ -278,6 +291,7 @@ public class AddFilmListener implements ActionListener
         view.replacementCost.requestFocus();
         break;
       }
+      //validating rating
       try
       {
         ratingStr = view.rating.getSelectedItem().toString();
