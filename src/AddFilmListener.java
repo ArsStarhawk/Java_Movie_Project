@@ -1,9 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -104,35 +101,44 @@ public class AddFilmListener implements ActionListener
         myRslt.next();
         int updatedId = myRslt.getInt(1);
 
-        //INSERTING ACTORS
-        for(String actorName : view.selectedActors)
+        if(view.selectedActors == null)
         {
-          String firstName = actorName.split(" ")[0];
-          String lastName = actorName.split(" ")[1];
-          String selectActorId = String.format("SELECT actor_id FROM actor WHERE first_name = \"%s\" and last_name = \"%s\";", firstName, lastName);
-          myRslt = myStmt.executeQuery(selectActorId);
-          myRslt.next();
-          int actorId = myRslt.getInt(1);
-          String insertActor = String.format("INSERT INTO film_actor (actor_id, film_id) VALUES (%d, %d);", actorId, updatedId);
-          int ret = myStmt.executeUpdate(insertActor);
+          helperMethods.createPopupDialog("Error",
+              "Please Select at least one actor, and hit 'Import Actor button'");
         }
+        else
+        {
+          //INSERTING ACTORS
+          for(String actorName : view.selectedActors)
+          {
+            String firstName = actorName.split(" ")[0];
+            String lastName = actorName.split(" ")[1];
+            String selectActorId =
+                String.format("SELECT actor_id FROM actor WHERE first_name = \"%s\" and last_name = \"%s\";",
+                    firstName, lastName);
+            myRslt = myStmt.executeQuery(selectActorId);
+            myRslt.next();
+            int actorId = myRslt.getInt(1);
+            String insertActor = String.format(
+                "INSERT INTO film_actor (actor_id, film_id) VALUES (%d, %d);", actorId, updatedId);
+            int ret = myStmt.executeUpdate(insertActor);
+          }
+          //Insert film_categories
+          String insertStatement2 = String.format(
+              "INSERT INTO film_category (film_id, category_id) VALUES (%d, %d);",updatedId, categoryStr);
+          System.out.println(insertStatement2);
 
-        //Insert film_categories
-        String insertStatement2 = String.format("INSERT INTO film_category (film_id, category_id) VALUES (%d, %d);",updatedId, categoryStr);
-        System.out.println(insertStatement2);
+          int ret = myStmt.executeUpdate(insertStatement2);
 
-        int ret = myStmt.executeUpdate(insertStatement2);
-
-
-        //Step 4: output results of operation
-        JOptionPane.showMessageDialog(view.getContentPane(), titleStr + " film inserted into sakila database");
-
+          //output results of operation
+          JOptionPane.showMessageDialog(view.getContentPane(),
+              titleStr + " film inserted into sakila database");
+        }
       }
       catch(Exception ex)
       {
         JOptionPane.showMessageDialog(view.getContentPane(), "There was an error inserting");
       }
-
       //DO THE finally block!
       finally
       {
