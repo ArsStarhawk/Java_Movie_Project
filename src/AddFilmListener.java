@@ -104,7 +104,7 @@ public class AddFilmListener implements ActionListener
         if(view.selectedActors == null)
         {
           helperMethods.createPopupDialog("Error",
-              "Please Select at least one actor, and hit 'Import Actor button'");
+              "Please Select at least one actor, and hit 'Import Actor' button");
         }
         else
         {

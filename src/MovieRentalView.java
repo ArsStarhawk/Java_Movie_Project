@@ -494,7 +494,7 @@ public class MovieRentalView extends JFrame
         category.setSelectedItem(null);
 
         rentalDuration = new JTextField();
-        rentalDurationLabel = new JLabel("Rental Duration");
+        rentalDurationLabel = new JLabel("Rental Duration(number of month)");
 
 
         importActorsBtn = new JButton("Import actors");
@@ -502,7 +502,7 @@ public class MovieRentalView extends JFrame
         actorsLabel = new JLabel("Press button to choose actors");
 
         movieLength = new JTextField();
-        movieLengthLabel = new JLabel("Movie Length");
+        movieLengthLabel = new JLabel("Movie Length(hours)");
 
         replacementCost = new JTextField();
         replacementCostLabel = new JLabel("Replacement Cost");
