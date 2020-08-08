@@ -297,8 +297,6 @@ public class MovieRentalView extends JFrame
         setGBCPosition(1, 3);
         pnlAddActor.add(tflLastname, gbc);
 
-        //setupButtonForAddActor();
-        gbc.weighty = 1;
         gbc.weightx = 0.01;
 
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
@@ -328,8 +326,8 @@ public class MovieRentalView extends JFrame
         cbCategory.setSize(30, 15);
         cbStore = new JComboBox();
         cbStore.setSize(30, 15);
-        tflFrom = new JTextField(20);
-        tflTo = new JTextField(20);
+        tflFrom = new JTextField(10);
+        tflTo = new JTextField(10);
         btnClearGenerateReportView = new JButton("Clear");
         btnGenerateReport = new JButton("Generate Report");
         lblTotalIncome = new JLabel();
