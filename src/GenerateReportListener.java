@@ -8,6 +8,7 @@
 import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,10 +72,24 @@ public class GenerateReportListener implements ActionListener
                                     "INNER JOIN Category c " +
                                     "ON c.category_id = fc.category_id WHERE ";
                     TableModel table = theModel.generateReport(stmt, dateStoreCategory);
+                    String totalIncome = calculateTotalIncomeForReport(table);
+                    theView.lblTotalIncome.setText(totalIncome);
                     theView.tblGenerateReport.setModel(table);
                 }
             }
         }
+    }
+
+    private String calculateTotalIncomeForReport(TableModel table)
+    {
+        double t = 0.0;
+        for(int i = 1; i < table.getRowCount(); i++){
+            BigDecimal b = new BigDecimal(2);
+            b =  (BigDecimal) table.getValueAt(i,1);
+            t += b.doubleValue();
+        }
+        String total = String.format("%1.2f", t);
+        return total;
     }
 
     /**
