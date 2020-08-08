@@ -135,7 +135,6 @@ public class AddFilmListener implements ActionListener
           //Insert film_categories
           String insertStatement2 = String.format(
               "INSERT INTO film_category (film_id, category_id) VALUES (%d, %d);",updatedId, categoryStr);
-          System.out.println(insertStatement2);
 
           int ret = myStmt.executeUpdate(insertStatement2);
 
@@ -169,7 +168,11 @@ public class AddFilmListener implements ActionListener
     }
   }
 
-  //method for validating the users input
+  /**
+   *  Method: getInputAndValidate
+   *  Summary: Gets user input from add film pane and validate the input.
+   * @return True if the input is valid.
+   */
   private boolean getInputAndValidate()
   {
     boolean	isValid = false;
