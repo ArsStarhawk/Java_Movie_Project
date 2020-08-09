@@ -298,7 +298,7 @@ public class MovieRentalView extends JFrame
         pnlAddActor.add(tflLastname, gbc);
 
         gbc.weightx = 0.01;
-
+        gbc.weighty = 0.7;
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
         setGBCPosition(0, 5);
         pnlAddActor.add(btnCleanActor, gbc);
